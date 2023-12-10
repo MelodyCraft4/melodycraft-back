@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="86ed847a-dff0-49fc-a87d-10407da2c9e8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/constant/JwtClaimConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/constant/MessageConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/constant/PasswordConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/constant/StatusConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/properties/AliOssProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/properties/WeChatProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/melody-pojo/src/main/java/com/melody/dto/StudentLoginDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/contorller/admin/StudentController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/melody-server/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-common/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/melody-common/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/context/BaseContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/context/BaseContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/enumeration/OperationType.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/enumeration/OperationType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/exception/BaseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/exception/BaseException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/json/JacksonObjectMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/json/JacksonObjectMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/properties/JwtProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/properties/JwtProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/result/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/result/Result.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/utils/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/utils/JwtUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-common/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-pojo/src/main/java/com/melody/dto/StudentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-pojo/src/main/java/com/melody/dto/StudentDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-pojo/src/main/java/com/melody/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-pojo/src/main/java/com/melody/entity/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-pojo/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/MelodyServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/MelodyServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/config/WebMvcConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/config/WebMvcConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/contorller/StudentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/handler/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/mapper/StudentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/mapper/StudentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melody-server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$PROJECT_DIR$/../../develop/apache-maven-3.6.1" />
+        <option name="userSettingsFile" value="D:\develop\apache-maven-3.6.1\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="showPreview" value="true" />
+  </component>
+  <component name="ProjectId" id="2ZKXhY5FZ6Teki00B5oCtbduFOt" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="TODO_SCOPE" value="All Places" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/melody-common/melody-common.iml" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.29057592" />
+    <property name="settings.editor.selected.configurable" value="spring.boot" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MelodyServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="melody-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.melody.MelodyServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file enabled="true" id="idea.log" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpringBootHealthEndpointTabSettings">
+    <option name="healthCheckDelay" value="10000" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="86ed847a-dff0-49fc-a87d-10407da2c9e8" name="Changes" comment="" />
+      <created>1702171864944</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1702171864944</updated>
+      <workItem from="1702171866839" duration="3425000" />
+      <workItem from="1702175411221" duration="429000" />
+      <workItem from="1702176025570" duration="852000" />
+      <workItem from="1702176906454" duration="520000" />
+      <workItem from="1702177458342" duration="1385000" />
+      <workItem from="1702178874242" duration="32000" />
+      <workItem from="1702178909705" duration="133000" />
+      <workItem from="1702179046781" duration="357000" />
+      <workItem from="1702179408810" duration="17000" />
+      <workItem from="1702179450968" duration="1481000" />
+      <workItem from="1702181022873" duration="123000" />
+      <workItem from="1702181186506" duration="290000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

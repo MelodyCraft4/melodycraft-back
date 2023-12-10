@@ -16,8 +16,6 @@
         <module>melody-pojo</module>
         <module>melody-server</module>
     </modules>
-    <name>melodycraft</name>
-    <description>melodycraft</description>
     <properties>
             <mybatis.spring>2.2.0</mybatis.spring>
             <lombok>1.18.20</lombok>

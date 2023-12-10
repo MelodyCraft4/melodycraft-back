@@ -1,4 +1,8 @@
 package com.melody.dto;
 
-public class StudentDTO {
+import java.io.Serializable;
+
+public class StudentDTO implements Serializable {
+
+
 }
