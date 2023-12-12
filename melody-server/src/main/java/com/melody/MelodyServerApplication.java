@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Slf4j
 public class MelodyServerApplication {
 
+
     public static void main(String[] args) {
         SpringApplication.run(MelodyServerApplication.class, args);
         log.info("server started");

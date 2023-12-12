@@ -1,8 +1,2 @@
-melody:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    host: localhost
-    port: 3306
-    database: melody
-    username: root
-    password: 1234
+
+  

@@ -36,8 +36,13 @@ logging:
 melody:
   jwt:
     # 设置jwt签名加密时使用的秘钥
-    admin-secret-key: itcast
+    teacher-secret-key: itcast
     # 设置jwt过期时间
-    admin-ttl: 7200000
+    teacher-ttl: 7200000
     # 设置前端传递过来的令牌名称
-    admin-token-name: token
+    teacher-token-name: token
+  alioss:
+    endpoint: ${melody.alioss.endpoint}
+    access-key-id: ${melody.alioss.access-key-id}
+    access-key-secret: ${melody.alioss.access-key-secret}
+    bucket-name: ${melody.alioss.bucket-name}
