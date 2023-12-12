@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * TODO 需要添加配置
  */
 @Component
-//@ConfigurationProperties(prefix = "sky.alioss")
+@ConfigurationProperties(prefix = "melody.alioss")
 @Data
 public class AliOssProperties {
 
