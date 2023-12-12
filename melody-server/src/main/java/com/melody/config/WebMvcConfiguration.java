@@ -37,13 +37,14 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         log.info("准备生成接口文档");
         ApiInfo apiInfo = new ApiInfoBuilder()
                 .title("melodycraft项目接口文档")
-                .version("1.0")
+                .version("2.0")
                 .description("melody项目接口文档简介")
                 .build();
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .groupName("教师端接口")
                 .apiInfo(apiInfo)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.melody.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.melody.controller.teacher"))
                 .paths(PathSelectors.any())
                 .build();
         return docket;
@@ -57,6 +58,17 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         log.info("开始设置静态资源映射");
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+    }
+
+
+    @Override
+    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        //创建一个消息转换器对象
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        //为消息转换器设置一个对象转换器，可以将java对象转换成json数据
+        converter.setObjectMapper(new JacksonObjectMapper());
+        converters.add(0,converter);
     }
 
 }
