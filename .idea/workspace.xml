@@ -4,25 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="86ed847a-dff0-49fc-a87d-10407da2c9e8" name="Changes" comment="summary:&#10;    补全一些教师相关pojo类、service类，修改了jwt属性配置类名称&#10;Description:&#10;    添加功能:&#10;        1.无&#10;        2.无&#10;    添加函数:TeacherController类中的login()&#10;    修改函数:无&#10;    删除函数:无">
-      <change afterPath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/controller/teacher/TeacherController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/constant/JwtClaimConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/constant/JwtClaimConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/exception/BaseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/exception/BaseException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/json/JacksonObjectMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-common/src/main/java/com/melody/json/JacksonObjectMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-pojo/src/main/java/com/melody/dto/StudentLoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-pojo/src/main/java/com/melody/dto/StudentLoginDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-pojo/src/main/java/com/melody/dto/TeacherLoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-pojo/src/main/java/com/melody/dto/TeacherLoginDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-pojo/src/main/java/com/melody/vo/TeacherLoginVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-pojo/src/main/java/com/melody/vo/TeacherLoginVO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-server/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/config/WebMvcConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/config/WebMvcConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/contorller/admin/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/controller/student/StudentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/contorller/admin/teacher/TeacherController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/handler/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/mapper/StudentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/service/mapper/StudentMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/mapper/TeacherMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/service/mapper/TeacherMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/service/impl/TeacherServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/src/main/java/com/melody/service/impl/TeacherServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melody-server/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/melody-server/src/main/resources/application-dev.yml" afterDir="false" />
-    </list>
+    <list default="true" id="86ed847a-dff0-49fc-a87d-10407da2c9e8" name="Changes" comment="summary:&#10;    实现了教师端登录接口、完善了异常处理类、完善了json消息转换器配置（但是目前不知道有什么作用）、小改了knife4j这部分代码&#10;Description:&#10;    添加功能:&#10;        1.教师端登录查验功能&#10;        2.登录时发生异常，抛出最大父异常交给异常处理器处理&#10;    添加函数:&#10;        1.TeacherController 类的login方法： 用于接收前端发来登录数据，返回token等信息给前端&#10;        2.TeacherService类的login方法：实现登录业务&#10;        3.TeacherMapper接口的getByteacherId方法：根据教师id（教师用户名）查询教师信息&#10;    修改函数:无&#10;    删除函数:无" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,7 +19,9 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
