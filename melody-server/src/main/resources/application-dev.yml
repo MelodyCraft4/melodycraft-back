@@ -6,8 +6,4 @@ melody:
     database: melody
     username: dmsTest
     password: Ecs@123aaa
-  alioss:
-    endpoint: oss-cn-guangzhou.aliyuncs.com
-    access-key-id: LTAI5t933NKHGBJiMPyYfkVN
-    access-key-secret: o3bm1rdSivhYRsBl5KlUqXK5uZnaPM
-    bucket-name: candour-sky-takeout
+  
