@@ -1,6 +1,6 @@
 package com.melody.config;
 
-import com.melody.interceptor.JwtTokenAdminInterceptor;
+import com.melody.interceptor.JwtTokenTeacherInterceptor;
 import com.melody.json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,22 @@ import java.util.List;
 @Slf4j
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
+    @Autowired
+    private JwtTokenTeacherInterceptor jwtTokenTeacherInterceptor;
+
+
+    /**
+     * 注册自定义拦截器
+     *
+     * @param registry
+     */
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+        log.info("开始注册自定义拦截器...");
+        registry.addInterceptor(jwtTokenTeacherInterceptor)
+                .addPathPatterns("/teacher/**")
+                .excludePathPatterns("/teacher/teacher/login");
+    }
 
     /**
      * 通过knife4j生成接口文档

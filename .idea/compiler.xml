@@ -13,10 +13,10 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17">
-      <module name="melody-common" target="1.8" />
-      <module name="melody-pojo" target="1.8" />
-      <module name="melody-server" target="1.8" />
-      <module name="melodycraft" target="1.8" />
+      <module name="melody-common" target="17" />
+      <module name="melody-pojo" target="17" />
+      <module name="melody-server" target="17" />
+      <module name="melodycraft" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

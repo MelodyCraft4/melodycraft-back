@@ -43,7 +43,7 @@ public class TeacherController {
 
         //登录成功后，设置jwt令牌
         Map<String,Object> claims = new HashMap<>();
-        claims.put(JwtClaimConstant.TEACHER_ID,teacher.getId());
+        claims.put(JwtClaimConstant.TEACHER_ID,teacher.getId());  //利用的是主键生成的令牌
         String token = JwtUtil.createJWT(jwtProperties.getTeacherSecretKey(),
                                         jwtProperties.getTeacherTtl(),
                                         claims);
