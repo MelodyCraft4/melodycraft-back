@@ -5,14 +5,12 @@ import com.melody.constant.StatusConstant;
 import com.melody.dto.TeacherLoginDTO;
 import com.melody.entity.Teacher;
 import com.melody.exception.BaseException;
-import com.melody.service.mapper.TeacherMapper;
+import com.melody.mapper.TeacherMapper;
 import com.melody.service.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-
-import javax.security.auth.login.AccountNotFoundException;
 
 @Service
 @Slf4j
