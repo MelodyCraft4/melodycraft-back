@@ -1,4 +1,4 @@
-package com.melody.service.mapper;
+package com.melody.mapper;
 
 import com.melody.entity.Teacher;
 import org.apache.ibatis.annotations.Mapper;
