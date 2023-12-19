@@ -27,8 +27,8 @@ public class AdminController {
         log.info("管理员端查询展示在首页的数据");
 
         EntityVO entityVO = adminService.query();
+        //返回数据
         return Result.success(entityVO);
-
     }
 
 
