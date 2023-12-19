@@ -51,8 +51,8 @@ public class TeacherController {
         //封装返回给前端的data数据
         TeacherLoginVO teacherLoginVO = TeacherLoginVO.builder()
                 .id(teacher.getId())
-                .teacherName(teacher.getTeacherName())
-                .teacherId(teacher.getTeacherId())
+                .Name(teacher.getName())
+                .username(teacher.getUsername())
                 .token(token)
                 .build();
         return Result.success(teacherLoginVO);

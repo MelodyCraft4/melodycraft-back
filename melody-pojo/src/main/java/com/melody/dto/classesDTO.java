@@ -16,5 +16,5 @@ public class classesDTO {
     @ApiModelProperty("班级乐器")
     private String instrument;
     @ApiModelProperty("班级教师id")
-    private long classTeacherId;
+    private long TeacherId;
 }
