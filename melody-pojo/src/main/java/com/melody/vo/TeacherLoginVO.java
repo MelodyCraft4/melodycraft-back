@@ -17,10 +17,10 @@ public class TeacherLoginVO implements Serializable {
     private Long id;
 
     @ApiModelProperty("教师姓名")
-    private String teacherName;
+    private String Name;
 
     @ApiModelProperty("教师用户名")
-    private String teacherId;
+    private String username;
 
     @ApiModelProperty("jwt令牌")
     private String token;

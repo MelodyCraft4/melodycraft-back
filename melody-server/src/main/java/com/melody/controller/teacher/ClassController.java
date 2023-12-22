@@ -1,7 +1,7 @@
 package com.melody.controller.teacher;
 
 import com.melody.dto.classesDTO;
-import com.melody.entity.classes;
+import com.melody.entity.MusicClass;
 import com.melody.result.Result;
 import com.melody.service.ClassesService;
 import io.swagger.annotations.Api;
@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @Api(tags = "教师旗下班级相关接口")
-public class ClassesController {
+public class ClassController {
 
     @Autowired
     private ClassesService classesService;
@@ -31,9 +31,9 @@ public class ClassesController {
 
     @GetMapping
     @ApiOperation("教师查询班级")
-    public Result<List<classes>> query(){
+    public Result<List<MusicClass>> query(){
         log.info("教师查询班级");
-        List<classes> list = classesService.query();
+        List<MusicClass> list = classesService.query();
         return Result.success(list);
     }
 
