@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class classes implements Serializable {
+public class MusicClass implements Serializable {
     @ApiModelProperty("班级主键id")
     private long id;
     @ApiModelProperty("班级乐器")
@@ -26,7 +26,7 @@ public class classes implements Serializable {
     @ApiModelProperty("班级人数")
     private int classSize;
     @ApiModelProperty("班级老师主键")
-    private long classTeacherId;
+    private long teacherId;
     @ApiModelProperty("班级码")
     private String classCode;
     @ApiModelProperty("班级头像url")

@@ -14,7 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class TeacherLoginDTO implements Serializable {
         @ApiModelProperty("教师用户名")
-        private String teacherId;
+        private String username;
 
         @ApiModelProperty("教师密码")
         private String password;

@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface TeacherMapper {
 
-    @Select("select * from teacher where teacherId = #{teacherId};")
-    Teacher getByteacherId(String teacherId);
+    @Select("select * from teacher where username = #{username};")
+    Teacher getByUsername(String username);
 }

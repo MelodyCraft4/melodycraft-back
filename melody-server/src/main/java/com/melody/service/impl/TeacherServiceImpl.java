@@ -27,12 +27,12 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Teacher login(TeacherLoginDTO teacherLoginDTO) {
         //从前端传来的数据中获取教师用户名以及密码
-        String teacherId = teacherLoginDTO.getTeacherId();
+        String username = teacherLoginDTO.getUsername();
         String password = teacherLoginDTO.getPassword();
 
 
         //根据用户名密码查询数据库的数据
-        Teacher teacher = teacherMapper.getByteacherId(teacherId);
+        Teacher teacher = teacherMapper.getByUsername(username);
 
         //验证各种情况
         //1.用户名不存在

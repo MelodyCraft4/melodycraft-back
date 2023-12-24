@@ -1,6 +1,5 @@
 package com.melody.controller.teacher;
 
-
 import com.melody.constant.JwtClaimConstant;
 import com.melody.dto.TeacherLoginDTO;
 import com.melody.entity.Teacher;
@@ -51,13 +50,11 @@ public class TeacherController {
         //封装返回给前端的data数据
         TeacherLoginVO teacherLoginVO = TeacherLoginVO.builder()
                 .id(teacher.getId())
-                .teacherName(teacher.getTeacherName())
-                .teacherId(teacher.getTeacherId())
+                .username(teacher.getUsername())
+                .name(teacher.getName())
                 .token(token)
                 .build();
         return Result.success(teacherLoginVO);
-
-
 
     }
 

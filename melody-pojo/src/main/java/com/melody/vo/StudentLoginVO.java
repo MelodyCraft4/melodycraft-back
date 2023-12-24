@@ -1,5 +1,6 @@
 package com.melody.vo;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,14 +13,15 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherLoginVO implements Serializable {
-    @ApiModelProperty("教师主键值")
-    private Long id;
+public class StudentLoginVO implements Serializable {
 
-    @ApiModelProperty("教师用户名id")
-    private String username;
+    @ApiModelProperty("主键")
+    private long id;
 
-    @ApiModelProperty("教师姓名")
+    @ApiModelProperty("学生id")
+    private long username;
+
+    @ApiModelProperty("学生姓名")
     private String name;
 
     @ApiModelProperty("jwt令牌")

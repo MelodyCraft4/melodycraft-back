@@ -1,27 +1,31 @@
 package com.melody.entity;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Teacher implements Serializable {
 
     @ApiModelProperty("主键id")
     private Long id;
 
     @ApiModelProperty("教师用户名")
-    private String teacherId;
+    private String username;
 
     @ApiModelProperty("教师密码")
     private String password;
 
     @ApiModelProperty("教师姓名")
-    private String teacherName;
+    private String name;
 
     @ApiModelProperty("教师头像")
     private String iconUrl;
