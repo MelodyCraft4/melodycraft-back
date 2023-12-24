@@ -1,10 +1,6 @@
 package com.melody.controller.teacher;
 
-<<<<<<<< HEAD:melody-server/src/main/java/com/melody/controller/teacher/MusicClassContorller.java
 import com.melody.dto.MusicClassDTO;
-========
-import com.melody.dto.classesDTO;
->>>>>>>> upstream/main:melody-server/src/main/java/com/melody/controller/teacher/ClassController.java
 import com.melody.entity.MusicClass;
 import com.melody.result.Result;
 import com.melody.service.MusicClassService;
@@ -20,11 +16,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @Api(tags = "教师旗下班级相关接口")
-<<<<<<<< HEAD:melody-server/src/main/java/com/melody/controller/teacher/MusicClassContorller.java
 public class MusicClassContorller {
-========
-public class ClassController {
->>>>>>>> upstream/main:melody-server/src/main/java/com/melody/controller/teacher/ClassController.java
 
     @Autowired
     private MusicClassService musicClassService;
@@ -41,11 +33,7 @@ public class ClassController {
     @ApiOperation("教师查询班级")
     public Result<List<MusicClass>> query(){
         log.info("教师查询班级");
-<<<<<<<< HEAD:melody-server/src/main/java/com/melody/controller/teacher/MusicClassContorller.java
         List<MusicClass> list = musicClassService.query();
-========
-        List<MusicClass> list = classesService.query();
->>>>>>>> upstream/main:melody-server/src/main/java/com/melody/controller/teacher/ClassController.java
         return Result.success(list);
     }
 
