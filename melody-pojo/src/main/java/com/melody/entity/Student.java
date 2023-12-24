@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty("主键id")

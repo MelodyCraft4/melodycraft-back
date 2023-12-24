@@ -8,13 +8,13 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface ClassesMapper {
+public interface MusicClassMapper {
 
-    @Insert("insert into classes (instrument, className, classSize, classTeacherId, classCode, iconUrl, createTime, updateTime, createUser, updateUser) " +
+    @Insert("insert into music_class (instrument, className, classSize, teacherId, classCode, iconUrl, createTime, updateTime, createUser, updateUser) " +
             "values " +
             "(#{instrument},#{className},#{classSize},#{classTeacherId},#{classCode},#{iconUrl},#{createTime},#{updateTime},#{createUser},#{updateUser})")
-    void saveClasses(MusicClass MusicClass);
+    void saveMusicClass(MusicClass MusicClass);
 
-    @Select("select * from classes where classTeacherId = #{id}")
+    @Select("select * from music_class where teacherId = #{id}")
     List<MusicClass> query(Long id);
 }

@@ -1,10 +1,10 @@
 package com.melody.service.impl;
 
 import com.melody.context.BaseContext;
-import com.melody.dto.classesDTO;
+import com.melody.dto.MusicClassDTO;
 import com.melody.entity.MusicClass;
-import com.melody.mapper.ClassesMapper;
-import com.melody.service.ClassesService;
+import com.melody.mapper.MusicClassMapper;
+import com.melody.service.MusicClassService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +15,18 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class ClassesServiceImpl implements ClassesService {
+public class MusicClassServiceImpl implements MusicClassService {
 
     @Autowired
-    private ClassesMapper classesMapper;
+    private MusicClassMapper musicClassMapper;
 
     /**
      * 新增班级
      * @param classesDTO
      */
-    public void saveClasses(classesDTO classesDTO) {
+    public void saveMusicClass(MusicClassDTO MusicClassDTO) {
         MusicClass MusicClass = new MusicClass();
-        BeanUtils.copyProperties(classesDTO, MusicClass);
+        BeanUtils.copyProperties(MusicClassDTO,MusicClass);
 
         //TODO:待aop完善下列信息
         MusicClass.setClassSize(0);
@@ -37,7 +37,7 @@ public class ClassesServiceImpl implements ClassesService {
         MusicClass.setCreateUser(BaseContext.getCurrentId());
         MusicClass.setUpdateUser(BaseContext.getCurrentId());
 
-        classesMapper.saveClasses(MusicClass);
+        musicClassMapper.saveMusicClass(MusicClass);
     }
 
     /**
@@ -47,7 +47,7 @@ public class ClassesServiceImpl implements ClassesService {
     public List<MusicClass> query() {
         //根据线程获取当前教师id
         Long id = BaseContext.getCurrentId();
-        List<MusicClass> list = classesMapper.query(id);
+        List<MusicClass> list = musicClassMapper.query(id);
         return list;
     }
 }

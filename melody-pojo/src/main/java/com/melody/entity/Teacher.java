@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Teacher implements Serializable {
 
     @ApiModelProperty("主键id")
@@ -25,7 +25,7 @@ public class Teacher implements Serializable {
     private String password;
 
     @ApiModelProperty("教师姓名")
-    private String Name;
+    private String name;
 
     @ApiModelProperty("教师头像")
     private String iconUrl;

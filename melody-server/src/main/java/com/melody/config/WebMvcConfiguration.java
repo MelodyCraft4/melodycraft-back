@@ -60,7 +60,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .groupName("教师端接口")
                 .apiInfo(apiInfo)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.melody.controller.teacher"))
+                .apis(RequestHandlerSelectors.basePackage("com.melody.controller"))
+
                 .paths(PathSelectors.any())
                 .build();
         return docket;

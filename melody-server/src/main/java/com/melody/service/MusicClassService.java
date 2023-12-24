@@ -1,18 +1,18 @@
 package com.melody.service;
 
 
-import com.melody.dto.classesDTO;
+import com.melody.dto.MusicClassDTO;
 import com.melody.entity.MusicClass;
 
 import java.util.List;
 
-public interface ClassesService {
+public interface MusicClassService {
 
     /**
      * 新增班级
      * @param classesDTO
      */
-    void saveClasses(classesDTO classesDTO);
+    void saveMusicClass(MusicClassDTO MusicClassDTO);
 
     /**
      * 教师查询班级
