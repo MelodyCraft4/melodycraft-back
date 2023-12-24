@@ -17,7 +17,7 @@ public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty("主键id")
     private Long id;
-    @ApiModelProperty("学生id")
+    @ApiModelProperty("学生用户名")
     private Long username;
     @ApiModelProperty("姓名")
     private String name;
@@ -29,8 +29,8 @@ public class Student implements Serializable {
     private String sex;
     @ApiModelProperty("学校")
     private String school;
-    @ApiModelProperty("班级")
-    private String studentClass;
+    @ApiModelProperty("家庭地址")
+    private String address;
     @ApiModelProperty("头像url")
     private String iconUrl;
     @ApiModelProperty("账号状态,1启用,2禁用")
