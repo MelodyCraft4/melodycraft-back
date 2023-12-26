@@ -1,9 +1,12 @@
 package com.melody.controller.teacher;
 
+import com.melody.context.BaseContext;
 import com.melody.dto.MusicClassDTO;
 import com.melody.entity.MusicClass;
 import com.melody.result.Result;
 import com.melody.service.MusicClassService;
+import com.melody.utils.InviteCodeUtil;
+import com.melody.vo.StudentQueryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +26,12 @@ public class MusicClassContorller {
 
     @PostMapping
     @ApiOperation("教师创建班级")
-    public Result saveClasses(@RequestBody MusicClassDTO musicClassDTO){
+    public Result<String> saveClasses(@RequestBody MusicClassDTO musicClassDTO){
         log.info("新增班级");
-        musicClassService.saveMusicClass(musicClassDTO);
-        return Result.success();
+        Long id = BaseContext.getCurrentId();//获取教师id
+        String inviteCode = InviteCodeUtil.genInviteCode(id);//生成班级码
+        musicClassService.saveMusicClass(musicClassDTO,inviteCode);
+        return Result.success(inviteCode);
     }
 
     @GetMapping
@@ -36,6 +41,15 @@ public class MusicClassContorller {
         List<MusicClass> list = musicClassService.query();
         return Result.success(list);
     }
+
+    @GetMapping("queryStudent")
+    @ApiOperation("教师查询班级下的学生")
+    public Result<List<StudentQueryVO>> queryStudent(@RequestParam(required = false) String name,@RequestParam Long classId){
+        log.info("教师查询班级下的学生");
+        List<StudentQueryVO> list = musicClassService.queryStudentByName(name,classId);
+        return Result.success(list);
+    }
+
 
 
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Data
@@ -33,7 +34,7 @@ public class Teacher implements Serializable {
     @ApiModelProperty("教师电话")
     private String phone;
 
-    @ApiModelProperty("教师性别")
+    @ApiModelProperty("教师性别，1是男，2是女")
     private String sex;
 
     @ApiModelProperty("类型,0是教师，1是管理员")
@@ -41,6 +42,15 @@ public class Teacher implements Serializable {
 
     @ApiModelProperty("账号状态,1启用,2禁用")
     int status;
+
+    @ApiModelProperty("教师所在学校")
+    private String school;
+
+    @ApiModelProperty("教师职称")
+    private String ranking;
+
+    @ApiModelProperty("教师出生日期")
+    private Date birthday;
 
     //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty("创建时间")

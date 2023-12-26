@@ -26,7 +26,7 @@ public class MusicClass implements Serializable {
     @ApiModelProperty("班级人数")
     private int classSize;
     @ApiModelProperty("班级老师主键")
-    private long teacherId;
+    private Long teacherId;
     @ApiModelProperty("班级码")
     private String classCode;
     @ApiModelProperty("班级头像url")
@@ -36,7 +36,7 @@ public class MusicClass implements Serializable {
     @ApiModelProperty("更新时间")
     private LocalDateTime updateTime;
     @ApiModelProperty("创建人主键id")
-    private long createUser;
+    private Long createUser;
     @ApiModelProperty("更新人主键id")
-    private long updateUser;
+    private Long updateUser;
 }
