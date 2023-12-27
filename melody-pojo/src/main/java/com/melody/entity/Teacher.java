@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -50,7 +51,7 @@ public class Teacher implements Serializable {
     private String ranking;
 
     @ApiModelProperty("教师出生日期")
-    private Date birthday;
+    private LocalDate birthday;
 
     //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty("创建时间")

@@ -16,10 +16,10 @@ import java.io.Serializable;
 public class StudentLoginVO implements Serializable {
 
     @ApiModelProperty("主键")
-    private long id;
+    private Long id;
 
     @ApiModelProperty("学生id")
-    private long username;
+    private String username;
 
     @ApiModelProperty("学生姓名")
     private String name;

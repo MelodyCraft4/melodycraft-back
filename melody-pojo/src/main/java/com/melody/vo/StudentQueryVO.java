@@ -19,4 +19,6 @@ public class StudentQueryVO {
 
     @ApiModelProperty("学生头像地址")
     private String iconUrl;
+
+
 }
