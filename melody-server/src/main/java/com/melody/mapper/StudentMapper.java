@@ -17,4 +17,11 @@ public interface StudentMapper {
     @Select("select * from student where username = #{username}")
     Student getByUsername(String username);
 
+
+    /**
+     * 根据id查询学生
+     */
+    @Select("select * from student where id = #{id}")
+    Student getById(Long id);
+
 }

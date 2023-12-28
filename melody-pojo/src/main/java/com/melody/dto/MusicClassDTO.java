@@ -19,4 +19,6 @@ public class MusicClassDTO implements Serializable {
     private String instrument;
     @ApiModelProperty("班级教师主键ID")
     private long teacherId;
+    @ApiModelProperty("班级头像")
+    private String iconUrl;
 }

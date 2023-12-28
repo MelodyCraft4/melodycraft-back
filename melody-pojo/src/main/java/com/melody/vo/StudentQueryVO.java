@@ -1,30 +1,24 @@
 package com.melody.vo;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentLoginVO implements Serializable {
-
-    @ApiModelProperty("主键")
+public class StudentQueryVO {
+    @ApiModelProperty("学生主键id")
     private Long id;
-
-    @ApiModelProperty("学生id")
-    private String username;
 
     @ApiModelProperty("学生姓名")
     private String name;
 
-    @ApiModelProperty("jwt令牌")
-    private String token;
+    @ApiModelProperty("学生头像地址")
+    private String iconUrl;
+
 
 }
