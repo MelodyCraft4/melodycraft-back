@@ -6,6 +6,7 @@ import com.melody.entity.MusicClass;
 import com.melody.result.Result;
 import com.melody.service.MusicClassService;
 import com.melody.utils.InviteCodeUtil;
+import com.melody.vo.MusicClassVO;
 import com.melody.vo.StudentQueryVO;
 import com.melody.vo.StudentVO;
 import io.swagger.annotations.Api;
@@ -16,11 +17,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/teacher/classes")
 @Slf4j
 @RestController
+@RequestMapping("/teacher/classes")
 @Api(tags = "教师旗下班级相关接口")
-public class MusicClassContorller {
+public class MusicClassController {
 
     @Autowired
     private MusicClassService musicClassService;
@@ -37,9 +38,9 @@ public class MusicClassContorller {
 
     @GetMapping
     @ApiOperation("教师查询班级")
-    public Result<List<MusicClass>> query(){
+    public Result<List<MusicClass>> queryByTeacherId(){
         log.info("教师查询班级");
-        List<MusicClass> list = musicClassService.query();
+        List<MusicClass> list = musicClassService.queryByTeacherId();
         return Result.success(list);
     }
 
@@ -69,5 +70,6 @@ public class MusicClassContorller {
     }
 
 
-
 }
+
+

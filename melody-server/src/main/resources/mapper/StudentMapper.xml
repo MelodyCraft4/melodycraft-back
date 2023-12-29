@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<mapper namespace="com.melody.mapper.StudentMapper">
+    <update id="update" parameterType="com.melody.entity.Student">
+        update student
+        <set>
+            <if test="name != null"> name = #{name},</if>
+            <if test="password != null"> password = #{password},</if>
+            <if test="phone != null"> phone = #{phone},</if>
+            <if test="sex != null"> sex = #{sex},</if>
+            <if test="school != null"> school = #{school},</if>
+            <if test="iconUrl != null"> iconUrl = #{iconUrl},</if>
+            <if test="address != null"> address = #{address},</if>
+            <if test="birthday != null"> birthday = #{birthday},</if>
+            <if test="updateTime != null"> updateTime = #{updateTime},</if>
+            <if test="updateUser != null"> updateUser = #{updateUser},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
