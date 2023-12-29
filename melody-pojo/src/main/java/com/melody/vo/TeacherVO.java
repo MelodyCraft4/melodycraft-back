@@ -1,4 +1,4 @@
-package com.melody.entity;
+package com.melody.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -6,16 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Teacher implements Serializable {
+@AllArgsConstructor
+public class TeacherVO {
     @ApiModelProperty("主键id")
     private Long id;
 
@@ -24,9 +23,6 @@ public class Teacher implements Serializable {
 
     @ApiModelProperty("教师姓名")
     private String name;
-
-    @ApiModelProperty("教师密码")
-    private String password;
 
     @ApiModelProperty("教师头像")
     private String iconUrl;
@@ -37,12 +33,6 @@ public class Teacher implements Serializable {
     @ApiModelProperty("教师性别，1是男，2是女")
     private Integer sex;
 
-    @ApiModelProperty("类型,0是教师，1是管理员")
-    int type;
-
-    @ApiModelProperty("账号状态,1启用,2禁用")
-    int status;
-
     @ApiModelProperty("教师所在学校")
     private String school;
 
@@ -52,17 +42,4 @@ public class Teacher implements Serializable {
     @ApiModelProperty("教师出生日期")
     private LocalDate birthday;
 
-    //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty("创建时间")
-    private LocalDateTime createTime;
-
-    //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty("更新时间")
-    private LocalDateTime updateTime;
-
-    @ApiModelProperty("创建人主键id")
-    private Long createUser;
-
-    @ApiModelProperty("更新人主键id")
-    private Long updateUser;
 }

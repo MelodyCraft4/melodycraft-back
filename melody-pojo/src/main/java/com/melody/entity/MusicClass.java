@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class MusicClass implements Serializable {
     @ApiModelProperty("班级主键id")
-    private long id;
+    private Long id;
     @ApiModelProperty("班级乐器")
     private String instrument;
     @ApiModelProperty("班级名称")

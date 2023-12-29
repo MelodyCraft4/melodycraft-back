@@ -1,9 +1,9 @@
 package com.melody.controller.student;
 
 import com.melody.constant.JwtClaimConstant;
+import com.melody.dto.StudentDTO;
 import com.melody.dto.StudentLoginDTO;
 import com.melody.entity.Student;
-import com.melody.entity.Teacher;
 import com.melody.properties.JwtProperties;
 import com.melody.result.Result;
 import com.melody.service.StudentService;
@@ -41,9 +41,8 @@ public class StudentController {
         Student student = studentService.login(studentLoginDTO);
 
         //登录成功后，设置jwt令牌
-        //TODO Teacher_id需要更改
         Map<String,Object> claims = new HashMap<>();
-        claims.put(JwtClaimConstant.TEACHER_ID,student.getId());  //利用的是主键生成的令牌
+        claims.put(JwtClaimConstant.STUDENT_ID,student.getId());  //利用的是主键生成的令牌
         String token = JwtUtil.createJWT(jwtProperties.getStudentSecretKey(),
                                         jwtProperties.getStudentTtl(),
                                         claims);
@@ -57,6 +56,15 @@ public class StudentController {
                 .build();
 
         return  Result.success(studentLoginVO);
+    }
+
+
+    @ApiOperation("学生端修改信息")
+    @PostMapping("/update")
+    public Result update(@RequestBody StudentDTO studentDTO){
+        log.info("编辑/修改学生信息:{}",studentDTO);
+        studentService.update(studentDTO);
+        return Result.success();
     }
 
 

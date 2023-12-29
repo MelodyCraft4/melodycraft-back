@@ -11,6 +11,27 @@
 
     </select>
 
+    <select id="queryByClassIdList" parameterType="long" resultType="com.melody.entity.MusicClass">
+        SELECT * FROM music_class
+        WHERE id IN
+        <foreach collection="classIdList" item="classId" open="(" separator="," close=")">
+            #{classId}
+        </foreach>
+    </select>
 
+    <update id="update" parameterType="com.melody.entity.MusicClass">
+        UPDATE music_class
+        <set>
+<!--            <if test="instrument != null"> instrument = #{instrument},</if>-->
+            <if test="className != null"> className = #{className},</if>
+            <if test="classSize != null"> classSize = #{classSize},</if>
+            <if test="teacherId != null"> teacherId = #{teacherId},</if>
+            <if test="classCode != null"> classCode = #{classCode},</if>
+            <if test="iconUrl != null"> iconUrl = #{iconUrl},</if>
+            <if test="updateTime != null"> updateTime = #{updateTime},</if>
+<!--            <if test="updateUser != null"> updateUser = #{updateUser},</if>-->
+        </set>
+        WHERE id = #{id}
+    </update>
 
 </mapper>

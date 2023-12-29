@@ -1,6 +1,7 @@
 package com.melody.controller.teacher;
 
 import com.melody.constant.JwtClaimConstant;
+import com.melody.dto.TeacherDTO;
 import com.melody.dto.TeacherLoginDTO;
 import com.melody.entity.Teacher;
 import com.melody.properties.JwtProperties;
@@ -8,14 +9,13 @@ import com.melody.result.Result;
 import com.melody.service.TeacherService;
 import com.melody.utils.JwtUtil;
 import com.melody.vo.TeacherLoginVO;
+import com.melody.vo.TeacherVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,6 @@ public class TeacherController {
 
     @Autowired
     JwtProperties jwtProperties;
-
 
     @ApiOperation("教师端登录")
     @PostMapping("/login")
@@ -56,6 +55,22 @@ public class TeacherController {
                 .build();
         return Result.success(teacherLoginVO);
 
+    }
+
+    @ApiOperation("教师端查询个人信息")
+    @GetMapping
+    public Result query(){
+        log.info("教师端查询个人信息");
+        TeacherVO teacherVO = teacherService.query();
+        return Result.success(teacherVO);
+    }
+
+    @ApiOperation("教师端更新/完善个人信息")
+    @PostMapping("/update")
+    public Result update(@RequestBody TeacherDTO teacherDTO){
+        log.info("教师端更新/完善个人信息:{}",teacherDTO);
+        teacherService.update(teacherDTO);
+        return Result.success();
     }
 
 }

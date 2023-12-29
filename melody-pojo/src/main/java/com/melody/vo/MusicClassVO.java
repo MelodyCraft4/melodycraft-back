@@ -1,4 +1,4 @@
-package com.melody.dto;
+package com.melody.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -10,15 +10,19 @@ import java.io.Serializable;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class MusicClassDTO implements Serializable {
+@AllArgsConstructor
+public class MusicClassVO implements Serializable {
+    @ApiModelProperty("主键ID")
+    private Long id;
+    @ApiModelProperty("班级人数")
+    private Integer classSize;
     @ApiModelProperty("班级名称")
     private String className;
     @ApiModelProperty("班级乐器")
     private String instrument;
-    @ApiModelProperty("班级教师主键ID")
-    private Long teacherId;
-    @ApiModelProperty("班级头像")
-    private String iconUrl;
+    @ApiModelProperty("教师名称")
+    private String teacherName;
+    @ApiModelProperty("班级授课天数")
+    private Integer days;
 }

@@ -1,5 +1,6 @@
 package com.melody.config;
 
+import com.melody.interceptor.JwtTokenStudentInterceptor;
 import com.melody.interceptor.JwtTokenTeacherInterceptor;
 import com.melody.json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Autowired
     private JwtTokenTeacherInterceptor jwtTokenTeacherInterceptor;
 
+    @Autowired
+    private JwtTokenStudentInterceptor jwtTokenStudentInterceptor;
 
     /**
      * 注册自定义拦截器
@@ -42,6 +45,10 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addInterceptor(jwtTokenTeacherInterceptor)
                 .addPathPatterns("/teacher/**")
                 .excludePathPatterns("/teacher/teacher/login");
+
+        registry.addInterceptor(jwtTokenStudentInterceptor)
+                .addPathPatterns("/student/**")
+                .excludePathPatterns("/student/student/login");
     }
 
     /**
