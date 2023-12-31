@@ -19,9 +19,9 @@ public interface MusicClassMapper {
      * @param MusicClass
      */
     @AutoFill(value = OperationType.INSERT)
-    @Insert("insert into music_class (instrument, className, classSize, teacherId, classCode, iconUrl) " +
+    @Insert("insert into music_class (instrument, className, classSize, teacherId, classCode, iconUrl,createTime,updateTime,updateUser,createUser) " +
             "values " +
-            "(#{instrument},#{className},#{classSize},#{teacherId},#{classCode},#{iconUrl})")
+            "(#{instrument},#{className},#{classSize},#{teacherId},#{classCode},#{iconUrl},#{createTime},#{updateTime},#{updateUser},#{createUser})")
     void saveMusicClass(MusicClass MusicClass);
 
     /**
@@ -57,7 +57,7 @@ public interface MusicClassMapper {
     void deleteStudentById(@Param("studentId") Long studentId, @Param("classId") Long classId);
 
     /**
-     * 班级人数-1
+     * TODO 班级人数-1
      * @param classId
      */
     @Update("update music_class set classSize = classSize - 1 where id = #{classId}")
@@ -113,6 +113,15 @@ public interface MusicClassMapper {
      */
     @Select("select classSize from music_class where id = #{classId}")
     Integer getClassSizeByClassId(Long classId);
+
+
+    /**
+     * 根据班级id查询所有学生id
+     * @param classId
+     * @return
+     */
+    @Select("select studentId from student_class where classId = #{classId}")
+    List<Long> getStudentIdsByClassId(Long classId);
 
 
 }

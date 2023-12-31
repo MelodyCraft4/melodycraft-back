@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<mapper namespace="com.melody.mapper.HomeworkMapper">
+
+    <!-- 主键回显   -->
+    <insert id="insertHomework" parameterType="com.melody.entity.Homework" useGeneratedKeys="true" keyProperty="id">
+  insert into homework (title, content,prompt,imgUrls,videoUrls,deadLine,classId,createTime,updateTime,updateUser,createUser)
+    values(#{title},#{content},#{prompt},#{imgUrls},#{videoUrls},#{deadLine},#{classId},#{createTime},#{updateTime},#{updateUser},#{createUser})
+    </insert>
+
+
+    <insert id="insertClassHomework">
+
+            INSERT INTO class_homework (studentId, homeworkId)
+            VALUES
+            <foreach collection="studentIdList" item="studentId" separator=",">
+                (#{studentId}, #{homeworkId})
+            </foreach>
+
+
+    </insert>
+
+
+</mapper>

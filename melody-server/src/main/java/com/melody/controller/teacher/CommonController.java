@@ -25,7 +25,7 @@ public class CommonController {
     @PostMapping("upload")
     @ApiOperation("文件上传")
     public Result<String> upload(@RequestPart("file") MultipartFile file) {
-        log.info("文件上传：{}", file);
+        log.info("文件上传：{}", file.getContentType());
 
         try {
             //原始文件名
