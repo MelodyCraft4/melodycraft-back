@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -23,7 +25,7 @@ public class HomeworkDTO {
     private String prompt;
 
     @ApiModelProperty("截止时间")
-    private String deadLine;
+    private LocalDateTime deadLine;
 
     @ApiModelProperty("班级主键id")
     private Long classId;

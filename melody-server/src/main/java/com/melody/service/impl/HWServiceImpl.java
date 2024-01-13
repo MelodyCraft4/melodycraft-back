@@ -1,7 +1,10 @@
 package com.melody.service.impl;
 
 import com.melody.constant.MessageConstant;
+import com.melody.context.BaseContext;
 import com.melody.dto.HomeworkDTO;
+import com.melody.dto.StuClassHomeworkDTO;
+import com.melody.entity.ClassHomework;
 import com.melody.entity.Homework;
 import com.melody.mapper.HomeworkMapper;
 import com.melody.mapper.MusicClassMapper;
@@ -9,13 +12,17 @@ import com.melody.result.Result;
 import com.melody.service.HWService;
 import com.melody.utils.AliOssUtil;
 import com.melody.vo.HomeworkVO;
+import com.melody.vo.StuClassHomeworkDetailVO;
+import com.melody.vo.StuClassHomeworkVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +40,11 @@ public class HWServiceImpl implements HWService {
     @Autowired
     private MusicClassMapper musicClassMapper;
 
-    @Override
+    /**
+     * 教师发布班级作业
+     * @param files
+     * @param homeworkDTO
+     */
     public void assignhomework(List<MultipartFile> files, HomeworkDTO homeworkDTO) {
         //将所有文件上传到Oss服务器,并存储返回路径
         log.info("开始上传文件");
@@ -100,11 +111,11 @@ public class HWServiceImpl implements HWService {
 
 
     /**
+     * 教师查询指定班级所有作业
      * 根据班级id查询班级内所有作业
      * @param classId
      * @return
      */
-    @Override
     public List<HomeworkVO> query(Long classId) {
 
         List<HomeworkVO> homeworkVOList = new ArrayList<>();
@@ -132,6 +143,85 @@ public class HWServiceImpl implements HWService {
         }
 
         return homeworkVOList;
+    }
+
+    /**
+     *  学生查询指定班级所有作业
+     *  根据url上的班级id查询(班级作业表)
+     */
+    public List<StuClassHomeworkVO> queryFromStu(Long classId) {
+        //先根据classId查询作业表(homework),将该班级下的所有 作业id,title,deadline,classid查询出来
+        List<StuClassHomeworkVO> stuClassHomeworkVOList = homeworkMapper.queryHWBriefByClassId(classId);
+        //利用上述的list,通过homeworkid继续查询剩下的字段,并组成新的
+        List<StuClassHomeworkVO> updatelist = homeworkMapper.queryFromStuByHomeworkIdList(stuClassHomeworkVOList);
+        //将stuClassHomeworkVOList的数据复制补充到updatelist中
+        for (StuClassHomeworkVO updateClassHomeworkVO : updatelist) {
+            for (StuClassHomeworkVO stuClassHomeworkVO : stuClassHomeworkVOList) {
+                if (updateClassHomeworkVO.getHomeworkId() == stuClassHomeworkVO.getHomeworkId()) {
+                    updateClassHomeworkVO.setClassId(stuClassHomeworkVO.getClassId());//复制班级id
+                    updateClassHomeworkVO.setTitle(stuClassHomeworkVO.getTitle());//title
+                    updateClassHomeworkVO.setDeadline(stuClassHomeworkVO.getDeadline());//deadline
+                    break;
+                }
+            }
+        }
+        log.info("查询后的班级作业集合:{}",updatelist);
+        //返回
+        return updatelist;
+    }
+
+    /**
+     * 学生根据homeworkId从homework表查询作业要求,
+     *    根据classHomeworkId从class_homework表查询详细情况
+     */
+    public StuClassHomeworkDetailVO queryDetailFromStu(Long homeworkId, Long classHomeworkId) {
+        //先从homework表查询作业要求
+        StuClassHomeworkDetailVO HW1 = homeworkMapper.queryAskFromStuByHomeworkId(homeworkId);
+        log.info("作业要求:{}",HW1);
+        //再从class_homework表查询完成情况
+        StuClassHomeworkDetailVO HW2 = homeworkMapper.queryDetailFromStuByClassHomeworkId(classHomeworkId);
+        log.info("作业详细情况:{}",HW2);
+        //将俩者补充到后者
+        HW2.setTitle(HW1.getTitle());//titile
+        HW2.setContent(HW1.getContent());//正文
+        HW2.setPrompt(HW1.getPrompt());//温馨提示
+        HW2.setImgUrls(HW1.getImgUrls());//图片url集合
+        HW2.setVideoUrls(HW1.getVideoUrls());//视频url集合
+        HW2.setDeadline(HW1.getDeadline());//截止时间
+        //返回后者
+        return HW2;
+    }
+
+    /**
+     * 学生提交作业,更新homework表
+     */
+    public void updateHomeworkFromStu(MultipartFile file,StuClassHomeworkDTO stuClassHomeworkDTO) {
+
+        //将视频文件上传到阿里云OSS,获取url
+        String filePath = null;
+        try {
+            //原始文件名
+            String originalFilename = file.getOriginalFilename();
+            //截取原始文件名的后缀
+            String extention = originalFilename.substring(originalFilename.lastIndexOf("."));
+            //构造新文件名称：防止文件重名
+            String objectName = UUID.randomUUID().toString() + extention;
+            //文件上传至阿里云,并获取请求路径
+            filePath = aliOssUtil.upload(file.getBytes(), objectName);
+        } catch (Exception e) {
+            log.error("文件上传失败: {}", e);
+        }
+
+        //创建classhomework,插入到数据库
+        //TODO:公共字段需要添加
+        ClassHomework classHomework = new ClassHomework();
+        classHomework.setId(stuClassHomeworkDTO.getClassHomeworkId());
+        classHomework.setVideoUrl(filePath);
+        classHomework.setCommitTime(LocalDateTime.now());
+        classHomework.setCompleted(1);
+        log.info("classHomework:{}",classHomework);
+        //根据classhomework的cid,寻求到准确的数据库路径
+        homeworkMapper.updateFromStu(classHomework);
     }
 
 

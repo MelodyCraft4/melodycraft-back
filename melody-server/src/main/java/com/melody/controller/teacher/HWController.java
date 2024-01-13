@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@Api(tags = "作业接口")
+@Api(tags = "教师旗下作业接口")
 @Slf4j
 @RequestMapping("/teacher/homework")
 public class HWController {
