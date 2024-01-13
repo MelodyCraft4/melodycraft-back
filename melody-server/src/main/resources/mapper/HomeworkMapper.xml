@@ -10,18 +10,31 @@
   insert into homework (title, content,prompt,imgUrls,videoUrls,deadLine,classId,createTime,updateTime,updateUser,createUser)
     values(#{title},#{content},#{prompt},#{imgUrls},#{videoUrls},#{deadLine},#{classId},#{createTime},#{updateTime},#{updateUser},#{createUser})
     </insert>
-
-
     <insert id="insertClassHomework">
-
             INSERT INTO class_homework (studentId, homeworkId)
             VALUES
             <foreach collection="studentIdList" item="studentId" separator=",">
                 (#{studentId}, #{homeworkId})
             </foreach>
-
-
     </insert>
 
+
+    <select id="queryFromStuByHomeworkIdList" parameterType="com.melody.vo.StuClassHomeworkVO" resultType="com.melody.vo.StuClassHomeworkVO">
+        SELECT id ,homeworkId ,completed ,grade FROM class_homework
+        WHERE homeWorkId IN
+        <foreach collection="stuClassHomeworkVOList" item="stuClassHomeworkVO" open="(" separator="," close=")">
+            #{stuClassHomeworkVO.homeworkId}
+        </foreach>
+    </select>
+
+    <update id="updateFromStu" parameterType="com.melody.entity.ClassHomework">
+        UPDATE class_homework
+        <set>
+            <if test="videoUrl != null"> videoUrl = #{videoUrl},</if>
+            <if test="commitTime != null"> commitTime = #{commitTime},</if>
+            <if test="completed != null"> completed = #{completed},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
 
 </mapper>

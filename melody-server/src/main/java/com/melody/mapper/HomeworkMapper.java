@@ -2,8 +2,11 @@ package com.melody.mapper;
 
 
 import com.melody.annocation.AutoFill;
+import com.melody.entity.ClassHomework;
 import com.melody.entity.Homework;
 import com.melody.enumeration.OperationType;
+import com.melody.vo.StuClassHomeworkDetailVO;
+import com.melody.vo.StuClassHomeworkVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -43,4 +46,43 @@ public interface HomeworkMapper {
      */
     @Select("select count(*) from class_homework where homeworkId = #{id} and completed=1")
     Integer queryFinishCount(Long id);
+
+    /**
+     * 学生端:根据班级id查询该班级旗下所有的作业,查询内容包括 作业id,班级id,作业标题,作业截止时间(homework表)
+     * @return
+     */
+    @Select("select id AS homeworkId, title, deadLine, classId from homework where classId = #{classId}")
+    List<StuClassHomeworkVO> queryHWBriefByClassId(Long classId);
+
+
+    /**
+     * 学生端:根据班级id查询该班级所有作业
+     * @return
+     */
+    List<StuClassHomeworkVO> queryFromStuByHomeworkIdList(List<StuClassHomeworkVO> stuClassHomeworkVOList);
+
+    /**
+     * 学生端:根据班级作业id查询具体作业详细情况(class_homework表)
+     * @param classHomeworkId
+     * @return
+     */
+    @Select("select id AS classHomeworkId, completed, grade, videoUrl, judgement, judgementTime, commitTime " +
+            "FROM class_homework where " +
+            "id = #{classHomeworkId}")
+    StuClassHomeworkDetailVO queryDetailFromStuByClassHomeworkId(Long classHomeworkId);
+
+    /**
+     * 学生端:根据作业id查询具体作业要求(homework表)
+     * @param homeworkId
+     * @return
+     */
+    @Select("select title, content, prompt, imgUrls, videoUrls, deadLine " +
+            "FROM homework where " +
+            "id = #{homeworkId}")
+    StuClassHomeworkDetailVO queryAskFromStuByHomeworkId(Long homeworkId);
+
+    /**
+     * 学生提交作业,更新homework表
+     */
+    void updateFromStu(ClassHomework classHomework);
 }
