@@ -27,16 +27,15 @@
         </foreach>
     </select>
 
-    <update id="updateFromStu" parameterType="com.melody.entity.ClassHomework">
-        UPDATE class_homework
-        <set>
-            <if test="videoUrl != null"> videoUrl = #{videoUrl},</if>
-            <if test="commitTime != null"> commitTime = #{commitTime},</if>
-            <if test="completed != null"> completed = #{completed},</if>
-        </set>
-        WHERE id = #{id}
-    </update>
-
+<!--    <update id="updateFromStu" parameterType="com.melody.entity.ClassHomework">-->
+<!--        UPDATE class_homework-->
+<!--        <set>-->
+<!--            <if test="videoUrl != null"> videoUrl = #{videoUrl},</if>-->
+<!--            <if test="commitTime != null"> commitTime = #{commitTime},</if>-->
+<!--            <if test="completed != null"> completed = #{completed},</if>-->
+<!--        </set>-->
+<!--        WHERE id = #{id}-->
+<!--    </update>-->
 
     <update id="update" parameterType="com.melody.entity.ClassHomework">
 

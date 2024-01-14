@@ -27,7 +27,6 @@ public class MusicClassController {
     @PostMapping("/join")
     public Result joinClass(String classCode){
         log.info("学生加入班级,班级码:{}",classCode);
-        //TODO:需要想办法获取传入学生的id
         musicClassService.joinClass(classCode);
         return Result.success();
     }

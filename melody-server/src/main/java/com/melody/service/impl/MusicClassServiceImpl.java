@@ -1,10 +1,12 @@
 package com.melody.service.impl;
 
+import com.melody.constant.MessageConstant;
 import com.melody.context.BaseContext;
 import com.melody.dto.MusicClassDTO;
 import com.melody.entity.MusicClass;
 import com.melody.entity.Student;
 import com.melody.entity.StudentClass;
+import com.melody.exception.BaseException;
 import com.melody.mapper.MusicClassMapper;
 import com.melody.mapper.StudentMapper;
 import com.melody.mapper.TeacherMapper;
@@ -46,20 +48,21 @@ public class MusicClassServiceImpl implements MusicClassService {
         BeanUtils.copyProperties(musicClassDTO,musicClass);
         musicClass.setClassCode(inviteCode);
 
-        //TODO:待aop完善下列信息
         musicClass.setClassSize(0);
         //数据库添加数据
         musicClassMapper.saveMusicClass(musicClass);
     }
 
     /**
-     * 教师 - 根据id查询班级
+     * 教师 - 根据教师id查询班级
      * @return
      */
     public List<MusicClass> queryByTeacherId() {
         //根据线程获取当前教师id
         Long teacherId = BaseContext.getCurrentId();
         List<MusicClass> list = musicClassMapper.queryAttrClassByTeacherId(teacherId);
+        List<MusicClassVO> MusicList = new ArrayList<>();
+        //TODO :多表联查
         return list;
     }
 
@@ -123,11 +126,11 @@ public class MusicClassServiceImpl implements MusicClassService {
      * @param classId
      */
     public void deleteStudentById(Long studentId, Long classId) {
-
+        //TODO:管理员审核
         //1.根据学生id和班级id将学生移出班级
         musicClassMapper.deleteStudentById(studentId,classId);
 
-        //2.班级人数-1  TODO:日后完善传入实体类更新班级再修改
+        //2.班级人数-1
         musicClassMapper.reduceClassSize(classId);
 
 
@@ -139,8 +142,11 @@ public class MusicClassServiceImpl implements MusicClassService {
      */
     public void joinClass(String classCode) {
         //1.根据班级码查询获取相应的班级ID
-        long classId = musicClassMapper.queryClassByClassCode(classCode);
+        Long classId = musicClassMapper.queryClassByClassCode(classCode);
         log.info("班级ID:{}",classId);
+        if(classId == null){
+            throw new BaseException(MessageConstant.CLASSCODE_NOT_FOUND);
+        }
         //2.根据线程获取当前学生ID
         long studentId = BaseContext.getCurrentId();
         log.info("当前线程学生ID:{}",studentId);
@@ -149,17 +155,14 @@ public class MusicClassServiceImpl implements MusicClassService {
         studentClass.setClassId(classId);
         studentClass.setStudentId(studentId);
 
-        //4.判断是否已经存在相关数据/超出某些限制
-        //TODO:这里使用查询语句进行判断,判断是否已经存在了相关数据,是否有更好的解决方法?
+        //4.判断是否已经存在该学生
         StudentClass studentClass1 = musicClassMapper.queryStudentClass(studentClass);
         if(studentClass1 != null){
-            //TODO:重复,抛异常,全局接收?
             log.info("重复:{}",studentClass1);
-            return;
+            throw new BaseException(MessageConstant.ALREADY_ENTER);
         }
 
         //5.没有异常,将studenClass插入到 学生班级表 当中
-        //TODO:异常处理
         musicClassMapper.saveStudentToClass(studentClass);
 
         //6.根据classId查询班级人数
@@ -177,7 +180,7 @@ public class MusicClassServiceImpl implements MusicClassService {
     }
 
     /**
-     * 学生 - 根据班级id查询班级
+     * 学生 - 根据班级id查询所有班级
      * @return
      */
     public List<MusicClassVO> queryByStudentId() {

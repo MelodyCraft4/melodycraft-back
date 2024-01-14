@@ -25,7 +25,7 @@ public class HomeworkDTO {
     private String prompt;
 
     @ApiModelProperty("截止时间")
-    private LocalDateTime deadLine;
+    private LocalDateTime deadline;
 
     @ApiModelProperty("班级主键id")
     private Long classId;

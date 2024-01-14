@@ -30,10 +30,7 @@ public class HomeworkDetailVO {
     private String videoUrls;
 
     @ApiModelProperty("截止时间")
-    private LocalDateTime deadLine;
-
-    @ApiModelProperty("发布班级")
-    private String classId;
+    private LocalDateTime deadline;
 
     @ApiModelProperty("创建时间")
     private LocalDateTime createTime;

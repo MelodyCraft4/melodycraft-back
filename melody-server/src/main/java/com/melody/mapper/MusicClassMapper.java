@@ -77,7 +77,6 @@ public interface MusicClassMapper {
      * @param studentClass
      * @return 学生所在班级集合
      */
-    //TODO:作为临时方法,处理重复插入student_class问题,后续优化
     @Select("select * from student_class where classId = #{classId} and studentId = #{studentId} ")
     StudentClass queryStudentClass(StudentClass studentClass);
 
