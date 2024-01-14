@@ -129,6 +129,8 @@ public class MusicClassServiceImpl implements MusicClassService {
 
         //2.班级人数-1  TODO:日后完善传入实体类更新班级再修改
         musicClassMapper.reduceClassSize(classId);
+
+
     }
 
     /**
