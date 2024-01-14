@@ -2,6 +2,7 @@ package com.melody.service.impl;
 
 import com.melody.constant.MessageConstant;
 import com.melody.context.BaseContext;
+import com.melody.dto.ClassHomeDetailDTO;
 import com.melody.dto.HomeworkDTO;
 import com.melody.dto.StuClassHomeworkDTO;
 import com.melody.entity.ClassHomework;
@@ -11,9 +12,7 @@ import com.melody.mapper.MusicClassMapper;
 import com.melody.result.Result;
 import com.melody.service.HWService;
 import com.melody.utils.AliOssUtil;
-import com.melody.vo.HomeworkVO;
-import com.melody.vo.StuClassHomeworkDetailVO;
-import com.melody.vo.StuClassHomeworkVO;
+import com.melody.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -188,6 +187,7 @@ public class HWServiceImpl implements HWService {
         HW2.setImgUrls(HW1.getImgUrls());//图片url集合
         HW2.setVideoUrls(HW1.getVideoUrls());//视频url集合
         HW2.setDeadline(HW1.getDeadline());//截止时间
+        HW2.setCreateTime(HW1.getCreateTime());//创建时间
         //返回后者
         return HW2;
     }
@@ -222,6 +222,87 @@ public class HWServiceImpl implements HWService {
         log.info("classHomework:{}",classHomework);
         //根据classhomework的cid,寻求到准确的数据库路径
         homeworkMapper.updateFromStu(classHomework);
+    }
+
+
+    /**
+     * 教师查询指定班级作业要求
+     * @param homeworkId
+     * @return
+     */
+    @Override
+    public HomeworkDetailVO queryHWDetailFromTea(Long homeworkId) {
+        //根据homeworkId查询作业要求 TODO mapper层里面教师端和学生端需不需要用同一个接口
+        Homework homework = homeworkMapper.queryHWDetaileByHomeworkId(homeworkId);
+
+        //封装数据
+        HomeworkDetailVO homeworkDetailVO = new HomeworkDetailVO();
+        BeanUtils.copyProperties(homework, homeworkDetailVO);
+
+        return homeworkDetailVO;
+    }
+
+
+    /**
+     * 教师查询指定班级作业所有同学完成情况
+     * @param homeworkId
+     * @return
+     */
+    @Override
+    public List<ClassHomeworkDetailVO> queryClassHWDetailFromTea(Long homeworkId) {
+        //根据homeworkId查询班级作业表中所有同学的完成情况
+        List<ClassHomework> classHomeworkList = homeworkMapper.queryClassHWDetailByHomeworkId(homeworkId);
+
+        List<ClassHomeworkDetailVO> classHomeworkDetailVOList = new ArrayList<>();
+        //封装数据
+        for (ClassHomework classHomework : classHomeworkList) {
+            ClassHomeworkDetailVO classHomeworkDetailVO = new ClassHomeworkDetailVO();
+            BeanUtils.copyProperties(classHomework, classHomeworkDetailVO);
+
+            //设置id,因为classhomework实体类中的id和VO中的属性名不一样
+            classHomeworkDetailVO.setClassHomeworkId(classHomework.getId());
+            classHomeworkDetailVOList.add(classHomeworkDetailVO);
+        }
+
+        return classHomeworkDetailVOList;
+    }
+
+
+    /**
+     * 教师更新班级作业表信息（点评作业，退回作业）
+     * @param classHomeDetailDTO
+     */
+    @Override
+    public void update(ClassHomeDetailDTO classHomeDetailDTO) {
+        ClassHomework classHomework = new ClassHomework();
+
+        BeanUtils.copyProperties(classHomeDetailDTO, classHomework);
+        classHomework.setId(classHomeDetailDTO.getClassHomeworkId());  //设置id
+
+        //没有评价信息
+        if (classHomeDetailDTO.getJudgement().equals("")) {
+            classHomework.setJudgement("完成的不错，继续加油哦！");
+        }
+
+        //TODO 评级为D的作业退回去(后端逻辑怎么处理)
+        if ("D".equals(classHomeDetailDTO.getGrade())) {
+            classHomework.setCompleted(3); // 退回状态
+        }else {
+            classHomework.setCompleted(2); // 已点评状态
+        }
+
+
+
+
+        //设置评价时间信息
+        classHomework.setJudgementTime(LocalDateTime.now());
+
+        //更新数据库
+        homeworkMapper.update(classHomework);
+
+
+
+
     }
 
 

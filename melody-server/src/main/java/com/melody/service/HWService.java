@@ -1,10 +1,9 @@
 package com.melody.service;
 
+import com.melody.dto.ClassHomeDetailDTO;
 import com.melody.dto.HomeworkDTO;
 import com.melody.dto.StuClassHomeworkDTO;
-import com.melody.vo.HomeworkVO;
-import com.melody.vo.StuClassHomeworkDetailVO;
-import com.melody.vo.StuClassHomeworkVO;
+import com.melody.vo.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -43,4 +42,26 @@ public interface HWService {
      * 学生提交作业,更新homework表
      */
     void updateHomeworkFromStu(MultipartFile file,StuClassHomeworkDTO stuClassHomeworkDTO);
+
+
+    /**
+     * 教师查询指定班级作业要求
+     * @param homeworkId
+     * @return
+     */
+    HomeworkDetailVO queryHWDetailFromTea(Long homeworkId);
+
+
+    /**
+     * 教师查询指定班级作业所有同学完成情况
+     * @param homeworkId
+     * @return
+     */
+    List<ClassHomeworkDetailVO> queryClassHWDetailFromTea(Long homeworkId);
+
+    /**
+     * 教师更新班级作业表信息（点评作业，退回作业）
+     * @param classHomeDetailDTO
+     */
+    void update(ClassHomeDetailDTO classHomeDetailDTO);
 }

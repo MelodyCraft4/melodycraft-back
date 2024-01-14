@@ -28,6 +28,9 @@ public class StuClassHomeworkDetailVO {
     @ApiModelProperty("作业截止时间")
     private LocalDateTime deadline;
 
+    @ApiModelProperty("作业创建时间")
+    private LocalDateTime createTime;
+
     //查询班级作业表(class_homework)获取
     @ApiModelProperty("班级主键id")
     private Long classHomeworkId;

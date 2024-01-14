@@ -23,7 +23,6 @@ public class ClassHomework {
     @ApiModelProperty("学生主键id")
     private Long studentId;
 
-
     @ApiModelProperty("是否完成,1是，0否")
     private Integer completed;
 

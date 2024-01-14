@@ -37,4 +37,21 @@
         WHERE id = #{id}
     </update>
 
+
+    <update id="update" parameterType="com.melody.entity.ClassHomework">
+
+        UPDATE class_homework
+        <set>
+            <if test="grade != null"> grade = #{grade},</if>
+            <if test="commitTime != null"> commitTime = #{commentTime},</if>
+            <if test="completed != null"> completed = #{completed},</if>
+            <if test="grade != null"> grade = #{grade},</if>
+            <if test="videoUrl != null"> videoUrl = #{videoUrl},</if>
+            <if test="judgement != null"> judgement = #{judgement},</if>
+            <if test="judgementTime != null"> judgementTime = #{judgementTime},</if>
+
+        </set>
+        WHERE id = #{id}
+    </update>
+
 </mapper>
