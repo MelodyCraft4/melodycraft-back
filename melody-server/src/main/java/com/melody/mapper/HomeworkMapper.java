@@ -46,7 +46,7 @@ public interface HomeworkMapper {
      * @param id
      * @return
      */
-    @Select("select count(*) from class_homework where homeworkId = #{id} and completed=1")
+    @Select("select count(*) from class_homework where homeworkId = #{id} and completed in (1,2)")
     Integer queryFinishCount(Long id);
 
     /**
@@ -81,22 +81,22 @@ public interface HomeworkMapper {
     @Select("select title, content, prompt, imgUrls, videoUrls, deadLine,createTime " +
             "FROM homework where " +
             "id = #{homeworkId}")
-    StuClassHomeworkDetailVO queryAskFromStuByHomeworkId(Long homeworkId);
+    StuClassHomeworkDetailVO queryAskByHomeworkId(Long homeworkId);
 
-    /**
-     * 学生提交作业,更新homework表
-     */
-    void updateFromStu(ClassHomework classHomework);
+//    /**
+//     * 学生提交作业,更新homework表
+//     */
+//    void updateFromStu(ClassHomework classHomework);
 
 
 
-    /**
-     * 教师端：根据homeworkId查询作业详情
-     * @param homeworkId
-     * @return
-     */
-    @Select("select * from homework where id = #{homeworkId}")
-    Homework queryHWDetaileByHomeworkId(Long homeworkId);
+//    /**
+//     * 教师端：根据homeworkId查询作业详情
+//     * @param homeworkId
+//     * @return
+//     */
+//    @Select("select * from homework where id = #{homeworkId}")
+//    Homework queryHWDetaileByHomeworkId(Long homeworkId);
 
     /**
      * 教师端：根据homeworkId查询班级作业完成情况

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 阿里云相关配置
- * TODO 需要添加配置
  */
 @Component
 @ConfigurationProperties(prefix = "melody.alioss")

@@ -7,6 +7,7 @@ import com.melody.dto.HomeworkDTO;
 import com.melody.dto.StuClassHomeworkDTO;
 import com.melody.entity.ClassHomework;
 import com.melody.entity.Homework;
+import com.melody.exception.BaseException;
 import com.melody.mapper.HomeworkMapper;
 import com.melody.mapper.MusicClassMapper;
 import com.melody.result.Result;
@@ -74,6 +75,7 @@ public class HWServiceImpl implements HWService {
 
             } catch (Exception e) {
                 log.error("文件上传失败: {}", e);
+                throw new BaseException(MessageConstant.UPLOAD_FAILED);
 
             }
 
@@ -152,6 +154,7 @@ public class HWServiceImpl implements HWService {
         //先根据classId查询作业表(homework),将该班级下的所有 作业id,title,deadline,classid查询出来
         List<StuClassHomeworkVO> stuClassHomeworkVOList = homeworkMapper.queryHWBriefByClassId(classId);
         //利用上述的list,通过homeworkid继续查询剩下的字段,并组成新的
+        //TODO ：添加学生线程id，查询作业
         List<StuClassHomeworkVO> updatelist = homeworkMapper.queryFromStuByHomeworkIdList(stuClassHomeworkVOList);
         //将stuClassHomeworkVOList的数据复制补充到updatelist中
         for (StuClassHomeworkVO updateClassHomeworkVO : updatelist) {
@@ -175,7 +178,7 @@ public class HWServiceImpl implements HWService {
      */
     public StuClassHomeworkDetailVO queryDetailFromStu(Long homeworkId, Long classHomeworkId) {
         //先从homework表查询作业要求
-        StuClassHomeworkDetailVO HW1 = homeworkMapper.queryAskFromStuByHomeworkId(homeworkId);
+        StuClassHomeworkDetailVO HW1 = homeworkMapper.queryAskByHomeworkId(homeworkId);
         log.info("作业要求:{}",HW1);
         //再从class_homework表查询完成情况
         StuClassHomeworkDetailVO HW2 = homeworkMapper.queryDetailFromStuByClassHomeworkId(classHomeworkId);
@@ -210,10 +213,10 @@ public class HWServiceImpl implements HWService {
             filePath = aliOssUtil.upload(file.getBytes(), objectName);
         } catch (Exception e) {
             log.error("文件上传失败: {}", e);
+            throw new BaseException(MessageConstant.UPLOAD_FAILED);
         }
 
         //创建classhomework,插入到数据库
-        //TODO:公共字段需要添加
         ClassHomework classHomework = new ClassHomework();
         classHomework.setId(stuClassHomeworkDTO.getClassHomeworkId());
         classHomework.setVideoUrl(filePath);
@@ -221,7 +224,7 @@ public class HWServiceImpl implements HWService {
         classHomework.setCompleted(1);
         log.info("classHomework:{}",classHomework);
         //根据classhomework的cid,寻求到准确的数据库路径
-        homeworkMapper.updateFromStu(classHomework);
+        homeworkMapper.update(classHomework);
     }
 
 
@@ -232,12 +235,11 @@ public class HWServiceImpl implements HWService {
      */
     @Override
     public HomeworkDetailVO queryHWDetailFromTea(Long homeworkId) {
-        //根据homeworkId查询作业要求 TODO mapper层里面教师端和学生端需不需要用同一个接口
-        Homework homework = homeworkMapper.queryHWDetaileByHomeworkId(homeworkId);
+        StuClassHomeworkDetailVO stuClassHomeworkDetailVO = homeworkMapper.queryAskByHomeworkId(homeworkId);
 
         //封装数据
         HomeworkDetailVO homeworkDetailVO = new HomeworkDetailVO();
-        BeanUtils.copyProperties(homework, homeworkDetailVO);
+        BeanUtils.copyProperties(stuClassHomeworkDetailVO, homeworkDetailVO);
 
         return homeworkDetailVO;
     }
