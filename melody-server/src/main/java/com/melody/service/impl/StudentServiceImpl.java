@@ -11,6 +11,7 @@ import com.melody.entity.Teacher;
 import com.melody.exception.BaseException;
 import com.melody.mapper.StudentMapper;
 import com.melody.service.StudentService;
+import com.melody.vo.StudentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,6 @@ public class StudentServiceImpl implements StudentService {
         return student;
     }
 
-    //TODO:学生查询个人信息
 
     /**
      * 学生信息修改
@@ -81,6 +81,23 @@ public class StudentServiceImpl implements StudentService {
 
         log.info("修改学生:{}",student);
         studentMapper.update(student);
+    }
+
+    /**
+     * 学生查询个人信息
+     * @return
+     */
+    public StudentVO query() {
+        //获取个人id
+        Long studentId = BaseContext.getCurrentId();
+        //查询数据
+        Student student= studentMapper.queryStuById(studentId);
+        log.info("学生从数据库获取的信息:{}",student);
+        //数据复制
+        StudentVO studentVO = new StudentVO();
+        BeanUtils.copyProperties(student,studentVO);
+        log.info("学生复制后数据:{}",studentVO);
+        return studentVO;
     }
 
 

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 微信小程序配置类
- * TODO 需要添加配置
  */
 @Component
 @ConfigurationProperties(prefix = "melody.wechat")

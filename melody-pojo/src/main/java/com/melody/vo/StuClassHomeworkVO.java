@@ -15,18 +15,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StuClassHomeworkVO {
-    @ApiModelProperty("班级作业主键id")
-    private Long id;
-    @ApiModelProperty("班级主键")
-    private Long classId;
+
     @ApiModelProperty("作业id")
     private Long homeworkId;
     @ApiModelProperty("作业标题")
     private String title;
+    @ApiModelProperty("班级id")
+    private Long classId;
+    @ApiModelProperty("截止日期")
+    private LocalDateTime deadline;
+    @ApiModelProperty("班级作业主键id")
+    private Long id;
     @ApiModelProperty("是否完成(0未提交，1提交未评价，2提交老师已评价)")
     private Integer completed;
     @ApiModelProperty("作业得分等级")
     private String grade;
-    @ApiModelProperty("截止日期")
-    private LocalDateTime deadline;
+
 }

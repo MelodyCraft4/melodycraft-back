@@ -18,7 +18,6 @@ public interface StudentMapper {
     @Select("select * from student where username = #{username}")
     Student queryStuByUsername(String username);
 
-
     /**
      * 根据id查询学生
      */

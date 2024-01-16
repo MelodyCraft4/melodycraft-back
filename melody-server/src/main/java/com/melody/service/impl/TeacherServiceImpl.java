@@ -43,7 +43,6 @@ public class TeacherServiceImpl implements TeacherService {
         //验证各种情况
         //1.用户名不存在
         if (teacher==null){
-            //TODO:统一用最大的异常来处理，待完善
             throw new BaseException(MessageConstant.ACCOUNT_NOT_FOUND);
         }
 
@@ -52,13 +51,11 @@ public class TeacherServiceImpl implements TeacherService {
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         log.info("MD5加密后的结果：{}",password);
         if (!password.equals(teacher.getPassword())){
-            //TODO:统一用最大的异常来处理，待完善
             throw  new BaseException(MessageConstant.PASSWORD_ERROR);
         }
 
         //3.账号被锁定
         if (teacher.getStatus() == StatusConstant.DISABLE){
-            //TODO:统一用最大的异常来处理，待完善
             throw new BaseException(MessageConstant.ACCOUNT_LOCKED);
         }
 
@@ -77,17 +74,8 @@ public class TeacherServiceImpl implements TeacherService {
         //根据教师id到数据库查询相关信息
         Teacher teacher = teacherMapper.queryTchById(teacherId);
         //将获取到的信息转化为VO
-        TeacherVO teacherVO = TeacherVO.builder()
-                .id(teacher.getId())
-                .username(teacher.getUsername())
-                .name(teacher.getName())
-                .iconUrl(teacher.getIconUrl())
-                .phone(teacher.getPhone())
-                .sex(teacher.getSex())
-                .school(teacher.getSchool())
-                .ranking(teacher.getRanking())
-                .birthday(teacher.getBirthday())
-                .build();
+        TeacherVO teacherVO = new TeacherVO();
+        BeanUtils.copyProperties(teacher,teacherVO);
 
         return teacherVO;
     }

@@ -50,7 +50,7 @@ public interface HomeworkMapper {
     Integer queryFinishCount(Long id);
 
     /**
-     * 学生端:根据班级id查询该班级旗下所有的作业,查询内容包括 作业id,班级id,作业标题,作业截止时间(homework表)
+     * 学生端:根据班级id查询该班级旗下所有的作业概况,查询内容包括 作业id,班级id,作业标题,作业截止时间(homework表)
      * @return
      */
     @Select("select id AS homeworkId, title, deadLine, classId from homework where classId = #{classId}")
@@ -61,7 +61,8 @@ public interface HomeworkMapper {
      * 学生端:根据班级id查询该班级所有作业
      * @return
      */
-    List<StuClassHomeworkVO> queryFromStuByHomeworkIdList(List<StuClassHomeworkVO> stuClassHomeworkVOList);
+    List<StuClassHomeworkVO> queryFromStuByHomeworkIdList(@Param("stuClassHomeworkVOList") List<StuClassHomeworkVO> stuClassHomeworkVOList ,@Param("studentId") Long studentId);
+
 
     /**
      * 学生端:根据班级作业id查询具体作业详细情况(class_homework表)
@@ -79,8 +80,8 @@ public interface HomeworkMapper {
      * @return
      */
     @Select("select title, content, prompt, imgUrls, videoUrls, deadLine,createTime " +
-            "FROM homework where " +
-            "id = #{homeworkId}")
+            "FROM homework " +
+            "where id = #{homeworkId}")
     StuClassHomeworkDetailVO queryAskByHomeworkId(Long homeworkId);
 
 //    /**

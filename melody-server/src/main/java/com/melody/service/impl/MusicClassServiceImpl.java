@@ -57,12 +57,11 @@ public class MusicClassServiceImpl implements MusicClassService {
      * 教师 - 根据教师id查询班级
      * @return
      */
-    public List<MusicClass> queryByTeacherId() {
+    public List<MusicClassVO> queryByTeacherId() {
         //根据线程获取当前教师id
         Long teacherId = BaseContext.getCurrentId();
-        List<MusicClass> list = musicClassMapper.queryAttrClassByTeacherId(teacherId);
-        List<MusicClassVO> MusicList = new ArrayList<>();
-        //TODO :多表联查
+        List<MusicClassVO> list = musicClassMapper.queryAttrClassByTeacherId(teacherId);
+        log.info("班级表VO:{}",list);
         return list;
     }
 

@@ -10,6 +10,7 @@ import com.melody.service.StudentService;
 import com.melody.service.impl.StudentServiceImpl;
 import com.melody.utils.JwtUtil;
 import com.melody.vo.StudentLoginVO;
+import com.melody.vo.StudentVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -67,5 +68,11 @@ public class StudentController {
         return Result.success();
     }
 
+    @ApiOperation("学生端查询个人信息")
+    @GetMapping
+    public Result<StudentVO> query(){
+        log.info("查询学生个人信息");
+        return Result.success(studentService.query());
+    }
 
 }
