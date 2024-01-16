@@ -38,9 +38,9 @@ public class MusicClassController {
 
     @GetMapping
     @ApiOperation("教师查询班级")
-    public Result<List<MusicClass>> queryByTeacherId(){
+    public Result<List<MusicClassVO>> queryByTeacherId(){
         log.info("教师查询班级");
-        List<MusicClass> list = musicClassService.queryByTeacherId();
+        List<MusicClassVO> list = musicClassService.queryByTeacherId();
         return Result.success(list);
     }
 

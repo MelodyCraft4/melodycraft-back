@@ -4,6 +4,7 @@ import com.melody.annocation.AutoFill;
 import com.melody.entity.MusicClass;
 import com.melody.entity.StudentClass;
 import com.melody.enumeration.OperationType;
+import com.melody.vo.MusicClassVO;
 import com.melody.vo.StudentQueryVO;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.annotations.Param;
@@ -29,8 +30,11 @@ public interface MusicClassMapper {
      * @param teacherId
      * @return
      */
-    @Select("select * from music_class where teacherId = #{teacherId}")
-    List<MusicClass> queryAttrClassByTeacherId(Long teacherId);
+    @Select("SELECT mc.id,mc.classSize,mc.className,mc.instrument,t.name AS teacherName,DATEDIFF(CURDATE(), mc.createTime) AS days " +
+            "FROM music_class mc " +
+            "JOIN teacher t ON mc.teacherId = t.id " +
+            "where mc.teacherId = #{teacherId}")
+    List<MusicClassVO> queryAttrClassByTeacherId(Long teacherId);
 
     /**
      * 教师 - 查询班级下的学生(根据姓名和班级id)
@@ -68,7 +72,6 @@ public interface MusicClassMapper {
      * @param classCode
      * @return
      */
-    //TODO:查找结果可能为null,即查找不到,此时是需要添加在异常上,或者是添加默认@results注解?
     @Select("select id from music_class where classCode = #{classCode}")
     long queryClassByClassCode(String classCode);
 

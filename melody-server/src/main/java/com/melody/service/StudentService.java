@@ -3,6 +3,8 @@ package com.melody.service;
 import com.melody.dto.StudentDTO;
 import com.melody.dto.StudentLoginDTO;
 import com.melody.entity.Student;
+import com.melody.vo.StudentVO;
+
 import java.util.List;
 
 public interface StudentService {
@@ -18,4 +20,10 @@ public interface StudentService {
      * @param studentDTO
      */
     void update(StudentDTO studentDTO);
+
+    /**
+     * 学生查询个人信息
+     * @return
+     */
+    StudentVO query();
 }

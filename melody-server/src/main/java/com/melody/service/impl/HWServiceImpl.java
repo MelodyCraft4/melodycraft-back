@@ -147,15 +147,16 @@ public class HWServiceImpl implements HWService {
     }
 
     /**
-     *  学生查询指定班级所有作业
+     *  学生查询指定班级所有作业(概况)
      *  根据url上的班级id查询(班级作业表)
      */
     public List<StuClassHomeworkVO> queryFromStu(Long classId) {
         //先根据classId查询作业表(homework),将该班级下的所有 作业id,title,deadline,classid查询出来
         List<StuClassHomeworkVO> stuClassHomeworkVOList = homeworkMapper.queryHWBriefByClassId(classId);
         //利用上述的list,通过homeworkid继续查询剩下的字段,并组成新的
-        //TODO ：添加学生线程id，查询作业
-        List<StuClassHomeworkVO> updatelist = homeworkMapper.queryFromStuByHomeworkIdList(stuClassHomeworkVOList);
+        //添加学生线程id，查询作业
+        Long studentId = BaseContext.getCurrentId();
+        List<StuClassHomeworkVO> updatelist = homeworkMapper.queryFromStuByHomeworkIdList(stuClassHomeworkVOList,studentId);
         //将stuClassHomeworkVOList的数据复制补充到updatelist中
         for (StuClassHomeworkVO updateClassHomeworkVO : updatelist) {
             for (StuClassHomeworkVO stuClassHomeworkVO : stuClassHomeworkVOList) {
@@ -163,11 +164,13 @@ public class HWServiceImpl implements HWService {
                     updateClassHomeworkVO.setClassId(stuClassHomeworkVO.getClassId());//复制班级id
                     updateClassHomeworkVO.setTitle(stuClassHomeworkVO.getTitle());//title
                     updateClassHomeworkVO.setDeadline(stuClassHomeworkVO.getDeadline());//deadline
+                    stuClassHomeworkVOList.remove(stuClassHomeworkVO);//删除该元素,提升效率
                     break;
                 }
             }
         }
         log.info("查询后的班级作业集合:{}",updatelist);
+
         //返回
         return updatelist;
     }
@@ -286,7 +289,6 @@ public class HWServiceImpl implements HWService {
             classHomework.setJudgement("完成的不错，继续加油哦！");
         }
 
-        //TODO 评级为D的作业退回去(后端逻辑怎么处理)
         if ("D".equals(classHomeDetailDTO.getGrade())) {
             classHomework.setCompleted(3); // 退回状态
         }else {
@@ -294,16 +296,11 @@ public class HWServiceImpl implements HWService {
         }
 
 
-
-
         //设置评价时间信息
         classHomework.setJudgementTime(LocalDateTime.now());
 
         //更新数据库
         homeworkMapper.update(classHomework);
-
-
-
 
     }
 

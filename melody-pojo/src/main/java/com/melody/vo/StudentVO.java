@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Data
@@ -47,6 +48,7 @@ public class StudentVO {
     @ApiModelProperty("所学乐器")
     private ArrayList<String> instrumentList;
 
-
+    @ApiModelProperty("生日")
+    private LocalDate birthday;
 
 }

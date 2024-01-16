@@ -24,7 +24,7 @@ public interface HWService {
     List<HomeworkVO> query(Long classId);
 
     /**
-     *  学生查询指定班级所有作业
+     *  学生查询指定班级所有作业(概况)
      *  根据url上的班级id查询(班级作业表)
      */
     List<StuClassHomeworkVO> queryFromStu(Long classId);

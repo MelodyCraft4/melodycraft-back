@@ -25,6 +25,7 @@
         <foreach collection="stuClassHomeworkVOList" item="stuClassHomeworkVO" open="(" separator="," close=")">
             #{stuClassHomeworkVO.homeworkId}
         </foreach>
+        AND studentId = #{studentId}
     </select>
 
 <!--    <update id="updateFromStu" parameterType="com.melody.entity.ClassHomework">-->
@@ -52,5 +53,8 @@
         </set>
         WHERE id = #{id}
     </update>
+
+
+
 
 </mapper>

@@ -21,7 +21,7 @@ public interface MusicClassService {
      * 教师 - 根据id查询班级
      * @return
      */
-    List<MusicClass> queryByTeacherId();
+    List<MusicClassVO> queryByTeacherId();
 
     /**
      * 教师 - 查询班级下的学生(根据姓名和班级id)
