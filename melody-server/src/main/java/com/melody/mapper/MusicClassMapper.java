@@ -6,6 +6,7 @@ import com.melody.entity.StudentClass;
 import com.melody.enumeration.OperationType;
 import com.melody.vo.MusicClassVO;
 import com.melody.vo.StudentQueryVO;
+import com.melody.vo.TeacherQueryVO;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -125,5 +126,20 @@ public interface MusicClassMapper {
     @Select("select studentId from student_class where classId = #{classId}")
     List<Long> getStudentIdsByClassId(Long classId);
 
+    /**
+     * 管理端,查询所有班级(可根据name)
+     * @return
+     */
+    List<MusicClassVO> queryClassFromAdmin(@Param("name") String name);
 
+    /**
+     * 管理员端 查询教师概况(根据班级id)
+     * @param classId
+     * @return
+     */
+    @Select("SELECT t.id,t.name,t.iconUrl " +
+            "FROM teacher t " +
+            "JOIN music_class mc ON t.id = mc.teacherId " +
+            "WHERE mc.id = #{classId} ")
+    TeacherQueryVO queryClassTch(Long classId);
 }

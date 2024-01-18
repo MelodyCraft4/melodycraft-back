@@ -96,6 +96,7 @@ public class StudentServiceImpl implements StudentService {
         //数据复制
         StudentVO studentVO = new StudentVO();
         BeanUtils.copyProperties(student,studentVO);
+        //TODO:学生年龄需要处理
         log.info("学生复制后数据:{}",studentVO);
         return studentVO;
     }
