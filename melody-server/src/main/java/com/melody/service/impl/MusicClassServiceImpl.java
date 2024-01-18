@@ -6,14 +6,13 @@ import com.melody.dto.MusicClassDTO;
 import com.melody.entity.MusicClass;
 import com.melody.entity.Student;
 import com.melody.entity.StudentClass;
+import com.melody.entity.Teacher;
 import com.melody.exception.BaseException;
 import com.melody.mapper.MusicClassMapper;
 import com.melody.mapper.StudentMapper;
 import com.melody.mapper.TeacherMapper;
 import com.melody.service.MusicClassService;
-import com.melody.vo.MusicClassVO;
-import com.melody.vo.StudentQueryVO;
-import com.melody.vo.StudentVO;
+import com.melody.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,8 +113,6 @@ public class MusicClassServiceImpl implements MusicClassService {
         studentVO.setInstrumentList(instrumentList);
         studentVO.setClassNameList(classNameList);
 
-
-
         return studentVO;
     }
 
@@ -208,6 +205,43 @@ public class MusicClassServiceImpl implements MusicClassService {
             musicClassVOList.add(musicClassVO);
         }
         return musicClassVOList;
+    }
+
+    /**
+     * 管理端: 查询所有班级(可根据name具体查询)
+     * @param name 非必须
+     * @return
+     */
+    public List<MusicClassVO> queryClassFromAdmin(String name) {
+        if(name == null){
+            name = "";
+        }
+        List<MusicClassVO> list = musicClassMapper.queryClassFromAdmin(name);
+        log.info("查询的班级:{}",list);
+        return list;
+    }
+
+    /**
+     * 管理员端 查询教师概况(根据班级id)
+     * @return
+     */
+    public TeacherQueryVO queryClassTch(Long classId) {
+        TeacherQueryVO teacherQueryVO = musicClassMapper.queryClassTch(classId);
+        return teacherQueryVO;
+    }
+
+    /**
+     * 管理员端 查询教师概况(根据其id)
+     * @param teacherId 传入教师id
+     * @return
+     */
+    public TeacherVO queryClassTchDetail(Long teacherId) {
+        //调用teacherMapper层接口,查询教师信息
+        Teacher teacher = teacherMapper.queryTchById(teacherId);
+        //创建teachervo,并进行属性拷贝
+        TeacherVO teacherVO = new TeacherVO();
+        BeanUtils.copyProperties(teacher,teacherVO);
+        return teacherVO;
     }
 
 
