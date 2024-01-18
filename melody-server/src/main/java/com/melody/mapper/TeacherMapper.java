@@ -1,9 +1,12 @@
 package com.melody.mapper;
 
 import com.melody.entity.Teacher;
+import com.melody.vo.TeacherQueryVO;
 import com.melody.vo.TeacherVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface TeacherMapper {
@@ -36,4 +39,12 @@ public interface TeacherMapper {
      * 教师更新/完善个人信息
      */
     void update(Teacher teacher);
+
+    /**
+     * 管理端: 查询所有教师(可根据name具体查询)
+     * @param name
+     * @return
+     */
+    @Select("select id,name,iconurl from teacher where name like concat('%',#{name},'%') and type = 2 and status=1")
+    List<TeacherQueryVO> queryTeacherByName(String name);
 }

@@ -9,6 +9,7 @@ import com.melody.entity.Teacher;
 import com.melody.exception.BaseException;
 import com.melody.mapper.TeacherMapper;
 import com.melody.service.TeacherService;
+import com.melody.vo.TeacherQueryVO;
 import com.melody.vo.TeacherVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -95,5 +97,19 @@ public class TeacherServiceImpl implements TeacherService {
         //更新
         log.info("teacher:{}",teacher);
         teacherMapper.update(teacher);
+    }
+
+    /**
+     * 管理端: 查询所有教师(可根据name具体查询)
+     * @param name
+     * @return
+     */
+    @Override
+    public List<TeacherQueryVO> queryTeacherByName(String name) {
+        if (name == null){
+            name = "";
+        }
+        List<TeacherQueryVO> list = teacherMapper.queryTeacherByName(name);
+        return list;
     }
 }

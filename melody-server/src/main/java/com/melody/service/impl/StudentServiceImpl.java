@@ -11,6 +11,7 @@ import com.melody.entity.Teacher;
 import com.melody.exception.BaseException;
 import com.melody.mapper.StudentMapper;
 import com.melody.service.StudentService;
+import com.melody.vo.StudentQueryVO;
 import com.melody.vo.StudentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -99,6 +100,23 @@ public class StudentServiceImpl implements StudentService {
         //TODO:学生年龄需要处理
         log.info("学生复制后数据:{}",studentVO);
         return studentVO;
+    }
+
+    /**
+     * 管理端: 查询所有学生(可根据name具体查询)
+     * @param name
+     * @return
+     */
+    @Override
+    public List<StudentQueryVO> queryStudentByName(String name) {
+        if (name==null){  //前端没有传入姓名数据
+            name="";
+        }
+
+        //根据姓名查询学生信息
+        List<StudentQueryVO> list = studentMapper.queryStudentByName(name);
+
+        return list;
     }
 
 

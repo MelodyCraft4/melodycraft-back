@@ -2,6 +2,7 @@ package com.melody.service;
 
 import com.melody.vo.EntityVO;
 import com.melody.vo.StudentRegVO;
+import com.melody.vo.TeacherQueryVO;
 import com.melody.vo.TeacherRegVO;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface AdminService {
      * @return
      */
     List<StudentRegVO> addStudent(Integer number);
+
+
 }

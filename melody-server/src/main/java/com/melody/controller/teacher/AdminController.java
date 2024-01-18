@@ -3,6 +3,8 @@ package com.melody.controller.teacher;
 
 import com.melody.result.Result;
 import com.melody.service.AdminService;
+import com.melody.service.StudentService;
+import com.melody.service.TeacherService;
 import com.melody.vo.EntityVO;
 import com.melody.vo.StudentRegVO;
 import com.melody.vo.TeacherRegVO;
@@ -29,6 +31,15 @@ public class AdminController {
 
     @Autowired
     AdminService adminService;
+
+    @Autowired
+    MusicClassService musicClassService;
+
+    @Autowired
+    TeacherService teacherService;
+
+    @Autowired
+    StudentService studentService;
 
     @GetMapping("/query")
     @ApiOperation("管理员端查询展示在首页的数据")
@@ -99,4 +110,23 @@ public class AdminController {
         TeacherVO teacherVO = musicClassService.queryClassTchDetail(teacherId);
         return Result.success(teacherVO);
     }
+
+
+    @ApiOperation("查询所有教师(可根据name具体查询)")
+    @GetMapping("/queryTeacher")
+    public Result<List<TeacherQueryVO>> queryTeacher(@RequestParam(required = false) String name){
+        log.info("查询教师");
+        List<TeacherQueryVO> list = teacherService.queryTeacherByName(name);
+        return Result.success(list);
+    }
+
+    @ApiOperation("查询所有学生(可根据name具体查询)")
+    @GetMapping("/queryStudent")
+    public Result<List<StudentQueryVO>> queryStudent(@RequestParam(required = false) String name){
+        log.info("查询学生");
+        List<StudentQueryVO> list = studentService.queryStudentByName(name);
+        return Result.success(list);
+    }
+
+
 }
