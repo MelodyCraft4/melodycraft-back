@@ -3,9 +3,7 @@ package com.melody.service;
 
 import com.melody.dto.MusicClassDTO;
 import com.melody.entity.MusicClass;
-import com.melody.vo.MusicClassVO;
-import com.melody.vo.StudentQueryVO;
-import com.melody.vo.StudentVO;
+import com.melody.vo.*;
 
 import java.util.List;
 
@@ -50,4 +48,25 @@ public interface MusicClassService {
      * @return
      */
     List<MusicClassVO> queryByStudentId();
+
+    /**
+     * 管理端: 查询所有班级(可根据name具体查询)
+     * @param name 非必须
+     * @return
+     */
+    List<MusicClassVO> queryClassFromAdmin(String name);
+
+    /**
+     * 管理员端 查询教师概况(根据班级id)
+     * @return
+     */
+    TeacherQueryVO queryClassTch(Long classId);
+
+    /**
+     * 管理员端 查询教师概况(根据其id)
+     * @param teacherId
+     * @return
+     */
+    TeacherVO queryClassTchDetail(Long teacherId);
+
 }

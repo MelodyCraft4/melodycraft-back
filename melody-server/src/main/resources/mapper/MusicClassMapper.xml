@@ -8,7 +8,6 @@
         select s.id id,s.name name,s.iconUrl iconUrl from student s join
         (select * from student_class where classId = #{classId}) as c on s.id = c.studentId
                where s.name like concat('%',#{name},'%')
-
     </select>
 
     <select id="queryByClassIdList" parameterType="long" resultType="com.melody.entity.MusicClass">
@@ -34,4 +33,10 @@
         WHERE id = #{id}
     </update>
 
+    <select id="queryClassFromAdmin" resultType="com.melody.vo.MusicClassVO">
+        SELECT mc.id,mc.classSize,mc.className,mc.instrument,t.name AS teacherName,DATEDIFF(CURDATE(), mc.createTime) AS days
+        FROM music_class mc
+        JOIN teacher t ON mc.teacherId = t.id
+        WHERE mc.className LIKE concat('%',#{name},'%')
+    </select>
 </mapper>
