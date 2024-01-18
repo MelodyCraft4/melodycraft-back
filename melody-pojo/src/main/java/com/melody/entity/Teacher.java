@@ -37,7 +37,7 @@ public class Teacher implements Serializable {
     @ApiModelProperty("教师性别，1是男，2是女")
     private Integer sex;
 
-    @ApiModelProperty("类型,0是教师，1是管理员")
+    @ApiModelProperty("类型,1是管理员，2是教师")
     int type;
 
     @ApiModelProperty("账号状态,1启用,2禁用")

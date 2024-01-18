@@ -13,4 +13,13 @@
             (#{teacher.username}, #{teacher.password}, #{teacher.iconUrl}, #{teacher.createTime}, #{teacher.updateTime}, #{teacher.updateUser}, #{teacher.createUser})
         </foreach>
     </insert>
+
+    <!--    批量插入多条数据-->
+    <insert id="addStudent">
+        INSERT INTO student (username, password, iconUrl, createTime, updateTime, updateUser, createUser)
+        VALUES
+        <foreach collection="studentList" item="student" separator=",">
+            (#{student.username}, #{student.password}, #{student.iconUrl}, #{student.createTime}, #{student.updateTime}, #{student.updateUser}, #{student.createUser})
+        </foreach>
+    </insert>
 </mapper>

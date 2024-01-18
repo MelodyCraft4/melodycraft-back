@@ -1,6 +1,7 @@
 package com.melody.mapper;
 
 import com.melody.annocation.AutoFill;
+import com.melody.entity.Student;
 import com.melody.entity.Teacher;
 import com.melody.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
@@ -23,4 +24,6 @@ public interface AdminMapper {
 
 
     int addTeacher(@Param("teacherList") List<Teacher> teacherList);
+
+    int addStudent(List<Student> studentList);
 }

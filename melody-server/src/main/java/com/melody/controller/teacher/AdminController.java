@@ -4,6 +4,7 @@ package com.melody.controller.teacher;
 import com.melody.result.Result;
 import com.melody.service.AdminService;
 import com.melody.vo.EntityVO;
+import com.melody.vo.StudentRegVO;
 import com.melody.vo.TeacherRegVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,6 +43,15 @@ public class AdminController {
         log.info("管理员添加教师");
         List<TeacherRegVO> teacherRegVOList= adminService.addTeacher(number);
         return Result.success(teacherRegVOList);
+    }
+
+
+    @GetMapping("addStudent")
+    @ApiOperation("管理员添加学生")
+    public Result<List<StudentRegVO>> addStudent(@RequestParam Integer number){
+        log.info("管理员添加学生");
+        List<StudentRegVO> studentRegVOList= adminService.addStudent(number);
+        return Result.success(studentRegVOList);
     }
 
 
