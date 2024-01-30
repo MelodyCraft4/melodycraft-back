@@ -1,16 +1,22 @@
 package com.melody.service.impl;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.melody.constant.MessageConstant;
 import com.melody.constant.StatusConstant;
 import com.melody.context.BaseContext;
 import com.melody.dto.StudentDTO;
 import com.melody.dto.StudentLoginDTO;
+import com.melody.dto.StudentWxLoginDTO;
 import com.melody.entity.Student;
 import com.melody.entity.Teacher;
 import com.melody.exception.BaseException;
 import com.melody.mapper.StudentMapper;
+import com.melody.properties.WeChatProperties;
 import com.melody.service.StudentService;
+import com.melody.utils.HttpClientUtil;
+import com.melody.vo.StudentQueryVO;
 import com.melody.vo.StudentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -19,14 +25,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
 public class StudentServiceImpl implements StudentService {
 
+    //微信服务接口地址
+    public static final String WX_LOGIN = "https://api.weixin.qq.com/sns/jscode2session";
+
     @Autowired
     StudentMapper studentMapper;
+
+    @Autowired
+    WeChatProperties weChatProperties;  //微信配置属性类
 
     /**
      * 学生登录
@@ -72,6 +86,9 @@ public class StudentServiceImpl implements StudentService {
     public void update(StudentDTO studentDTO) {
         Student student = new Student();
         BeanUtils.copyProperties(studentDTO,student);
+        student.setSex(studentDTO.getSex().equals("男")?1:2);
+
+        student.setId(BaseContext.getCurrentId());
 
         student.setUpdateTime(LocalDateTime.now());
         student.setUpdateUser(BaseContext.getCurrentId());
@@ -96,9 +113,73 @@ public class StudentServiceImpl implements StudentService {
         //数据复制
         StudentVO studentVO = new StudentVO();
         BeanUtils.copyProperties(student,studentVO);
+        studentVO.setSex(student.getSex()==1?"男":"女");
         //TODO:学生年龄需要处理
         log.info("学生复制后数据:{}",studentVO);
         return studentVO;
+    }
+
+    /**
+     * 管理端: 查询所有学生(可根据name具体查询)
+     * @param name
+     * @return
+     */
+    @Override
+    public List<StudentQueryVO> queryStudentByName(String name) {
+        if (name==null){  //前端没有传入姓名数据
+            name="";
+        }
+
+        //根据姓名查询学生信息
+        List<StudentQueryVO> list = studentMapper.queryStudentByName(name);
+
+        return list;
+    }
+
+    /**
+     * 学生端：微信授权登录
+     * @param studentWxLoginDTO
+     * @return
+     */
+    @Override
+    public Student wxLogin(StudentWxLoginDTO studentWxLoginDTO) {
+        //调用微信接口程序，获得当前微信用户的openid
+        String openid = getOpenid(studentWxLoginDTO.getCode());
+        if (openid==null){
+            throw new BaseException(MessageConstant.LOGIN_FAILED);
+        }
+
+        Student student = new Student();
+        student.setOpenid(openid);
+        student.setId(BaseContext.getCurrentId());
+        //更新openid到数据库
+         studentMapper.update(student);
+
+
+
+        //返回用户对象
+        return student;
+    }
+
+
+    /**
+     * 调用微信接口服务
+     * @param code
+     * @return
+     */
+    private String getOpenid(String code){
+        //调用微信接口程序，获得当前微信用户的openid
+        Map map = new HashMap<>();
+        map.put("appid",weChatProperties.getAppid());
+        map.put("secret",weChatProperties.getSecret());
+        map.put("js_code",code);   //微信授权码
+        map.put("grant_type","authorization_code");
+        String json = HttpClientUtil.doGet(WX_LOGIN, map);//发送请求，获取
+        JSONObject jsonObject = JSON.parseObject(json);//把json字符串转化为json对象
+
+        //判断openid是否为空，为空表示登录失败，抛出业务异常
+        String openid = jsonObject.getString("openid");   //获取微信接口返回的openid
+        return openid;
     }
 
 

@@ -1,6 +1,7 @@
 package com.melody.mapper;
 
 import com.melody.entity.Student;
+import com.melody.vo.StudentQueryVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -29,4 +30,12 @@ public interface StudentMapper {
      * @param student
      */
     void update(Student student);
+
+    /**
+     * 管理端: 查询所有学生(可根据name具体查询)
+     * @param name
+     * @return
+     */
+    @Select("select id,name,iconurl from student where name like concat('%',#{name},'%') and status = 1")
+    List<StudentQueryVO> queryStudentByName(String name);
 }

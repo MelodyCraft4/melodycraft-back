@@ -39,6 +39,9 @@ public class Student implements Serializable {
     private LocalDate birthday;
     @ApiModelProperty("账号状态,1启用,2禁用")
     private Integer status;
+
+    @ApiModelProperty("微信openid")
+    private String openid;
     //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty("创建时间")
     private LocalDateTime createTime;

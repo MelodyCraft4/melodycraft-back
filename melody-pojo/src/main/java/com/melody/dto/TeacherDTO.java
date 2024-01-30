@@ -33,8 +33,8 @@ public class TeacherDTO {
     @ApiModelProperty("教师电话")
     private String phone;
 
-    @ApiModelProperty("教师性别，1是男，2是女")
-    private Integer sex;
+    @ApiModelProperty("教师性别")
+    private String sex;
 
     @ApiModelProperty("教师所在学校")
     private String school;

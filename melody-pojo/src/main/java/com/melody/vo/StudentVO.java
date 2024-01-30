@@ -28,7 +28,7 @@ public class StudentVO {
     private String iconUrl;
 
     @ApiModelProperty("学生性别")
-    private Integer sex;
+    private String sex;
 
     @ApiModelProperty("学生电话号码")
     private String phone;

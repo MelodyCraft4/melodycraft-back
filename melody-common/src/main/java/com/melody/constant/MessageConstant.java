@@ -16,5 +16,8 @@ public class MessageConstant {
 
     public static final String CLASSCODE_NOT_FOUND = "班级验证码不存在";
     public static final String ALREADY_ENTER = "已加入该班级，请勿重复";
+    public static final String ACCOUNT_NUM_FALSE = "非法的账号数量";
+    public static final String INSERT_ERROR = "插入数据错误";
 
+    public static final String ACCOUNT_TYPE_ERROR = "账号类型错误";
 }

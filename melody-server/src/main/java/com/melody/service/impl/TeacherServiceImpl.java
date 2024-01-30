@@ -9,6 +9,7 @@ import com.melody.entity.Teacher;
 import com.melody.exception.BaseException;
 import com.melody.mapper.TeacherMapper;
 import com.melody.service.TeacherService;
+import com.melody.vo.TeacherQueryVO;
 import com.melody.vo.TeacherVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -76,6 +78,8 @@ public class TeacherServiceImpl implements TeacherService {
         //将获取到的信息转化为VO
         TeacherVO teacherVO = new TeacherVO();
         BeanUtils.copyProperties(teacher,teacherVO);
+        //后端存储的是数字，前端需要的是字符串，这里转换一下
+        teacherVO.setSex(teacher.getSex()==1?"男":"女");
 
         return teacherVO;
     }
@@ -87,6 +91,8 @@ public class TeacherServiceImpl implements TeacherService {
         //创建teacher,并赋值
         Teacher teacher = new Teacher();
         BeanUtils.copyProperties(teacherDTO,teacher);
+        teacher.setSex(teacherDTO.getSex().equals("男")?1:2);
+        teacher.setId(BaseContext.getCurrentId());
         //TODO:username字段的修改需要先查询判断重复;密码的更改,需要加密处理;电话的修改需要判断是否符合规则;status和type也需要更新(默认为0)
 
         //填充公共字段
@@ -95,5 +101,19 @@ public class TeacherServiceImpl implements TeacherService {
         //更新
         log.info("teacher:{}",teacher);
         teacherMapper.update(teacher);
+    }
+
+    /**
+     * 管理端: 查询所有教师(可根据name具体查询)
+     * @param name
+     * @return
+     */
+    @Override
+    public List<TeacherQueryVO> queryTeacherByName(String name) {
+        if (name == null){
+            name = "";
+        }
+        List<TeacherQueryVO> list = teacherMapper.queryTeacherByName(name);
+        return list;
     }
 }
