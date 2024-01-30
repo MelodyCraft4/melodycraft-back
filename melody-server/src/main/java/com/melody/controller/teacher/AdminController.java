@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -126,6 +127,13 @@ public class AdminController {
         log.info("查询学生");
         List<StudentQueryVO> list = studentService.queryStudentByName(name);
         return Result.success(list);
+    }
+
+    @ApiOperation("管理员导出创建的账号")
+    @GetMapping("/export")
+    public void export(@RequestParam("type") Integer type,@RequestParam(value = "number",required = false) Integer number, HttpServletResponse response){
+        log.info("管理员导出创建的账号");
+        adminService.exportAccoutData(type,number,response);
     }
 
 

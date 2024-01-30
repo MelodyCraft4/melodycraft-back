@@ -78,6 +78,8 @@ public class TeacherServiceImpl implements TeacherService {
         //将获取到的信息转化为VO
         TeacherVO teacherVO = new TeacherVO();
         BeanUtils.copyProperties(teacher,teacherVO);
+        //后端存储的是数字，前端需要的是字符串，这里转换一下
+        teacherVO.setSex(teacher.getSex()==1?"男":"女");
 
         return teacherVO;
     }
@@ -89,6 +91,8 @@ public class TeacherServiceImpl implements TeacherService {
         //创建teacher,并赋值
         Teacher teacher = new Teacher();
         BeanUtils.copyProperties(teacherDTO,teacher);
+        teacher.setSex(teacherDTO.getSex().equals("男")?1:2);
+        teacher.setId(BaseContext.getCurrentId());
         //TODO:username字段的修改需要先查询判断重复;密码的更改,需要加密处理;电话的修改需要判断是否符合规则;status和type也需要更新(默认为0)
 
         //填充公共字段

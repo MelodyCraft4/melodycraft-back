@@ -2,6 +2,7 @@ package com.melody.service;
 
 import com.melody.dto.StudentDTO;
 import com.melody.dto.StudentLoginDTO;
+import com.melody.dto.StudentWxLoginDTO;
 import com.melody.entity.Student;
 import com.melody.vo.StudentQueryVO;
 import com.melody.vo.StudentVO;
@@ -34,4 +35,11 @@ public interface StudentService {
      * @return
      */
     List<StudentQueryVO> queryStudentByName(String name);
+
+    /**
+     * 学生端：微信授权登录
+     * @param studentWxLoginDTO
+     * @return
+     */
+    Student wxLogin(StudentWxLoginDTO studentWxLoginDTO);
 }

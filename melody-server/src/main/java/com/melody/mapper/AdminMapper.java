@@ -26,4 +26,10 @@ public interface AdminMapper {
     int addTeacher(@Param("teacherList") List<Teacher> teacherList);
 
     int addStudent(List<Student> studentList);
+
+    @Select("select * from teacher order by createtime desc limit #{number}")
+    List<Teacher> queryTeacherByNum(Integer number);
+
+    @Select("select * from student order by createtime desc limit #{number}")
+    List<Student> queryStudentByNum(Integer number);
 }

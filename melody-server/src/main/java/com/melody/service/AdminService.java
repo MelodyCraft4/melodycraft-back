@@ -5,6 +5,7 @@ import com.melody.vo.StudentRegVO;
 import com.melody.vo.TeacherQueryVO;
 import com.melody.vo.TeacherRegVO;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface AdminService {
@@ -25,4 +26,5 @@ public interface AdminService {
     List<StudentRegVO> addStudent(Integer number);
 
 
+    void exportAccoutData(Integer type,Integer number,HttpServletResponse response);
 }
