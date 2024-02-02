@@ -7,9 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,7 +30,7 @@ public class MusicClassController {
     }
 
     @ApiOperation("学生查询班级")
-    @PostMapping("/query")
+    @GetMapping("/query")
     public Result<List<MusicClassVO>> query(){
         log.info("学生查询班级");
         List<MusicClassVO> list = musicClassService.queryByStudentId();

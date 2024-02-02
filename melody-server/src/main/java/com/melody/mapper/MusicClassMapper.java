@@ -74,7 +74,7 @@ public interface MusicClassMapper {
      * @return
      */
     @Select("select id from music_class where classCode = #{classCode}")
-    long queryClassByClassCode(String classCode);
+    Long queryClassByClassCode(String classCode);
 
     /**
      * 学生 - 查询学生班级表
