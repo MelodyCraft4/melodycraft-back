@@ -20,6 +20,6 @@ public class WeChatProperties {
     private String apiV3Key; //证书解密的密钥
     private String weChatPayCertFilePath; //平台证书
     private String notifyUrl; //支付成功的回调地址
-    private String refundNotifyUrl; //退款成功的回调地址
+    //private String refundNotifyUrl; //退款成功的回调地址
 
 }

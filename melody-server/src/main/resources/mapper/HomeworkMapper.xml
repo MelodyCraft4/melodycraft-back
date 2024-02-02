@@ -10,6 +10,7 @@
   insert into homework (title, content,prompt,imgUrls,videoUrls,deadLine,classId,createTime,updateTime,updateUser,createUser)
     values(#{title},#{content},#{prompt},#{imgUrls},#{videoUrls},#{deadLine},#{classId},#{createTime},#{updateTime},#{updateUser},#{createUser})
     </insert>
+
     <insert id="insertClassHomework">
             INSERT INTO class_homework (studentId, homeworkId)
             VALUES
