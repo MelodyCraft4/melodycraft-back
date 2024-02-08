@@ -112,4 +112,6 @@ public interface HomeworkMapper {
      * @param classHomework
      */
     void update(ClassHomework classHomework);
+
+    int giveClassHomework(@Param("homeworkList") List<Homework> homeworkList, @Param("studentId") Long studentId);
 }

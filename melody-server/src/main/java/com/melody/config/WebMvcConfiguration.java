@@ -1,5 +1,6 @@
 package com.melody.config;
 
+import com.melody.interceptor.JwtTokenAdminInterceptor;
 import com.melody.interceptor.JwtTokenStudentInterceptor;
 import com.melody.interceptor.JwtTokenTeacherInterceptor;
 import com.melody.json.JacksonObjectMapper;
@@ -34,6 +35,9 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Autowired
     private JwtTokenStudentInterceptor jwtTokenStudentInterceptor;
 
+    @Autowired
+    private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
+
     /**
      * 注册自定义拦截器
      *
@@ -44,16 +48,20 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         log.info("开始注册自定义拦截器...");
         registry.addInterceptor(jwtTokenTeacherInterceptor)
                 .addPathPatterns("/teacher/**")
-                .addPathPatterns("/admin/**")
                 .excludePathPatterns("/teacher/teacher/login");
 
         registry.addInterceptor(jwtTokenStudentInterceptor)
                 .addPathPatterns("/student/**")
                 .excludePathPatterns("/student/student/login");
+
+        registry.addInterceptor(jwtTokenAdminInterceptor)
+                .addPathPatterns("/admin/**")
+                .excludePathPatterns("/admin/admin/login");
     }
 
     /**
      * 通过knife4j生成接口文档
+     *
      * @return
      */
     @Bean
@@ -77,12 +85,14 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     /**
      * 设置静态资源映射
+     *
      * @param registry
      */
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         log.info("开始设置静态资源映射");
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 
     }
 
@@ -93,7 +103,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         //为消息转换器设置一个对象转换器，可以将java对象转换成json数据
         converter.setObjectMapper(new JacksonObjectMapper());
-        converters.add(0,converter);
+        converters.add(0, converter);
     }
 
 }

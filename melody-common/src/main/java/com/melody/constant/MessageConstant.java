@@ -20,4 +20,5 @@ public class MessageConstant {
     public static final String INSERT_ERROR = "插入数据错误";
 
     public static final String ACCOUNT_TYPE_ERROR = "账号类型错误";
+    public static final String NO_CLASS = "未加入班级";
 }

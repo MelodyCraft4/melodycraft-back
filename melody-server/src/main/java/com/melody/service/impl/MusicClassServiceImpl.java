@@ -3,11 +3,9 @@ package com.melody.service.impl;
 import com.melody.constant.MessageConstant;
 import com.melody.context.BaseContext;
 import com.melody.dto.MusicClassDTO;
-import com.melody.entity.MusicClass;
-import com.melody.entity.Student;
-import com.melody.entity.StudentClass;
-import com.melody.entity.Teacher;
+import com.melody.entity.*;
 import com.melody.exception.BaseException;
+import com.melody.mapper.HomeworkMapper;
 import com.melody.mapper.MusicClassMapper;
 import com.melody.mapper.StudentMapper;
 import com.melody.mapper.TeacherMapper;
@@ -37,6 +35,9 @@ public class MusicClassServiceImpl implements MusicClassService {
     @Autowired
     private TeacherMapper teacherMapper;
 
+    @Autowired
+    private HomeworkMapper homeworkMapper;
+
     /**
      * 教师 - 新增班级
      * @param musicClassDTO
@@ -46,7 +47,7 @@ public class MusicClassServiceImpl implements MusicClassService {
         MusicClass musicClass = new MusicClass();
         BeanUtils.copyProperties(musicClassDTO,musicClass);
         musicClass.setClassCode(inviteCode);
-
+        musicClass.setTeacherId(BaseContext.getCurrentId());
         musicClass.setClassSize(0);
         //数据库添加数据
         musicClassMapper.saveMusicClass(musicClass);
@@ -92,6 +93,8 @@ public class MusicClassServiceImpl implements MusicClassService {
 
         //2.属性拷贝
         BeanUtils.copyProperties(student,studentVO);
+        //性别转换
+        studentVO.setSex(student.getSex()==1?"男":"女");
 
         //把年龄算出来也插入到studentVO中
         LocalDate birthday = student.getBirthday();
@@ -172,6 +175,11 @@ public class MusicClassServiceImpl implements MusicClassService {
                 .build();
         musicClassMapper.update(musicClass);
 
+        //8.将班级内作业赋予该学生
+        //8.1查询班级内所有作业
+        List<Homework> homeworkList = homeworkMapper.query(classId);
+        homeworkMapper.giveClassHomework(homeworkList,studentId);
+
 
     }
 
@@ -184,6 +192,10 @@ public class MusicClassServiceImpl implements MusicClassService {
         Long studentId = BaseContext.getCurrentId();
         //2.利用学生id到 student_class 中查询班级id
         List<Long> classIdList = musicClassMapper.queryAttrClassByStudentId(studentId);
+        //如果学生没有加入班级,返回空
+        if (classIdList.size() == 0){
+            return new ArrayList<>();
+        }
         //3.利用班级list到 music_class 中查询所有班级
         List<MusicClass> musicClassList = musicClassMapper.queryByClassIdList(classIdList);
         //4.将MusicClass转化为MusicClassVO
@@ -241,6 +253,8 @@ public class MusicClassServiceImpl implements MusicClassService {
         //创建teachervo,并进行属性拷贝
         TeacherVO teacherVO = new TeacherVO();
         BeanUtils.copyProperties(teacher,teacherVO);
+        //性别转换
+        teacherVO.setSex(teacher.getSex()==1?"男":"女");
         return teacherVO;
     }
 

@@ -153,6 +153,12 @@ public class HWServiceImpl implements HWService {
     public List<StuClassHomeworkVO> queryFromStu(Long classId) {
         //先根据classId查询作业表(homework),将该班级下的所有 作业id,title,deadline,classid查询出来
         List<StuClassHomeworkVO> stuClassHomeworkVOList = homeworkMapper.queryHWBriefByClassId(classId);
+
+        //如果班级没有作业,返回空
+        if (stuClassHomeworkVOList.size() == 0){
+            return new ArrayList<>();
+        }
+
         //利用上述的list,通过homeworkid继续查询剩下的字段,并组成新的
         //添加学生线程id，查询作业
         Long studentId = BaseContext.getCurrentId();
