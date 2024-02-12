@@ -161,6 +161,15 @@ public class StudentServiceImpl implements StudentService {
         return student;
     }
 
+    /**
+     * 根据学生id获取学生openid
+     * @return
+     */
+    public String getOpenIdByStudentId(Long id) {
+
+        return null;
+    }
+
 
     /**
      * 调用微信接口服务

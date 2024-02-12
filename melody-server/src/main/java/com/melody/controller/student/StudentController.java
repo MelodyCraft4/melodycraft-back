@@ -6,6 +6,7 @@ import com.melody.dto.StudentLoginDTO;
 import com.melody.dto.StudentWxLoginDTO;
 import com.melody.entity.Student;
 import com.melody.properties.JwtProperties;
+import com.melody.properties.WeChatProperties;
 import com.melody.result.Result;
 import com.melody.service.StudentService;
 import com.melody.service.impl.StudentServiceImpl;

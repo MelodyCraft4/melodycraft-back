@@ -22,4 +22,6 @@ public class OrderSubmitDTO {
     private int payMethod;
     //实收金额
     private BigDecimal amount;
+    //班级作业ID
+    private Long classHomeworkId;
 }

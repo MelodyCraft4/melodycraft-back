@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class OrderPaymentDTO implements Serializable {
+    //订单号
+    private String orderNumber;
     //付款方式
     private int payMethod;
 
-    //总金额
-    private BigDecimal amount;
 }

@@ -1,56 +1,61 @@
 package com.melody.service.impl;
 
-import com.melody.constant.MessageConstant;
+import com.alibaba.fastjson.JSONObject;
+import com.melody.config.WechatConfiguration;
 import com.melody.context.BaseContext;
 import com.melody.dto.OrderPaymentDTO;
 import com.melody.dto.OrderSubmitDTO;
 import com.melody.entity.Orders;
-import com.melody.entity.Student;
 import com.melody.exception.BaseException;
 import com.melody.mapper.OrderMapper;
-import com.melody.mapper.StudentMapper;
+import com.melody.properties.WeChatProperties;
 import com.melody.service.OrderService;
 import com.melody.service.StudentService;
-import com.melody.vo.OrderPaymentVO;
-import com.melody.vo.OrderSubmitVO;
-import com.melody.vo.StudentVO;
+import com.melody.vo.*;
+import com.wechat.pay.java.core.exception.HttpException;
+import com.wechat.pay.java.core.exception.MalformedMessageException;
+import com.wechat.pay.java.core.exception.ServiceException;
+import com.wechat.pay.java.service.payments.jsapi.model.PrepayResponse;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Slf4j
 @Service
+@Slf4j
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private StudentService studentService;
+    StudentService studentService;
 
     @Autowired
-    private OrderMapper orderMapper;
+    WechatConfiguration wechatConfiguration;
 
     @Autowired
-    private StudentMapper studentMapper;
+    WeChatProperties weChatProperties;
+
+    @Autowired
+    OrderMapper orderMapper;
+
     /**
      * 学生下单
-     * @param ordersSubmitDTO 选择的下单方式以及金额
-     * @return 返回前端的订单信息(id,订单号,金额,时间)
+     * @param orderSubmitDTO
+     * @return
      */
-    public OrderSubmitVO submitOrder(OrderSubmitDTO ordersSubmitDTO) {
-//        //判断订单信息是否为空
-//        if (ordersSubmitDTO == null){
-//            throw new BaseException(MessageConstant.ORDER_IS_NULL);
-//        }
+    public OrderSubmitVO submit(OrderSubmitDTO orderSubmitDTO) {
         //获取学生ID、手机号码、用户名称
         Long studnetId = BaseContext.getCurrentId();
         StudentVO studentVO = studentService.query();
         String phone = studentVO.getPhone();
         String username = studentVO.getUsername();
-        //创建新订单
+        //生成新订单
         Orders orders = new Orders();
-        BeanUtils.copyProperties(ordersSubmitDTO,orders);
+        BeanUtils.copyProperties(orderSubmitDTO,orders);
         log.info("orders:{}",orders);
         //填充信息
         orders.setOrderNumber(String.valueOf(System.currentTimeMillis()));
@@ -58,13 +63,18 @@ public class OrderServiceImpl implements OrderService {
         orders.setGoodsName("微信点评");
         orders.setStatus(Orders.PENDING_PAYMENT);
         orders.setOrderTime(LocalDateTime.now());
-        orders.setPayMethod(Orders.UN_PAID);
+        orders.setPayMethod(Orders.WECHAT_PAY);
         orders.setPayStatus(Orders.UN_PAID);
         orders.setUsername(username);
         orders.setPhone(phone);
         log.info("填充后的数据:{}",orders);
         //并插入数据库表
         Long id = orderMapper.submitOrder(orders);
+
+        //绑定班级作业与订单,并插入班级作业订单表
+        Long classHomeworkId = orderSubmitDTO.getClassHomeworkId();
+        orderMapper.appendHomeworkOrders(classHomeworkId,id);
+
         //封装VO返回结果
         OrderSubmitVO orderSubmitVO = OrderSubmitVO.builder()
                 .id(id)
@@ -74,17 +84,88 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         return orderSubmitVO;
+
     }
 
     /**
-     * 订单支付
+     * 学生查询全部订单 - 通过学生ID(线程获取)
+     * @return
+     */
+    public List<OrderQueryVO> queryOrdersByStudentId() {
+        //获取studentId
+        Long studentId = BaseContext.getCurrentId();
+        //利用studentId到数据库中查询
+        List<OrderQueryVO> list = orderMapper.queryOrdersByStudentId(studentId);
+        return list;
+    }
+
+    /**
+     * 学生获取具体订单信息
+     * @return
+     */
+    public OrderVO queryByOrderId(Long id) {
+        OrderVO orderVO = orderMapper.queryByOrderId(id);
+        return orderVO;
+    }
+
+    /**
+     * 学生支付订单
      * @param orderPaymentDTO
      * @return
      */
-    public OrderPaymentVO payment(OrderPaymentDTO orderPaymentDTO) {
-        //根据当前学生ID获取openid
-        Long studentId = BaseContext.getCurrentId();
-        Student student = studentMapper.queryStuById(studentId);
-        return null;
+    public OrderPaymentVO payment(OrderPaymentDTO orderPaymentDTO) throws IOException {
+        //获取openid
+        Long id = BaseContext.getCurrentId();
+        String openid = studentService.getOpenIdByStudentId(id);
+
+        //将信息转化为orders,传给wechatConfiguration
+        Orders order = new Orders();
+        BeanUtils.copyProperties(orderPaymentDTO,order);
+        order.setGoodsName("微信点评");
+
+        log.info("调用统一下单API");
+        //创建返回类
+        OrderPaymentVO orderPaymentVO = new OrderPaymentVO();
+
+        try {
+            //调用统一下单API
+            PrepayResponse response = wechatConfiguration.prepay(order, openid);
+            String prepayId = response.getPrepayId();
+            if(prepayId != null){
+                JSONObject jsonObject = wechatConfiguration.pay(prepayId);
+                //TODO:订单已支付判断
+                OrderPaymentVO vo = jsonObject.toJavaObject(OrderPaymentVO.class);
+                vo.setPackageStr(jsonObject.getString("package"));
+                return vo;
+            }
+        } catch (HttpException e) { // 发送HTTP请求失败
+            // 调用e.getHttpRequest()获取请求打印日志或上报监控，更多方法见HttpException定义
+        } catch (ServiceException e) { // 服务返回状态小于200或大于等于300，例如500
+            // 调用e.getResponseBody()获取返回体打印日志或上报监控，更多方法见ServiceException定义
+        } catch (MalformedMessageException e) { // 服务返回成功，返回体类型不合法，或者解析返回体失败
+            // 调用e.getMessage()获取信息打印日志或上报监控，更多方法见MalformedMessageException定义
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            throw new BaseException("返回预支付订单标识出现错误");
+        }
+
     }
+
+    /**
+     * 支付成功后,调用函数,修改相关订单信息
+     * @param orderNumber
+     */
+    public void paySuccess(String orderNumber) {
+        Orders orders = new Orders();
+        orders.setOrderNumber(orderNumber);
+        orders.setStatus(Orders.TO_BE_EVALUATED);
+        orders.setCheckoutTime(LocalDateTime.now());
+        orders.setPayStatus(Orders.PAID);
+
+        //修改
+        orderMapper.update(orders);
+    }
+
+
 }

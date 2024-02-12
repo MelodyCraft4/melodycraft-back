@@ -9,5 +9,14 @@
         INSERT INTO orders (orderNumber, goodsName, status, studentId, orderTime, payMethod, payStatus, amount, phone, username)
         VALUES (#{orderNumber},#{goodsName},#{status},#{studentId},#{orderTime},#{payMethod},#{payStatus},#{amount},#{phone},#{username})
     </insert>
-
+    <!--根据订单号进行订单状态修改-->
+    <update id="update" parameterType="com.melody.entity.Orders">
+        update orders
+        <set>
+            <if test="status != null"> status = #{status},</if>
+            <if test="checkoutTime != null"> checkoutTime = #{checkoutTime},</if>
+            <if test="payStatus != null"> payStatus = #{payStatus},</if>
+        </set>
+        where orderNumber = #{orderNumber}
+    </update>
 </mapper>
