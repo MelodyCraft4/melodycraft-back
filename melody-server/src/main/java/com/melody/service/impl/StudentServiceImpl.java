@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -114,7 +115,9 @@ public class StudentServiceImpl implements StudentService {
         StudentVO studentVO = new StudentVO();
         BeanUtils.copyProperties(student,studentVO);
         studentVO.setSex(student.getSex()==1?"男":"女");
-        //TODO:学生年龄需要处理
+        LocalDate birthday = student.getBirthday();
+        int age = LocalDate.now().getYear() - birthday.getYear();
+        studentVO.setAge(age);
         log.info("学生复制后数据:{}",studentVO);
         return studentVO;
     }
@@ -141,7 +144,6 @@ public class StudentServiceImpl implements StudentService {
      * @param studentWxLoginDTO
      * @return
      */
-    @Override
     public Student wxLogin(StudentWxLoginDTO studentWxLoginDTO) {
         //调用微信接口程序，获得当前微信用户的openid
         String openid = getOpenid(studentWxLoginDTO.getCode());
@@ -155,10 +157,17 @@ public class StudentServiceImpl implements StudentService {
         //更新openid到数据库
          studentMapper.update(student);
 
-
-
         //返回用户对象
         return student;
+    }
+
+    /**
+     * 根据学生id获取学生openid
+     * @return
+     */
+    public String getOpenIdByStudentId(Long id) {
+
+        return null;
     }
 
 

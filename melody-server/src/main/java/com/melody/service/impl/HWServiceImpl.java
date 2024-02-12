@@ -277,7 +277,6 @@ public class HWServiceImpl implements HWService {
      * 教师更新班级作业表信息（点评作业，退回作业）
      * @param classHomeDetailDTO
      */
-    @Override
     public void update(ClassHomeDetailDTO classHomeDetailDTO) {
         ClassHomework classHomework = new ClassHomework();
 

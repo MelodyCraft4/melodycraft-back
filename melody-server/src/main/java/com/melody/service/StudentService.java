@@ -42,4 +42,10 @@ public interface StudentService {
      * @return
      */
     Student wxLogin(StudentWxLoginDTO studentWxLoginDTO);
+
+    /**
+     * 根据学生id获取学生openid
+     * @return
+     */
+    String getOpenIdByStudentId(Long id);
 }
