@@ -113,7 +113,7 @@ public class OrderServiceImpl implements OrderService {
      * @param orderPaymentDTO
      * @return
      */
-    public OrderPaymentVO payment(OrderPaymentDTO orderPaymentDTO) throws IOException {
+    public OrderPaymentVO payment(OrderPaymentDTO orderPaymentDTO){
         //获取openid
         Long id = BaseContext.getCurrentId();
         String openid = studentService.getOpenIdByStudentId(id);
@@ -140,12 +140,13 @@ public class OrderServiceImpl implements OrderService {
             }
         } catch (HttpException e) { // 发送HTTP请求失败
             // 调用e.getHttpRequest()获取请求打印日志或上报监控，更多方法见HttpException定义
+            throw new BaseException("http请求发送失败,请检查网络");
         } catch (ServiceException e) { // 服务返回状态小于200或大于等于300，例如500
             // 调用e.getResponseBody()获取返回体打印日志或上报监控，更多方法见ServiceException定义
+            throw new BaseException("服务返回失败,请检查网络");
         } catch (MalformedMessageException e) { // 服务返回成功，返回体类型不合法，或者解析返回体失败
             // 调用e.getMessage()获取信息打印日志或上报监控，更多方法见MalformedMessageException定义
-        } catch (Exception e) {
-            e.printStackTrace();
+            throw new BaseException("服务返回成功,但返回类型不合法,请联系后端人员处理");
         }finally {
             throw new BaseException("返回预支付订单标识出现错误");
         }
