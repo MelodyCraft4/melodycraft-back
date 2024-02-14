@@ -188,18 +188,26 @@ public class MusicClassServiceImpl implements MusicClassService {
      * @return
      */
     public List<MusicClassVO> queryByStudentId() {
+        log.info("利用学生id查询班级");
         //1.先根据当前线程获取学生id
         Long studentId = BaseContext.getCurrentId();
+        log.info("学生id:{}",studentId);
         //2.利用学生id到 student_class 中查询班级id
         List<Long> classIdList = musicClassMapper.queryAttrClassByStudentId(studentId);
+
         //如果学生没有加入班级,返回空
         if (classIdList.size() == 0){
             return new ArrayList<>();
         }
+
+        log.info("查询到的班级:{}",classIdList);
+
         //3.利用班级list到 music_class 中查询所有班级
         List<MusicClass> musicClassList = musicClassMapper.queryByClassIdList(classIdList);
+        log.info("查询到的班级:{}",musicClassList);
         //4.将MusicClass转化为MusicClassVO
         List<MusicClassVO> musicClassVOList = new ArrayList<>();
+        log.info(String.valueOf(musicClassVOList));
         for (MusicClass musicClass : musicClassList) {
             //4.1通过教师Id查询其姓名
             String teacherName = teacherMapper.getNameById(musicClass.getTeacherId());

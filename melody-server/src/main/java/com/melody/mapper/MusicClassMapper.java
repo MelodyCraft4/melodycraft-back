@@ -103,7 +103,7 @@ public interface MusicClassMapper {
      * 学生 - 根据班级id列表查询班级
      * @return
      */
-    List<MusicClass> queryByClassIdList(List<Long> classIdList);
+    List<MusicClass> queryByClassIdList(@Param("classIdList") List<Long> classIdList);
 
     /**
      * 班级 - 班级表的更新
