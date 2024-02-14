@@ -21,6 +21,9 @@ public class MessageConstant {
 
     public static final String ACCOUNT_TYPE_ERROR = "账号类型错误";
 
+    public static final String NO_CLASS = "未加入班级";
+
     //学生下单相关异常
     public static final String ORDER_IS_NULL = "订单为空";
+
 }

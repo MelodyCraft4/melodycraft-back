@@ -1,10 +1,15 @@
 package com.melody.controller.teacher;
 
 
+import com.melody.constant.JwtClaimConstant;
+import com.melody.dto.AdminLoginDTO;
+import com.melody.entity.Teacher;
+import com.melody.properties.JwtProperties;
 import com.melody.result.Result;
 import com.melody.service.AdminService;
 import com.melody.service.StudentService;
 import com.melody.service.TeacherService;
+import com.melody.utils.JwtUtil;
 import com.melody.vo.EntityVO;
 import com.melody.vo.StudentRegVO;
 import com.melody.vo.TeacherRegVO;
@@ -22,7 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -41,6 +48,35 @@ public class AdminController {
 
     @Autowired
     StudentService studentService;
+
+    @Autowired
+    JwtProperties jwtProperties;
+
+
+    @PostMapping("/login")
+    @ApiOperation("管理员端登录")
+    public Result<AdminLoginVO> login(@RequestBody AdminLoginDTO adminLoginDTO){
+        log.info("管理员端登录：{}",adminLoginDTO);
+        Teacher admin = adminService.login(adminLoginDTO);
+        //登录成功后，设置jwt令牌
+        Map<String,Object> claims = new HashMap<>();
+        claims.put(JwtClaimConstant.ADMIN_ID,admin.getId());  //利用的是主键生成的令牌
+        String token = JwtUtil.createJWT(jwtProperties.getAdminSecretKey(),
+                jwtProperties.getAdminTtl(),
+                claims);
+
+        //封装返回给前端的data数据
+        AdminLoginVO adminLoginVO = AdminLoginVO.builder()
+                .id(admin.getId())
+                .username(admin.getUsername())
+                .name(admin.getName())
+                .token(token)
+                .build();
+        return Result.success(adminLoginVO);
+
+
+
+    }
 
     @GetMapping("/query")
     @ApiOperation("管理员端查询展示在首页的数据")
@@ -62,7 +98,7 @@ public class AdminController {
     }
 
     @ApiOperation("管理员端查询教师概况(班级内的单个教师)")
-    @PostMapping("/queryclassTch")
+    @GetMapping("/queryclassTch")
     public Result<TeacherQueryVO> queryclassTch(Long classId){
         log.info("管理员端查询具体教师概况,根据班级主键:{}",classId);
         return Result.success(musicClassService.queryClassTch(classId));
@@ -87,7 +123,7 @@ public class AdminController {
 
 
     @ApiOperation("管理员端查询学生概况(班级内所有学生)")
-    @PostMapping("/queryclassStu")
+    @GetMapping("/queryclassStu")
     public Result<List<StudentQueryVO>> queryclassStu(Long classId){
         log.info("管理员端查询学生概况");
         //调用原teacher的方法

@@ -29,7 +29,7 @@ public class MusicClassController {
     @PostMapping
     @ApiOperation("教师创建班级")
     public Result<String> saveClasses(@RequestBody MusicClassDTO musicClassDTO){
-        log.info("新增班级");
+        log.info("新增班级:{}",musicClassDTO);
         Long id = BaseContext.getCurrentId();//获取教师id
         String inviteCode = InviteCodeUtil.genInviteCode(id);//生成班级码
         musicClassService.saveMusicClass(musicClassDTO,inviteCode);

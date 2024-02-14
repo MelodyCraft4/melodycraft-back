@@ -3,7 +3,9 @@ package com.melody.service.impl;
 import com.melody.constant.IconUrlConstant;
 import com.melody.constant.MessageConstant;
 import com.melody.constant.PasswordConstant;
+import com.melody.constant.StatusConstant;
 import com.melody.context.BaseContext;
+import com.melody.dto.AdminLoginDTO;
 import com.melody.entity.Student;
 import com.melody.entity.Teacher;
 import com.melody.exception.BaseException;
@@ -38,6 +40,44 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     TeacherMapper teacherMapper;
+
+
+    @Override
+    public Teacher login(AdminLoginDTO adminLoginDTO) {
+        //从前端传来的数据中获取教师用户名以及密码
+        String username = adminLoginDTO.getUsername();
+        String password = adminLoginDTO.getPassword();
+
+
+        //根据用户名密码查询数据库的数据
+        Teacher teacher = teacherMapper.queryTchByUsername(username);
+
+        //验证各种情况
+        //1.用户名不存在
+        if (teacher==null){
+            throw new BaseException(MessageConstant.ACCOUNT_NOT_FOUND);
+        }
+
+        //类型是教师
+        if (teacher.getType() != 1){
+            throw new BaseException(MessageConstant.ACCOUNT_TYPE_ERROR);
+        }
+
+        //2.密码错误
+        //先进行Md5加密，在进行对比
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        log.info("MD5加密后的结果：{}",password);
+        if (!password.equals(teacher.getPassword())){
+            throw  new BaseException(MessageConstant.PASSWORD_ERROR);
+        }
+
+        //3.账号被锁定
+        if (teacher.getStatus() == StatusConstant.DISABLE){
+            throw new BaseException(MessageConstant.ACCOUNT_LOCKED);
+        }
+
+        return teacher;
+    }
 
     @Override
     public EntityVO query() {
@@ -103,6 +143,7 @@ public class AdminServiceImpl implements AdminService {
                     username(username).
                     password(password).
                     iconUrl(iconUrl).
+                    type(2).
                     createTime(LocalDateTime.now()).
                     updateTime(LocalDateTime.now()).
                     createUser(BaseContext.getCurrentId()).
@@ -297,4 +338,6 @@ public class AdminServiceImpl implements AdminService {
 
 
     }
+
+
 }

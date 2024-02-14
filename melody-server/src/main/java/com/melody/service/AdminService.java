@@ -1,5 +1,7 @@
 package com.melody.service;
 
+import com.melody.dto.AdminLoginDTO;
+import com.melody.entity.Teacher;
 import com.melody.vo.EntityVO;
 import com.melody.vo.StudentRegVO;
 import com.melody.vo.TeacherQueryVO;
@@ -27,4 +29,6 @@ public interface AdminService {
 
 
     void exportAccoutData(Integer type,Integer number,HttpServletResponse response);
+
+    Teacher login(AdminLoginDTO adminLoginDTO);
 }
