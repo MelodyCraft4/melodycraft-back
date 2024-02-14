@@ -13,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.util.List;
 
 @RestController("studentOrderController")
@@ -32,10 +34,11 @@ public class OrderController {
         return Result.success(orderSubmitVO);
     }
 
-    public Result<OrderPaymentVO> payment(@RequestBody OrderPaymentDTO orderPaymentDTO){
+    //TODO:全局异常处理
+    public Result<OrderPaymentVO> payment(@RequestBody OrderPaymentDTO orderPaymentDTO) throws IOException {
         log.info("学生支付订单:{}",orderPaymentDTO);
-
-        return null;
+        OrderPaymentVO orderPaymentVO = orderService.payment(orderPaymentDTO);
+        return Result.success(orderPaymentVO);
     }
 
     @ApiOperation("学生查询全部订单")
