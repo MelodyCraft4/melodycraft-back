@@ -35,6 +35,8 @@ public class OrderController {
     }
 
     //TODO:全局异常处理
+    @PostMapping("/payment")
+    @ApiOperation("学生支付订单")
     public Result<OrderPaymentVO> payment(@RequestBody OrderPaymentDTO orderPaymentDTO) throws IOException {
         log.info("学生支付订单:{}",orderPaymentDTO);
         OrderPaymentVO orderPaymentVO = orderService.payment(orderPaymentDTO);

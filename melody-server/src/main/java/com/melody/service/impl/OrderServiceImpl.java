@@ -115,8 +115,12 @@ public class OrderServiceImpl implements OrderService {
      */
     public OrderPaymentVO payment(OrderPaymentDTO orderPaymentDTO){
         //获取openid
+        //TODO:如果openid为空的异常处理
         Long id = BaseContext.getCurrentId();
         String openid = studentService.getOpenIdByStudentId(id);
+        if(openid == null){
+            throw new BaseException("openid为空");
+        }
 
         //将信息转化为orders,传给wechatConfiguration
         Orders order = new Orders();
