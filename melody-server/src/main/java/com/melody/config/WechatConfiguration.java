@@ -19,14 +19,13 @@ import com.wechat.pay.java.core.exception.HttpException;
 import com.wechat.pay.java.core.exception.MalformedMessageException;
 import com.wechat.pay.java.core.exception.ServiceException;
 import com.wechat.pay.java.service.payments.model.Transaction;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.Signature;
-import java.security.SignatureException;
+import java.io.IOException;
+import java.security.*;
 import java.util.ArrayList;
 import java.util.Base64;
 
@@ -41,16 +40,36 @@ public class WechatConfiguration {
      * 填充基本信息,获取Config
      * @return
      */
+//    @Bean
+//    public Config getPayConfig() {
+//        Config config =
+//                new RSAAutoCertificateConfig.Builder()
+//                        .merchantId(weChatProperties.getMchid())
+//                        .privateKeyFromPath(weChatProperties.getPrivateKeyFilePath())
+//                        .merchantSerialNumber(weChatProperties.getMchSerialNo())
+//                        .apiV3Key(weChatProperties.getApiV3Key())
+//                        .build();
+//        return config;
+//    }
+
     @Bean
     public Config getPayConfig() {
-        Config config =
-                new RSAAutoCertificateConfig.Builder()
-                        .merchantId(weChatProperties.getMchid())
-                        .privateKeyFromPath(weChatProperties.getPrivateKeyFilePath())
-                        .merchantSerialNumber(weChatProperties.getMchSerialNo())
-                        .apiV3Key(weChatProperties.getApiV3Key())
-                        .build();
-        return config;
+        try {
+            // Load the private key from the classpath
+            ClassPathResource resource = new ClassPathResource("apiclient_key.pem");
+            PrivateKey merchantPrivateKey = PemUtil.loadPrivateKey(resource.getInputStream());
+
+            Config config =
+                    new RSAAutoCertificateConfig.Builder()
+                            .merchantId(weChatProperties.getMchid())
+                            .privateKey(merchantPrivateKey)
+                            .merchantSerialNumber(weChatProperties.getMchSerialNo())
+                            .apiV3Key(weChatProperties.getApiV3Key())
+                            .build();
+            return config;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load private key", e);
+        }
     }
 
     /**
