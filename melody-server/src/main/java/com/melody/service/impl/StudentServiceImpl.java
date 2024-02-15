@@ -166,8 +166,8 @@ public class StudentServiceImpl implements StudentService {
      * @return
      */
     public String getOpenIdByStudentId(Long id) {
-
-        return null;
+        String openid = studentMapper.getOpenIdByStudentId(id);
+        return openid;
     }
 
 

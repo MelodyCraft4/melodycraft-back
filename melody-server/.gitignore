@@ -17,6 +17,7 @@ target/
 *.iws
 *.iml
 *.ipr
+*.pem
 **/application-dev.yml
 *.pem
 

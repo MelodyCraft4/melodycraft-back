@@ -34,12 +34,6 @@ public interface OrderMapper {
     @Select("SELECT id,orderNumber,studentId,goodsName,status,orderTime,checkoutTime,payMethod,payStatus,amount,cancelTime FROM orders where id = #{id}")
     OrderVO queryByOrderId(Long id);
 
-    /**
-     * 根据学生id获取学生openid
-     * @return
-     */
-    @Select("SELECT openid FROM student where id = #{id}")
-    String getOpenIdByStudentId(Long id);
 
     /**
      * 在班级作业订单表添加绑定
