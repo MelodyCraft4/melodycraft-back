@@ -7,8 +7,8 @@
 
     <!-- 主键回显   -->
     <insert id="insertHomework" parameterType="com.melody.entity.Homework" useGeneratedKeys="true" keyProperty="id">
-  insert into homework (title, content,prompt,imgUrls,videoUrls,deadLine,classId,createTime,updateTime,updateUser,createUser)
-    values(#{title},#{content},#{prompt},#{imgUrls},#{videoUrls},#{deadLine},#{classId},#{createTime},#{updateTime},#{updateUser},#{createUser})
+  insert into homework (title, content,prompt,imgUrls,videoUrls,deadline,classId,createTime,updateTime,updateUser,createUser)
+    values(#{title},#{content},#{prompt},#{imgUrls},#{videoUrls},#{deadline},#{classId},#{createTime},#{updateTime},#{updateUser},#{createUser})
     </insert>
 
     <insert id="insertClassHomework">
@@ -19,6 +19,13 @@
             </foreach>
     </insert>
 
+    <insert id="giveClassHomework">
+        INSERT INTO class_homework (studentId, homeworkId)
+        VALUES
+        <foreach collection="homeworkList" item="homework" separator=",">
+            (#{studentId}, #{homework.id})
+        </foreach>
+    </insert>
 
     <select id="queryFromStuByHomeworkIdList" parameterType="com.melody.vo.StuClassHomeworkVO" resultType="com.melody.vo.StuClassHomeworkVO">
         SELECT id ,homeworkId ,completed ,grade FROM class_homework
@@ -44,7 +51,7 @@
         UPDATE class_homework
         <set>
             <if test="grade != null"> grade = #{grade},</if>
-            <if test="commitTime != null"> commitTime = #{commentTime},</if>
+            <if test="commitTime != null"> commitTime = #{commitTime},</if>
             <if test="completed != null"> completed = #{completed},</if>
             <if test="grade != null"> grade = #{grade},</if>
             <if test="videoUrl != null"> videoUrl = #{videoUrl},</if>

@@ -22,4 +22,8 @@ public class JwtProperties {
     private long studentTtl;
     private String studentTokenName;
 
+    private String adminSecretKey;
+    private long adminTtl;
+    private String adminTokenName;
+
 }

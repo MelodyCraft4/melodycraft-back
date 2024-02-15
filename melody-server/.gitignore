@@ -19,6 +19,7 @@ target/
 *.ipr
 *.pem
 **/application-dev.yml
+*.pem
 
 ### NetBeans ###
 /nbproject/private/
