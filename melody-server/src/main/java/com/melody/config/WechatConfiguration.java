@@ -2,7 +2,6 @@ package com.melody.config;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.melody.dto.OrderPaymentDTO;
 import com.melody.entity.Orders;
 import com.melody.properties.WeChatProperties;
 import com.wechat.pay.contrib.apache.httpclient.util.PemUtil;
@@ -15,18 +14,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.wechat.pay.java.core.Config;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
-import com.wechat.pay.java.core.exception.HttpException;
-import com.wechat.pay.java.core.exception.MalformedMessageException;
-import com.wechat.pay.java.core.exception.ServiceException;
-import com.wechat.pay.java.service.payments.model.Transaction;
+
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
-import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.Base64;
 

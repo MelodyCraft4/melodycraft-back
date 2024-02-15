@@ -115,9 +115,6 @@
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi}</version>
             </dependency>
-            <!--微信支付-->
-
-
 
 
         </dependencies>

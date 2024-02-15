@@ -31,6 +31,14 @@ public interface StudentMapper {
      */
     void update(Student student);
 
+
+    /**
+     * 根据学生id获取学生openid
+     * @return
+     */
+    @Select("SELECT openid FROM student where id = #{id}")
+    String getOpenIdByStudentId(Long id);
+
     /**
      * 管理端: 查询所有学生(可根据name具体查询)
      * @param name
