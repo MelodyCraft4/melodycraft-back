@@ -15,6 +15,7 @@ import com.melody.vo.*;
 import com.wechat.pay.java.core.exception.HttpException;
 import com.wechat.pay.java.core.exception.MalformedMessageException;
 import com.wechat.pay.java.core.exception.ServiceException;
+import com.wechat.pay.java.core.exception.ValidationException;
 import com.wechat.pay.java.service.payments.jsapi.model.PrepayResponse;
 import lombok.extern.slf4j.Slf4j;
 
@@ -151,8 +152,11 @@ public class OrderServiceImpl implements OrderService {
         } catch (MalformedMessageException e) { // 服务返回成功，返回体类型不合法，或者解析返回体失败
             // 调用e.getMessage()获取信息打印日志或上报监控，更多方法见MalformedMessageException定义
             throw new BaseException("服务返回成功,但返回类型不合法,请联系后端人员处理");
-        }finally {
-            throw new BaseException("返回预支付订单标识出现错误");
+        } catch (ValidationException e){
+            throw new BaseException("验证微信支付签名失败");
+        }
+        finally {
+            throw new BaseException("返回预支付订单标识出现错误,未知错误,请联系相关人员处理");
         }
 
     }
