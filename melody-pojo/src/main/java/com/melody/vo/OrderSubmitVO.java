@@ -20,7 +20,7 @@ public class OrderSubmitVO implements Serializable {
     @ApiModelProperty("订单号")
     private String orderNumber;
     @ApiModelProperty("订单金额")
-    private BigDecimal amount;
+    private Integer amount;
     @ApiModelProperty("下单时间")
     private LocalDateTime orderTime;
 }

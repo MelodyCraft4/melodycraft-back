@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper
@@ -48,4 +49,18 @@ public interface OrderMapper {
      * @param orders
      */
     void update(Orders orders);
+
+    /**
+     * 根据订单号获取支付金额
+     * @param orderNumber
+     * @return
+     */
+    @Select("SELECT amount FROM orders WHERE orderNumber = #{orderNumber}")
+    Integer getAmountByOrderNumber(String orderNumber);
+
+    /**
+     * 根据订单号获取商品名称
+     */
+    @Select("SELECT goodsName FROM orders WHERE orderNumber = #{orderNumber}")
+    String getGoodsNameByOrderNumber(String orderNumber);
 }

@@ -33,7 +33,7 @@ public class OrderVO {
     @ApiModelProperty("支付状态 0未支付 1已支付 2退款")
     private Integer payStatus;
     @ApiModelProperty("实收金额")
-    private BigDecimal amount;
+    private Integer amount;
     @ApiModelProperty("订单取消时间")
     private LocalDateTime cancelTime;
 }

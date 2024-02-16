@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -127,7 +128,13 @@ public class OrderServiceImpl implements OrderService {
         //将信息转化为orders,传给wechatConfiguration
         Orders order = new Orders();
         BeanUtils.copyProperties(orderPaymentDTO,order);
-        order.setGoodsName("微信点评");
+
+        //查询数据库表,获取商品名称和商品金额
+        int amount = orderMapper.getAmountByOrderNumber(order.getOrderNumber());
+        String goodsName = orderMapper.getGoodsNameByOrderNumber(order.getOrderNumber());
+        //填充相应数据
+        order.setGoodsName(goodsName);
+        order.setAmount(amount);
 
         log.info("调用统一下单API");
         //创建返回类
