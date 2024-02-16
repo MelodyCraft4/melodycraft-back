@@ -115,6 +115,7 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     public OrderPaymentVO payment(OrderPaymentDTO orderPaymentDTO){
+        log.info("支付订单");
         //获取openid
         //TODO:如果openid为空的异常处理
         Long id = BaseContext.getCurrentId();
@@ -122,7 +123,7 @@ public class OrderServiceImpl implements OrderService {
         if(openid == null){
             throw new BaseException("openid为空");
         }
-
+        log.info("学生openid为:{}",openid);
         //将信息转化为orders,传给wechatConfiguration
         Orders order = new Orders();
         BeanUtils.copyProperties(orderPaymentDTO,order);
@@ -136,11 +137,13 @@ public class OrderServiceImpl implements OrderService {
             //调用统一下单API
             PrepayResponse response = wechatConfiguration.prepay(order, openid);
             String prepayId = response.getPrepayId();
+            log.info("prepayId:{}",prepayId);
             if(prepayId != null){
                 JSONObject jsonObject = wechatConfiguration.pay(prepayId);
                 //TODO:订单已支付判断
                 OrderPaymentVO vo = jsonObject.toJavaObject(OrderPaymentVO.class);
                 vo.setPackageStr(jsonObject.getString("package"));
+                log.info("或者这里");
                 return vo;
             }
         } catch (HttpException e) { // 发送HTTP请求失败
@@ -154,11 +157,11 @@ public class OrderServiceImpl implements OrderService {
             throw new BaseException("服务返回成功,但返回类型不合法,请联系后端人员处理");
         } catch (ValidationException e){
             throw new BaseException("验证微信支付签名失败");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        finally {
-            throw new BaseException("返回预支付订单标识出现错误,未知错误,请联系相关人员处理");
-        }
-
+        //TODO:添加异常处理
+        return null;
     }
 
     /**
