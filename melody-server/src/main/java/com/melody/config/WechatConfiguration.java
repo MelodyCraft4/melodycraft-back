@@ -35,41 +35,51 @@ import java.util.Base64;
 @Configuration
 @Slf4j
 public class WechatConfiguration {
-//    public WechatConfiguration(){
-//
-//        //            // Load the private key from the classpath
-////            ClassPathResource resource = new ClassPathResource("apiclient_key.pem");
-////            PrivateKey merchantPrivateKey = PemUtil.loadPrivateKey(resource.getInputStream());
-//
-//        Config config =
-//                new RSAAutoCertificateConfig.Builder()
-//                        .merchantId(weChatProperties.getMchid())
-//                        .privateKeyFromPath(weChatProperties.getPrivateKeyFilePath())
-//                        .merchantSerialNumber(weChatProperties.getMchSerialNo())
-//                        .apiV3Key(weChatProperties.getApiV3Key())
-//                        .build();
-//        service =
-//                new JsapiService.Builder().config(config).build();
-//
-//    }
 
     private static JsapiService service;
     private final WeChatProperties weChatProperties;
+    @Bean
+    public Config getPayConfig() {
+        try {
+            // Load the private key from the classpath
+            ClassPathResource resource = new ClassPathResource("apiclient_key.pem");
+            PrivateKey merchantPrivateKey = PemUtil.loadPrivateKey(resource.getInputStream());
+
+            Config config =
+                    new RSAAutoCertificateConfig.Builder()
+                            .merchantId(weChatProperties.getMchid())
+                            .privateKey(merchantPrivateKey)
+                            .merchantSerialNumber(weChatProperties.getMchSerialNo())
+                            .apiV3Key(weChatProperties.getApiV3Key())
+                            .build();
+            return config;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load private key", e);
+        }
+    }
+
 
     @Autowired
     public WechatConfiguration(WeChatProperties weChatProperties){
         this.weChatProperties = weChatProperties;
 
-        Config config =
-                new RSAAutoCertificateConfig.Builder()
-                        .merchantId(weChatProperties.getMchid())
-                        .privateKeyFromPath(weChatProperties.getPrivateKeyFilePath())
-                        .merchantSerialNumber(weChatProperties.getMchSerialNo())
-                        .apiV3Key(weChatProperties.getApiV3Key())
-                        .build();
-        service =
-                new JsapiService.Builder().config(config).build();
+        try {
+            // Load the private key from the classpath
+            ClassPathResource resource = new ClassPathResource(weChatProperties.getPrivateKeyFilePath());
+            PrivateKey merchantPrivateKey = PemUtil.loadPrivateKey(resource.getInputStream());
 
+            Config config =
+                    new RSAAutoCertificateConfig.Builder()
+                            .merchantId(weChatProperties.getMchid())
+                            .privateKey(merchantPrivateKey)
+                            .merchantSerialNumber(weChatProperties.getMchSerialNo())
+                            .apiV3Key(weChatProperties.getApiV3Key())
+                            .build();
+            service =
+                    new JsapiService.Builder().config(config).build();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load private key", e);
+        }
     }
 
 

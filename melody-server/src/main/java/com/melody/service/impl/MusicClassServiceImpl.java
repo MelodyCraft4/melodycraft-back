@@ -132,6 +132,9 @@ public class MusicClassServiceImpl implements MusicClassService {
         //2.班级人数-1
         musicClassMapper.reduceClassSize(classId);
 
+        //3.删除学生在班级内的作业
+        //homeworkMapper.deleteStudentHomework(studentId,classId);
+
 
     }
 
