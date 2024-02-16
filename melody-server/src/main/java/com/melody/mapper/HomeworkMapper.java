@@ -5,6 +5,7 @@ import com.melody.annocation.AutoFill;
 import com.melody.entity.ClassHomework;
 import com.melody.entity.Homework;
 import com.melody.enumeration.OperationType;
+import com.melody.vo.ClassHomeworkDetailVO;
 import com.melody.vo.StuClassHomeworkDetailVO;
 import com.melody.vo.StuClassHomeworkVO;
 import org.apache.ibatis.annotations.Insert;
@@ -104,8 +105,8 @@ public interface HomeworkMapper {
      * @param homeworkId
      * @return
      */
-    @Select("select * from class_homework where homeworkId = #{homeworkId}")
-    List<ClassHomework> queryClassHWDetailByHomeworkId(Long homeworkId);
+    @Select("select ch.*,ch.id as classHomeworkId ,s.name as studentName from class_homework ch join student s on ch.studentId = s.id where ch.homeworkId = #{homeworkId}")
+    List<ClassHomeworkDetailVO> queryClassHWDetailByHomeworkId(Long homeworkId);
 
     /**
      * 教师端：更新班级作业表信息（点评作业，退回作业）
