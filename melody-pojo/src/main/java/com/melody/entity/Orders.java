@@ -60,7 +60,7 @@ public class Orders implements Serializable{
     @ApiModelProperty("支付状态 0未支付 1已支付 2退款")
     private Integer payStatus;
     @ApiModelProperty("实收金额")
-    private BigDecimal amount;
+    private Integer amount;
     @ApiModelProperty("用户名称")
     private String username;
     @ApiModelProperty("手机号码")
