@@ -16,6 +16,12 @@ public class ClassHomeworkDetailVO {
     @ApiModelProperty("班级作业id")
     private Long classHomeworkId;
 
+    @ApiModelProperty("学生id")
+    private Long studentId;
+
+    @ApiModelProperty("学生姓名")
+    private String studentName;
+
     @ApiModelProperty("是否完成")
     private Integer completed;
 
