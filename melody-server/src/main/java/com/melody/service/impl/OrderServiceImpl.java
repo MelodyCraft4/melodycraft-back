@@ -176,6 +176,7 @@ public class OrderServiceImpl implements OrderService {
      * @param orderNumber
      */
     public void paySuccess(String orderNumber) {
+        log.info("支付成功后,调用paySuccess方法,修改订单状态");
         Orders orders = new Orders();
         orders.setOrderNumber(orderNumber);
         orders.setStatus(Orders.TO_BE_EVALUATED);
