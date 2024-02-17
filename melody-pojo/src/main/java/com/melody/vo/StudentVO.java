@@ -51,4 +51,6 @@ public class StudentVO {
     @ApiModelProperty("生日")
     private LocalDate birthday;
 
+    @ApiModelProperty("微信oepnid")
+    private String openid;
 }

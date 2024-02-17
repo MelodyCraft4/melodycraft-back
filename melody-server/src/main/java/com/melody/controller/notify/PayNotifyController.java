@@ -110,6 +110,7 @@ public class PayNotifyController {
      * @param response
      */
     private void responseToWeixin(HttpServletResponse response) throws Exception{
+        log.info("给微信进行回复");
         response.setStatus(200);
         HashMap<Object, Object> map = new HashMap<>();
         map.put("code", "SUCCESS");
