@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -78,10 +79,22 @@ public interface HomeworkMapper {
     /**
      * 教师端：根据homeworkId查询班级作业完成情况
      */
-    @Select("select ch.*,ch.id as classHomeworkId ,s.name as studentName " +
-            "from class_homework ch join student s on ch.studentId = s.id " +
-            "where ch.homeworkId = #{homeworkId}")
+    @Select("select ch.id as classHomeworkId ,ch.studentId as studentId ,ch.completed as completed ,ch.grade as grade , " +
+            "ch.videoUrl as videoUrl , ch.judgement as judgement ,ch.judgementTime as judgementTime ,ch.commitTime as commitTime , " +
+            "s.name as studentName " +
+            "from class_homework ch " +
+            "join student s on ch.studentId = s.id " +
+            "where ch.homeworkId = #{homeworkId} ")
     List<ClassHomeworkDetailVO> queryClassHWDetailByHomeworkId(Long homeworkId);
+
+    /**
+     * 根据班级作业id获取付款时间
+     */
+    @Select("SELECT ors.checkoutTime " +
+            "FROM orders ors " +
+            "JOIN homework_orders ho ON ho.homeworkId = #{classHomeworkId} " +
+            "WHERE ors.id = ho.ordersId ")
+    LocalDateTime getCheckoutTimeByClassHomeworkId(Long classHomeworkId);
 
     /**
      * 教师端：更新班级作业表信息（评级,评价）

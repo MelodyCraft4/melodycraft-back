@@ -22,7 +22,16 @@ public class ClassHomeworkDetailVO {
     @ApiModelProperty("学生姓名")
     private String studentName;
 
-    @ApiModelProperty("是否完成")
+    @ApiModelProperty(
+            "0未提交作业/未付款/未评级/未评分,  " +
+            "1已提交作业/未付款/未评级/未评分,  " +
+            "2已提交作业/未付款/已评级/未评分,  " +
+            "3已提交作业/已付款/未评级/未评分,  " +
+            "4已提交作业/已付款/已评级/未评分,  " +
+            "5已提交作业/已付款/未评级/已评分,  " +
+            "6已提交作业/已付款/已评级/已评分,  " +
+            "7退回  "
+            )
     private Integer completed;
 
     @ApiModelProperty("作业得分等级")
@@ -40,6 +49,7 @@ public class ClassHomeworkDetailVO {
     @ApiModelProperty("学生提交时间")
     private LocalDateTime commitTime;
 
-
+    @ApiModelProperty("学生付款时间")
+    private LocalDateTime checkoutTime;
 
 }

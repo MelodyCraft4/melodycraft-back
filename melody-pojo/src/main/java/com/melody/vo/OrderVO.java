@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 public class OrderVO {
     @ApiModelProperty("订单id")
     private Long id;
+    @ApiModelProperty("班级作业id")
+    private Long classHomeworkId;
     @ApiModelProperty("订单号")
     private String orderNumber;
     @ApiModelProperty("下单学生id")
