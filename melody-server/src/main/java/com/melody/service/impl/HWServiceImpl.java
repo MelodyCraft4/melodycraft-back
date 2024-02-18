@@ -239,8 +239,6 @@ public class HWServiceImpl implements HWService {
 
     /**
      * 教师查询指定班级作业要求
-     * @param homeworkId
-     * @return
      */
     @Override
     public HomeworkDetailVO queryHWDetailFromTea(Long homeworkId) {
@@ -256,14 +254,16 @@ public class HWServiceImpl implements HWService {
 
     /**
      * 教师查询指定班级作业所有同学完成情况
-     * @param homeworkId
-     * @return
      */
-    @Override
     public List<ClassHomeworkDetailVO> queryClassHWDetailFromTea(Long homeworkId) {
         //根据homeworkId查询班级作业表中所有同学的完成情况
         List<ClassHomeworkDetailVO> classHomeworkDetailVOList = homeworkMapper.queryClassHWDetailByHomeworkId(homeworkId);
-
+        for (ClassHomeworkDetailVO classHomeworkDetailVO : classHomeworkDetailVOList) {
+            LocalDateTime checkoutTime = homeworkMapper.getCheckoutTimeByClassHomeworkId(classHomeworkDetailVO.getClassHomeworkId());
+            if (checkoutTime != null) {
+                classHomeworkDetailVO.setCheckoutTime(checkoutTime);
+            }
+        }
 
         return classHomeworkDetailVOList;
     }

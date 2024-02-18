@@ -127,7 +127,6 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 学生获取具体订单信息
-     * @return
      */
     public OrderVO queryByOrderId(Long id) {
         OrderVO orderVO = orderMapper.queryByOrderId(id);
@@ -136,8 +135,6 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 学生支付订单
-     * @param orderPaymentDTO
-     * @return
      */
     public OrderPaymentVO payment(OrderPaymentDTO orderPaymentDTO){
         log.info("支付订单");
@@ -196,8 +193,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 支付成功后,调用函数,修改相关订单信息
-     * @param orderNumber
+     * 支付成功后,调用该函数,修改相关订单信息
+     * @param orderNumber 商户自定义订单号
      */
     public void paySuccess(String orderNumber) {
         log.info("支付成功,修改订单状态");
