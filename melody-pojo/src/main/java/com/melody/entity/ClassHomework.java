@@ -23,7 +23,16 @@ public class ClassHomework {
     @ApiModelProperty("学生主键id")
     private Long studentId;
 
-    @ApiModelProperty("是否完成,1是，0否")
+    @ApiModelProperty("班级作业状态:" +
+            "0未提交作业/未付款/未评级/未评分,  " +
+            "1已提交作业/未付款/未评级/未评分,  " +
+            "2已提交作业/未付款/已评级/未评分,  " +
+            "3已提交作业/已付款/未评级/未评分,  " +
+            "4已提交作业/已付款/已评级/未评分,  " +
+            "5已提交作业/已付款/未评级/已评分,  " +
+            "6已提交作业/已付款/已评级/已评分,  " +
+            "7退回  " +
+            ")")
     private Integer completed;
 
     @ApiModelProperty("提交日期")

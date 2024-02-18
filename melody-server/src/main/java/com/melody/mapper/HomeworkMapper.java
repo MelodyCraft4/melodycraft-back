@@ -35,8 +35,6 @@ public interface HomeworkMapper {
 
     /**
      * 教师端：根据班级id查询班级内所有作业
-     * @param classId
-     * @return
      */
     @Select("select * from homework where classId = #{classId}")
     List<Homework> query(Long classId);
@@ -44,15 +42,12 @@ public interface HomeworkMapper {
 
     /**
      * 教师端：根据作业id查询作业完成情况
-     * @param id
-     * @return
      */
     @Select("select count(*) from class_homework where homeworkId = #{id} and completed in (1,2)")
     Integer queryFinishCount(Long id);
 
     /**
      * 学生端:根据班级id查询该班级旗下所有的作业概况,查询内容包括 作业id,班级id,作业标题,作业截止时间(homework表)
-     * @return
      */
     @Select("select id AS homeworkId, title, deadLine, classId from homework where classId = #{classId}")
     List<StuClassHomeworkVO> queryHWBriefByClassId(Long classId);
@@ -60,15 +55,12 @@ public interface HomeworkMapper {
 
     /**
      * 学生端:根据班级id查询该班级所有作业
-     * @return
      */
     List<StuClassHomeworkVO> queryFromStuByHomeworkIdList(@Param("stuClassHomeworkVOList") List<StuClassHomeworkVO> stuClassHomeworkVOList ,@Param("studentId") Long studentId);
 
 
     /**
      * 学生端:根据班级作业id查询具体作业详细情况(class_homework表)
-     * @param classHomeworkId
-     * @return
      */
     @Select("select id AS classHomeworkId, completed, grade, videoUrl, judgement, judgementTime, commitTime " +
             "FROM class_homework where " +
@@ -77,42 +69,31 @@ public interface HomeworkMapper {
 
     /**
      * 学生端:根据作业id查询具体作业要求(homework表)
-     * @param homeworkId
-     * @return
      */
     @Select("select title, content, prompt, imgUrls, videoUrls, deadLine,createTime " +
             "FROM homework " +
             "where id = #{homeworkId}")
     StuClassHomeworkDetailVO queryAskByHomeworkId(Long homeworkId);
 
-//    /**
-//     * 学生提交作业,更新homework表
-//     */
-//    void updateFromStu(ClassHomework classHomework);
-
-
-
-//    /**
-//     * 教师端：根据homeworkId查询作业详情
-//     * @param homeworkId
-//     * @return
-//     */
-//    @Select("select * from homework where id = #{homeworkId}")
-//    Homework queryHWDetaileByHomeworkId(Long homeworkId);
-
     /**
      * 教师端：根据homeworkId查询班级作业完成情况
-     * @param homeworkId
-     * @return
      */
-    @Select("select ch.*,ch.id as classHomeworkId ,s.name as studentName from class_homework ch join student s on ch.studentId = s.id where ch.homeworkId = #{homeworkId}")
+    @Select("select ch.*,ch.id as classHomeworkId ,s.name as studentName " +
+            "from class_homework ch join student s on ch.studentId = s.id " +
+            "where ch.homeworkId = #{homeworkId}")
     List<ClassHomeworkDetailVO> queryClassHWDetailByHomeworkId(Long homeworkId);
 
     /**
-     * 教师端：更新班级作业表信息（点评作业，退回作业）
-     * @param classHomework
+     * 教师端：更新班级作业表信息（评级,评价）
      */
     void update(ClassHomework classHomework);
 
     int giveClassHomework(@Param("homeworkList") List<Homework> homeworkList, @Param("studentId") Long studentId);
+
+    /**
+     * 根据班级作业id获取评级
+     */
+    @Select("SELECT grade FROM class_homework WHERE id = #{id}")
+    String getGradeByClassHomeworkId(Long id);
+
 }

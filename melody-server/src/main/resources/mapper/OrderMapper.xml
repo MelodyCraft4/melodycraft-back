@@ -5,7 +5,7 @@
 <!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
 <mapper namespace="com.melody.mapper.OrderMapper">
     <!--主键回显-->
-    <insert id="submitOrder" parameterType="com.melody.entity.Orders" useGeneratedKeys="true" keyProperty="id">
+    <insert id="submitOrder" parameterType="com.melody.entity.Orders">
         INSERT INTO orders (orderNumber, goodsName, status, studentId, orderTime, payMethod, payStatus, amount, phone, username)
         VALUES (#{orderNumber},#{goodsName},#{status},#{studentId},#{orderTime},#{payMethod},#{payStatus},#{amount},#{phone},#{username})
     </insert>
