@@ -5,8 +5,11 @@ import com.melody.config.WechatConfiguration;
 import com.melody.context.BaseContext;
 import com.melody.dto.OrderPaymentDTO;
 import com.melody.dto.OrderSubmitDTO;
+import com.melody.entity.ClassHomework;
+import com.melody.entity.Homework;
 import com.melody.entity.Orders;
 import com.melody.exception.BaseException;
+import com.melody.mapper.HomeworkMapper;
 import com.melody.mapper.OrderMapper;
 import com.melody.properties.WeChatProperties;
 import com.melody.service.OrderService;
@@ -44,46 +47,67 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderMapper orderMapper;
 
+    @Autowired
+    HomeworkMapper homeworkMapper;
+
     /**
      * 学生下单
      * @param orderSubmitDTO
      * @return
      */
     public OrderSubmitVO submit(OrderSubmitDTO orderSubmitDTO) {
-        //获取学生ID、手机号码、用户名称
-        Long studnetId = BaseContext.getCurrentId();
-        StudentVO studentVO = studentService.query();
-        String phone = studentVO.getPhone();
-        String username = studentVO.getUsername();
-        //生成新订单
+        //TODO:判断是否有已存在订单,有则返回,无则生成(通过传递的班级作业id判断)
+        Long ordersId = orderMapper.getOrdersIdByHomeworkId(orderSubmitDTO.getClassHomeworkId());
+
         Orders orders = new Orders();
-        BeanUtils.copyProperties(orderSubmitDTO,orders);
-        log.info("orders:{}",orders);
-        //填充信息
-        orders.setOrderNumber(String.valueOf(System.currentTimeMillis()));
-        orders.setStudentId(studnetId);
-        orders.setGoodsName("微信点评");
-        orders.setStatus(Orders.PENDING_PAYMENT);
-        orders.setOrderTime(LocalDateTime.now());
-        orders.setPayMethod(Orders.WECHAT_PAY);
-        orders.setPayStatus(Orders.UN_PAID);
-        orders.setUsername(username);
-        orders.setPhone(phone);
-        log.info("填充后的数据:{}",orders);
-        //并插入数据库表
-        Long id = orderMapper.submitOrder(orders);
+        OrderSubmitVO orderSubmitVO;
 
-        //绑定班级作业与订单,并插入班级作业订单表
-        Long classHomeworkId = orderSubmitDTO.getClassHomeworkId();
-        orderMapper.appendHomeworkOrders(classHomeworkId,id);
-
-        //封装VO返回结果
-        OrderSubmitVO orderSubmitVO = OrderSubmitVO.builder()
-                .id(id)
-                .orderNumber(orders.getOrderNumber())
-                .amount(orders.getAmount())
-                .orderTime(orders.getOrderTime())
-                .build();
+        if(ordersId == null){
+            //重新生成
+            //获取学生ID、手机号码、用户名称
+            log.info("未查询到该作业具有订单,重新生成");
+            Long studnetId = BaseContext.getCurrentId();
+            StudentVO studentVO = studentService.query();
+            String phone = studentVO.getPhone();
+            String username = studentVO.getUsername();
+            //生成新订单
+            BeanUtils.copyProperties(orderSubmitDTO,orders);
+            //填充信息
+            String orderNumber = String.valueOf(System.currentTimeMillis());
+            orders.setOrderNumber(orderNumber);
+            orders.setStudentId(studnetId);
+            orders.setGoodsName("微信点评");
+            orders.setStatus(Orders.PENDING_PAYMENT);
+            orders.setOrderTime(LocalDateTime.now());
+            orders.setPayMethod(Orders.WECHAT_PAY);
+            orders.setPayStatus(Orders.UN_PAID);
+            orders.setUsername(username);
+            orders.setPhone(phone);
+            log.info("生成新订单,填充后的数据:{}",orders);
+            //主键回显出现问题,改用其他方式获取主键id
+            orderMapper.submitOrder(orders);
+            Long id = orderMapper.getIdByOrderNumber(orderNumber);
+            log.info("新生成的订单ID:{}",id);
+            //绑定班级作业与订单,并插入班级作业订单表
+            Long classHomeworkId = orderSubmitDTO.getClassHomeworkId();
+            orderMapper.appendHomeworkOrders(classHomeworkId,id);
+            orderSubmitVO = OrderSubmitVO.builder()
+                    .id(id)
+                    .orderNumber(orders.getOrderNumber())
+                    .amount(orders.getAmount())
+                    .orderTime(orders.getOrderTime())
+                    .build();
+        }else {
+            //已经存在,可从数据库直接获取
+            log.info("已存在该作业对应的订单");
+            OrderVO orderVO = orderMapper.queryByOrderId(ordersId);
+            orderSubmitVO = OrderSubmitVO.builder()
+                    .id(orderVO.getId())
+                    .orderNumber(orderVO.getOrderNumber())
+                    .amount(orderVO.getAmount())
+                    .orderTime(orderVO.getOrderTime())
+                    .build();
+        }
 
         return orderSubmitVO;
 
@@ -176,15 +200,34 @@ public class OrderServiceImpl implements OrderService {
      * @param orderNumber
      */
     public void paySuccess(String orderNumber) {
-        log.info("支付成功后,调用paySuccess方法,修改订单状态");
+        log.info("支付成功,修改订单状态");
         Orders orders = new Orders();
         orders.setOrderNumber(orderNumber);
         orders.setStatus(Orders.TO_BE_EVALUATED);
         orders.setCheckoutTime(LocalDateTime.now());
         orders.setPayStatus(Orders.PAID);
-
-        //修改
+        //更新订单状态
         orderMapper.update(orders);
+
+        log.info("支付成功,修改班级作业表状态");
+        //获取订单id
+        Long ordersId = orderMapper.getIdByOrderNumber(orderNumber);
+        //根据订单id查询获取班级作业id
+        Long homeworkId = orderMapper.getHomeworkIdByOrdersId(ordersId);
+        //修改班级作业中completed状态
+        //先查询是否有评级
+        String grade = homeworkMapper.getGradeByClassHomeworkId(homeworkId);
+        ClassHomework classHomework = new ClassHomework();
+        //为空,将completed设置为 3(已提交作业/已付款/未评级/未评分)
+        if(grade == null){
+            classHomework.setCompleted(3);
+            homeworkMapper.update(classHomework);
+        }else {
+            //不为空,将completed设置为 4(已提交作业/已付款/已评级/未评分)
+            classHomework.setCompleted(4);
+            homeworkMapper.update(classHomework);
+        }
+
     }
 
 

@@ -17,20 +17,34 @@ public interface OrderMapper {
      * 学生下单,插入生成的订单数据(学生确认后生成订单)
      * @param orders
      */
-    Long submitOrder(Orders orders);
+    void submitOrder(Orders orders);
+
+    /**
+     * 根据订单号获取其订单id
+     */
+    @Select("SELECT id FROM orders WHERE orderNumber = #{orderNumber}")
+    Long getIdByOrderNumber(String orderNumber);
+
+    /**
+     * 根据订单id获取班级作业id
+     */
+    @Select("SELECT homeworkId FROM homework_orders WHERE ordersId = #{ordersId}")
+    Long getHomeworkIdByOrdersId(Long ordersId);
+
+    /**
+     * 根据班级作业id获取订单id
+     */
+    @Select("SELECT ordersId FROM homework_orders WHERE homeworkId = #{homeworkId}")
+    Long getOrdersIdByHomeworkId(Long homeworkId);
 
     /**
      * 学生查询全部订单 - 通过学生ID
-     * @param studentId
-     * @return
      */
     @Select("SELECT id,goodsName,orderTime FROM orders where studentId = #{studentId} ")
     List<OrderQueryVO> queryOrdersByStudentId(Long studentId);
 
     /**
-     * 学生获取具体订单信息
-     * @param id
-     * @return
+     * 学生根据订单id获取具体订单信息
      */
     @Select("SELECT id,orderNumber,studentId,goodsName,status,orderTime,checkoutTime,payMethod,payStatus,amount,cancelTime FROM orders where id = #{id}")
     OrderVO queryByOrderId(Long id);
@@ -63,4 +77,6 @@ public interface OrderMapper {
      */
     @Select("SELECT goodsName FROM orders WHERE orderNumber = #{orderNumber}")
     String getGoodsNameByOrderNumber(String orderNumber);
+
+
 }

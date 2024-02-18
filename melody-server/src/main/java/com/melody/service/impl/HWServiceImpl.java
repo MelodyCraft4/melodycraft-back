@@ -264,16 +264,6 @@ public class HWServiceImpl implements HWService {
         //根据homeworkId查询班级作业表中所有同学的完成情况
         List<ClassHomeworkDetailVO> classHomeworkDetailVOList = homeworkMapper.queryClassHWDetailByHomeworkId(homeworkId);
 
-//        List<ClassHomeworkDetailVO> classHomeworkDetailVOList = new ArrayList<>();
-//        //封装数据
-//        for (ClassHomework classHomework : classHomeworkList) {
-//            ClassHomeworkDetailVO classHomeworkDetailVO = new ClassHomeworkDetailVO();
-//            BeanUtils.copyProperties(classHomework, classHomeworkDetailVO);
-//
-//            //设置id,因为classhomework实体类中的id和VO中的属性名不一样
-//            classHomeworkDetailVO.setClassHomeworkId(classHomework.getId());
-//            classHomeworkDetailVOList.add(classHomeworkDetailVO);
-//        }
 
         return classHomeworkDetailVOList;
     }
