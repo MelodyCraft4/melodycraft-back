@@ -44,7 +44,7 @@ public interface HomeworkMapper {
     /**
      * 教师端：根据作业id查询作业完成情况
      */
-    @Select("select count(*) from class_homework where homeworkId = #{id} and completed in (1,2)")
+    @Select("select count(*) from class_homework where homeworkId = #{id} and completed between 1 and 6")
     Integer queryFinishCount(Long id);
 
     /**

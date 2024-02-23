@@ -35,7 +35,7 @@ public class HWController {
     }
 
     @GetMapping("/query/{classId}")
-    @ApiOperation("教师查询指定班级所有作业")
+    @ApiOperation("教师查询指定班级所有作业(2.23修改)")
     public Result<List<HomeworkVO>> query(@PathVariable("classId") Long classId){
         log.info("教师查询指定班级所有作业");
         return Result.success(hwService.query(classId));
