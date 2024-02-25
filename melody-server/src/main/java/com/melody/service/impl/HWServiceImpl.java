@@ -276,25 +276,70 @@ public class HWServiceImpl implements HWService {
     public void update(ClassHomeDetailDTO classHomeDetailDTO) {
         ClassHomework classHomework = new ClassHomework();
 
-        BeanUtils.copyProperties(classHomeDetailDTO, classHomework);
+        //BeanUtils.copyProperties(classHomeDetailDTO, classHomework);
         classHomework.setId(classHomeDetailDTO.getClassHomeworkId());  //设置id
 
-        //没有评价信息
-        if (classHomeDetailDTO.getJudgement().equals("")) {
-            classHomework.setJudgement("完成的不错，继续加油哦！");
+        String grade = classHomeDetailDTO.getGrade();
+        String judgement = classHomeDetailDTO.getJudgement();
+
+        //查询数据库,获取作业状态
+        Integer completed = homeworkMapper.getCompletedByClassHomeworkId(classHomeDetailDTO.getClassHomeworkId());
+
+        //无评级/无点评
+        if ((grade.equals("") || grade == null) && (judgement.equals("") || judgement == null)) {
+            return;
         }
 
-        if ("D".equals(classHomeDetailDTO.getGrade())) {
-            classHomework.setCompleted(3); // 退回状态
-        }else {
-            classHomework.setCompleted(2); // 已点评状态
+        //有评级
+        if (grade != null && !grade.equals("")){
+            classHomework.setGrade(grade);
+            //无点评
+            if (judgement == null || judgement.equals("")){
+                switch (completed){
+                    case 1://添加评级
+                    case 2://更新评级
+                        classHomework.setCompleted(2);
+                        break;
+                    case 3://添加评级
+                    case 4://更新评级
+                        classHomework.setCompleted(4);
+                        break;
+                    case 5://添加评级
+                    case 6://更新评级
+                        classHomework.setCompleted(6);
+                        break;
+                    default:
+                        throw new BaseException("有评级/无点评出现错误,completed状态不为1-6任何一个");
+                }
+            }
         }
 
-        //没有评等级信息
-        if (classHomeDetailDTO.getGrade().equals("")) {
-            classHomework.setGrade(null);
+        //有点评
+        if(judgement != null && judgement.equals("")){
+            //无评级
+            if (grade == null || grade.equals("")){
+                switch (completed){
+                    case 3://添加点评
+                    case 5://更新点评
+                        classHomework.setCompleted(5);
+                        break;
+                    case 4://添加点评
+                    case 6://更新点评
+                        classHomework.setCompleted(6);
+                        break;
+                    default:
+                        throw new BaseException("无评级/有点评出现错误,completed状态不为1-6任何一个");
+                }
+            }
+            //有评级
+            if (grade != null || !grade.equals("")){
+                //添加或更新都一同
+                classHomework.setJudgement(judgement);
+                classHomework.setGrade(grade);
+                //有评级,有评分
+                classHomework.setCompleted(6);
+            }
         }
-
 
         //设置评价时间信息
         classHomework.setJudgementTime(LocalDateTime.now());

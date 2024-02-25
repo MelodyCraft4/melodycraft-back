@@ -215,12 +215,12 @@ public class OrderServiceImpl implements OrderService {
         //先查询是否有评级
         String grade = homeworkMapper.getGradeByClassHomeworkId(homeworkId);
         ClassHomework classHomework = new ClassHomework();
-        //为空,将completed设置为 3(已提交作业/已付款/未评级/未评分)
+        //评级为空,将completed设置为 3(已提交作业/已付款/未评级/未评分)
         if(grade == null){
             classHomework.setCompleted(3);
             homeworkMapper.update(classHomework);
         }else {
-            //不为空,将completed设置为 4(已提交作业/已付款/已评级/未评分)
+            //评级不为空,将completed设置为 4(已提交作业/已付款/已评级/未评分)
             classHomework.setCompleted(4);
             homeworkMapper.update(classHomework);
         }
