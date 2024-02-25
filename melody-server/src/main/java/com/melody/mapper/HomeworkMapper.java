@@ -109,4 +109,10 @@ public interface HomeworkMapper {
     @Select("SELECT grade FROM class_homework WHERE id = #{id}")
     String getGradeByClassHomeworkId(Long id);
 
+    /**
+     * 根据班级作业id获取作业状态
+     */
+    @Select("SELECT completed FROM class_homework WHERE id = #{id}")
+    Integer getCompletedByClassHomeworkId(Long id);
+
 }
