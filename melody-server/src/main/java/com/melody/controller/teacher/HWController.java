@@ -59,7 +59,7 @@ public class HWController {
     @PutMapping("/update")
     @ApiOperation("教师更新班级作业表信息（点评作业，退回作业")
     public Result update(@RequestBody ClassHomeDetailDTO classHomeDetailDTO){
-        log.info("教师更新作业班级表信息（点评作业，退回作业");
+        log.info("教师更新作业班级表信息（点评作业，退回作业),{}",classHomeDetailDTO);
         hwService.update(classHomeDetailDTO);
         return Result.success();
     }
