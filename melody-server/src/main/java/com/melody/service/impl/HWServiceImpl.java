@@ -290,6 +290,11 @@ public class HWServiceImpl implements HWService {
             classHomework.setCompleted(2); // 已点评状态
         }
 
+        //没有评等级信息
+        if (classHomeDetailDTO.getGrade().equals("")) {
+            classHomework.setGrade(null);
+        }
+
 
         //设置评价时间信息
         classHomework.setJudgementTime(LocalDateTime.now());
