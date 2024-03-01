@@ -315,7 +315,7 @@ public class HWServiceImpl implements HWService {
         }
 
         //有点评
-        if(judgement != null && judgement.equals("")){
+        if(judgement != null && !judgement.equals("")){
             //无评级
             if (grade == null || grade.equals("")){
                 switch (completed){
