@@ -27,8 +27,18 @@ public interface AdminService {
      */
     List<StudentRegVO> addStudent(Integer number);
 
-
     void exportAccoutData(Integer type,Integer number,HttpServletResponse response);
 
     Teacher login(AdminLoginDTO adminLoginDTO);
+
+    /**
+     *  管理员重置学生密码
+     */
+    void resetStuPassword(String username);
+
+    /**
+     * 管理员重置教师密码
+     */
+    void resetTchPassword(String username);
+
 }

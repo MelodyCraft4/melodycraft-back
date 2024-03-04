@@ -31,6 +31,12 @@ public interface StudentMapper {
      */
     void update(Student student);
 
+    /**
+     * 根据username来修改密码
+     * @param student
+     */
+    @Update("UPDATE student SET password = #{password} WHERE username = #{username} ")
+    void resetPasswordByUsername(Student student);
 
     /**
      * 根据学生id获取学生openid

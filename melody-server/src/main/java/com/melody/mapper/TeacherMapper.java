@@ -1,10 +1,12 @@
 package com.melody.mapper;
 
+import com.melody.entity.Student;
 import com.melody.entity.Teacher;
 import com.melody.vo.TeacherQueryVO;
 import com.melody.vo.TeacherVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -39,6 +41,13 @@ public interface TeacherMapper {
      * 教师更新/完善个人信息
      */
     void update(Teacher teacher);
+
+    /**
+     * 根据username来修改密码
+     * @param teacher
+     */
+    @Update("UPDATE teacher SET password = #{password} WHERE username = #{username} ")
+    void resetPasswordByUsername(Teacher teacher);
 
     /**
      * 管理端: 查询所有教师(可根据name具体查询)
