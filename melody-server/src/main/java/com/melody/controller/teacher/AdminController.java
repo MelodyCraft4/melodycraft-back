@@ -4,6 +4,7 @@ package com.melody.controller.teacher;
 import com.melody.constant.JwtClaimConstant;
 import com.melody.dto.AdminLoginDTO;
 import com.melody.entity.Teacher;
+import com.melody.exception.BaseException;
 import com.melody.properties.JwtProperties;
 import com.melody.result.Result;
 import com.melody.service.AdminService;
@@ -172,5 +173,20 @@ public class AdminController {
         adminService.exportAccoutData(type,number,response);
     }
 
+    @ApiOperation("管理员重置学生账号密码")
+    @PutMapping("/resetStu/{username}")
+    public Result resetStuPassword(@PathVariable String username){
+        log.info("管理员重置学生账号密码,username:{}",username);
+        adminService.resetStuPassword(username);
+        return Result.success();
+    }
+
+    @ApiOperation("管理员重置教师账号密码")
+    @PutMapping("/resetTch/{username}")
+    public Result resetTchPassword(@PathVariable String username){
+        log.info("管理员重置教师账号密码,username:{}",username);
+        adminService.resetTchPassword(username);
+        return Result.success();
+    }
 
 }

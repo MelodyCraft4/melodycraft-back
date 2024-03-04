@@ -10,6 +10,7 @@ import com.melody.entity.Student;
 import com.melody.entity.Teacher;
 import com.melody.exception.BaseException;
 import com.melody.mapper.AdminMapper;
+import com.melody.mapper.StudentMapper;
 import com.melody.mapper.TeacherMapper;
 import com.melody.service.AdminService;
 import com.melody.utils.GenAccountUtil;
@@ -40,6 +41,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     TeacherMapper teacherMapper;
+
+    @Autowired
+    StudentMapper studentMapper;
 
 
     @Override
@@ -79,6 +83,7 @@ public class AdminServiceImpl implements AdminService {
         return teacher;
     }
 
+
     @Override
     public EntityVO query() {
         //查询学生数量
@@ -113,7 +118,6 @@ public class AdminServiceImpl implements AdminService {
      * @param number  添加教师的数量
      * @return
      */
-    @Override
     public List<TeacherRegVO> addTeacher(Integer number) {
 
         //判断number是否合法
@@ -172,7 +176,6 @@ public class AdminServiceImpl implements AdminService {
      * @param number  添加学生的数量
      * @return
      */
-    @Override
     public List<StudentRegVO> addStudent(Integer number) {
         //判断number是否合法
         if (number == null || number <= 0) {
@@ -201,6 +204,7 @@ public class AdminServiceImpl implements AdminService {
                     username(username).
                     password(password).
                     iconUrl(iconUrl).
+                    sex(1).
                     createTime(LocalDateTime.now()).
                     updateTime(LocalDateTime.now()).
                     createUser(BaseContext.getCurrentId()).
@@ -228,7 +232,6 @@ public class AdminServiceImpl implements AdminService {
      * 管理员导出学生数据
      * @param response
      */
-    @Override
     public void exportAccoutData(Integer type,Integer number,HttpServletResponse response) {
 
         // 设置响应头
@@ -332,10 +335,36 @@ public class AdminServiceImpl implements AdminService {
 
         }
 
+    }
 
+    /**
+     *  管理员重置学生密码
+     */
+    public void resetStuPassword(String username) {
+        if (username == null || username.equals("")){
+            throw new BaseException("重置密码中,username为空,传参错误");
+        }
+        Student student = new Student();
+        student.setUsername(username);
+        //默认设置为123456
+        student.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
+        log.info("重置学生密码,{}",student);
+        studentMapper.resetPasswordByUsername(student);
+    }
 
-
-
+    /**
+     * 管理员重置教师密码
+     */
+    public void resetTchPassword(String username) {
+        if (username == null || username.equals("")){
+            throw new BaseException("重置密码中,username为空,传参错误");
+        }
+        Teacher teacher = new Teacher();
+        teacher.setUsername(username);
+        //默认设置为123456
+        teacher.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
+        log.info("重置教师密码:{}",teacher);
+        teacherMapper.resetPasswordByUsername(teacher);
 
     }
 
