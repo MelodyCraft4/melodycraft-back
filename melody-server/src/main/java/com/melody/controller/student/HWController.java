@@ -23,7 +23,7 @@ public class HWController {
     @Autowired
     HWService hwService;
 
-    @ApiOperation("学生查询指定班级所有作业(概况)")
+    @ApiOperation("学生查询指定班级所有作业(概况)(3.9晚修改)")
     @GetMapping("/{classId}")
     public Result<List<StuClassHomeworkVO>> queryFromStu(@PathVariable("classId") Long classId){
         log.info("学生查询指定班级:{}所有作业",classId);
