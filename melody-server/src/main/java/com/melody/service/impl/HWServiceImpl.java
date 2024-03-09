@@ -13,6 +13,7 @@ import com.melody.mapper.MusicClassMapper;
 import com.melody.result.Result;
 import com.melody.service.HWService;
 import com.melody.utils.AliOssUtil;
+import com.melody.utils.HuaweiObsUtil;
 import com.melody.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -40,6 +41,9 @@ public class HWServiceImpl implements HWService {
     @Autowired
     private MusicClassMapper musicClassMapper;
 
+    @Autowired
+    private HuaweiObsUtil huaweiObsUtil;
+
     /**
      * 教师发布班级作业
      * @param files
@@ -61,8 +65,11 @@ public class HWServiceImpl implements HWService {
                 //构造新文件名称：防止文件重名
                 String objectName = UUID.randomUUID().toString() + extention;
 
+                //阿里改华为
+                //String filePath = aliOssUtil.upload(file.getBytes(), objectName);
+
                 //文件的请求路径
-                String filePath = aliOssUtil.upload(file.getBytes(), objectName);
+                String filePath = huaweiObsUtil.upload(file.getInputStream(),objectName);
 
                 //判断文件是视频还是图片
                 String contentType = file.getContentType();
