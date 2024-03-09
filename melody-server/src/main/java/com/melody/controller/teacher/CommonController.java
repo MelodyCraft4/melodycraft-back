@@ -4,6 +4,7 @@ package com.melody.controller.teacher;
 import com.melody.constant.MessageConstant;
 import com.melody.result.Result;
 import com.melody.utils.AliOssUtil;
+import com.melody.utils.HuaweiObsUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,9 @@ public class CommonController {
     @Autowired
     private AliOssUtil aliOssUtil;
 
+    @Autowired
+    private HuaweiObsUtil huaweiObsUtil;
+
     @PostMapping("upload")
     @ApiOperation("文件上传")
     public Result<String> upload(@RequestPart("file") MultipartFile file) {
@@ -36,8 +40,11 @@ public class CommonController {
             //构造新文件名称：防止文件重名
             String objectName = UUID.randomUUID().toString() + extention;
 
+            //阿里改华为
+            //String filePath = aliOssUtil.upload(file.getBytes(), objectName);
+
             //文件的请求路径
-            String filePath = aliOssUtil.upload(file.getBytes(), objectName);
+            String filePath = huaweiObsUtil.upload(file.getInputStream(),objectName);
             return Result.success(filePath);
 
         } catch (Exception e) {
