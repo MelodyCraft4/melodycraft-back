@@ -160,6 +160,7 @@ public class HWServiceImpl implements HWService {
     public List<StuClassHomeworkVO> queryFromStu(Long classId) {
         //先根据classId查询作业表(homework),将该班级下的所有 作业id,title,deadline,classid查询出来
         List<StuClassHomeworkVO> stuClassHomeworkVOList = homeworkMapper.queryHWBriefByClassId(classId);
+        log.info("stuClassHomeworkVOList:{}",stuClassHomeworkVOList);
 
         //如果班级没有作业,返回空
         if (stuClassHomeworkVOList.size() == 0){
@@ -171,9 +172,19 @@ public class HWServiceImpl implements HWService {
         Long studentId = BaseContext.getCurrentId();
         List<StuClassHomeworkVO> updatelist = homeworkMapper.queryFromStuByHomeworkIdList(stuClassHomeworkVOList,studentId);
         //将stuClassHomeworkVOList的数据复制补充到updatelist中
+        log.info("updatelist:{}",updatelist);
+//        == 用在对象上,比较的是地址,而需要比较值,则用.equals()
+//        Long firstId = updatelist.get(0).getHomeworkId();
+//        Long secondId = stuClassHomeworkVOList.get(0).getHomeworkId();
+//        if (firstId.equals(secondId)){
+//            log.info("它们相等");
+//        }else {
+//            log.info("它们不相等");
+//        }
+
         for (StuClassHomeworkVO updateClassHomeworkVO : updatelist) {
             for (StuClassHomeworkVO stuClassHomeworkVO : stuClassHomeworkVOList) {
-                if (updateClassHomeworkVO.getHomeworkId() == stuClassHomeworkVO.getHomeworkId()) {
+                if (updateClassHomeworkVO.getHomeworkId().equals(stuClassHomeworkVO.getHomeworkId())) {
                     updateClassHomeworkVO.setClassId(stuClassHomeworkVO.getClassId());//复制班级id
                     updateClassHomeworkVO.setTitle(stuClassHomeworkVO.getTitle());//title
                     updateClassHomeworkVO.setDeadline(stuClassHomeworkVO.getDeadline());//deadline
@@ -182,6 +193,7 @@ public class HWServiceImpl implements HWService {
                 }
             }
         }
+
         log.info("查询后的班级作业集合:{}",updatelist);
 
         //返回
