@@ -305,7 +305,7 @@ public class HWServiceImpl implements HWService {
         Integer completed = homeworkMapper.getCompletedByClassHomeworkId(classHomeDetailDTO.getClassHomeworkId());
 
         //无评级/无点评
-        if ((grade.equals("") || grade == null) && (judgement.equals("") || judgement == null)) {
+        if ((grade == null || grade.equals("")) && (judgement == null || judgement.equals(""))) {
             return;
         }
 
