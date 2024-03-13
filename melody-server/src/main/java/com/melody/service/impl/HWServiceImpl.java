@@ -351,7 +351,7 @@ public class HWServiceImpl implements HWService {
                 }
             }
             //有评级
-            if (grade != null || !grade.equals("")){
+            if (grade != null || !"".equals(grade)){
                 //添加或更新都一同
                 classHomework.setJudgement(judgement);
                 classHomework.setGrade(grade);
