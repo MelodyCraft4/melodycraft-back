@@ -25,4 +25,6 @@ public class MusicClassVO implements Serializable {
     private String teacherName;
     @ApiModelProperty("班级授课天数")
     private Integer days;
+    @ApiModelProperty("班级码")
+    private String classCode;
 }
