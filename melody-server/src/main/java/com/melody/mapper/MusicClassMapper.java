@@ -32,7 +32,7 @@ public interface MusicClassMapper {
      * @param teacherId
      * @return
      */
-    @Select("SELECT mc.id,mc.classSize,mc.className,mc.instrument,t.name AS teacherName,DATEDIFF(CURDATE(), mc.createTime) AS days " +
+    @Select("SELECT mc.id,mc.classSize,mc.className,mc.classCode,mc.instrument,t.name AS teacherName,DATEDIFF(CURDATE(), mc.createTime) AS days " +
             "FROM music_class mc " +
             "JOIN teacher t ON mc.teacherId = t.id " +
             "where mc.teacherId = #{teacherId}")
