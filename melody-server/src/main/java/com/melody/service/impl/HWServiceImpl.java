@@ -301,6 +301,8 @@ public class HWServiceImpl implements HWService {
         String grade = classHomeDetailDTO.getGrade();
         String judgement = classHomeDetailDTO.getJudgement();
 
+
+
         //查询数据库,获取作业状态
         Integer completed = homeworkMapper.getCompletedByClassHomeworkId(classHomeDetailDTO.getClassHomeworkId());
 
@@ -335,8 +337,9 @@ public class HWServiceImpl implements HWService {
 
         //有点评
         if(judgement != null && !judgement.equals("")){
+            classHomework.setJudgement(judgement);
             //无评级
-            if (grade == null || grade.equals("")){
+            if (grade == null || "".equals(grade)){
                 switch (completed){
                     case 3://添加点评
                     case 5://更新点评
@@ -351,10 +354,8 @@ public class HWServiceImpl implements HWService {
                 }
             }
             //有评级
-            if (grade != null || !"".equals(grade)){
-                //添加或更新都一同
-                classHomework.setJudgement(judgement);
-                classHomework.setGrade(grade);
+            if (grade != null && !"".equals(grade)){
+
                 //有评级,有评分
                 classHomework.setCompleted(6);
             }
