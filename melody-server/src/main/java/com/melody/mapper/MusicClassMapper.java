@@ -1,15 +1,14 @@
 package com.melody.mapper;
 
 import com.melody.annocation.AutoFill;
-import com.melody.entity.Homework;
 import com.melody.entity.MusicClass;
 import com.melody.entity.StudentClass;
 import com.melody.enumeration.OperationType;
+import com.melody.vo.ClassQueryVO;
 import com.melody.vo.MusicClassVO;
 import com.melody.vo.StudentQueryVO;
 import com.melody.vo.TeacherQueryVO;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,5 +144,10 @@ public interface MusicClassMapper {
     TeacherQueryVO queryClassTch(Long classId);
 
 
+    @Select("SELECT sc.classId AS id ,mc.className AS className " +
+            "FROM student_class sc " +
+            "JOIN music_class mc ON mc.id = sc.classId " +
+            "WHERE sc.studentId = #{studentId}")
+    List<ClassQueryVO> queryClassById(Long studentId);
 
 }
