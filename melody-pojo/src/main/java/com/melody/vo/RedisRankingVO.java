@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClassRankingMemberVO {
+public class RedisRankingVO {
     //学生id
     private Long studentId;
     //学生姓名
@@ -18,6 +18,4 @@ public class ClassRankingMemberVO {
     private String iconUrl;
     //班级id
     private Long classId;
-    //总分
-    private Long total;
 }

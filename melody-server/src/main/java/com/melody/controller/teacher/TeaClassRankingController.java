@@ -1,4 +1,4 @@
-package com.melody.controller.student;
+package com.melody.controller.teacher;
 
 import com.melody.result.Result;
 import com.melody.service.ClassRankingService;
@@ -17,9 +17,9 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/student/ranking")
-@Api(tags = "学生旗下班级排行榜")
-public class ClassRankingController {
+@RequestMapping("/teacher/ranking")
+@Api(tags = "教师旗下班级排行榜")
+public class TeaClassRankingController {
 
     @Autowired
     ClassRankingService classRankingService;
@@ -27,7 +27,7 @@ public class ClassRankingController {
     @GetMapping("/queryClass")
     @ApiOperation("查询班级旗下全部班级")
     public Result<List<ClassQueryVO>> queryClassById(){
-        log.info("学生端-查询班级旗下全部班级");
+        log.info("教师端-查询班级旗下全部班级");
         List<ClassQueryVO> classQueryVOS = classRankingService.teaQueryClassById();
         return Result.success(classQueryVOS);
     }
@@ -35,7 +35,7 @@ public class ClassRankingController {
     @GetMapping("/list/{classId}")
     @ApiOperation("查询班级排行榜")
     public Result<List<ClassRankingMemberVO>> queryClassRanking(@PathVariable("classId") Long classId){
-        log.info("学生端-查询班级排行榜");
+        log.info("教师端-查询班级排行榜");
         List<ClassRankingMemberVO> classRankingMemberVOS = classRankingService.queryClassRanking(classId);
         return Result.success(classRankingMemberVOS);
     }

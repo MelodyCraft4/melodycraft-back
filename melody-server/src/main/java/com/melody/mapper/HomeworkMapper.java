@@ -6,6 +6,7 @@ import com.melody.entity.ClassHomework;
 import com.melody.entity.Homework;
 import com.melody.enumeration.OperationType;
 import com.melody.vo.ClassHomeworkDetailVO;
+import com.melody.vo.ClassRankingMemberVO;
 import com.melody.vo.StuClassHomeworkDetailVO;
 import com.melody.vo.StuClassHomeworkVO;
 import org.apache.ibatis.annotations.Insert;
@@ -115,4 +116,21 @@ public interface HomeworkMapper {
     @Select("SELECT completed FROM class_homework WHERE id = #{id}")
     Integer getCompletedByClassHomeworkId(Long id);
 
+    /**
+     *  根据班级id查询班级内学生排行榜信息
+     * @param classId
+     * @return
+     */
+    List<ClassRankingMemberVO> queryClassStudentRank(Long classId);
+
+    ClassRankingMemberVO queryClassRankingMemberVOByClassHomeworkIdAndStudentId(@Param("classId") Long classId, @Param("classhomeworkId") Long classhomeworkId);
+
+    /**
+     *
+     * 根据班级作业id查询班级id
+     * @param classHomeworkId
+     * @return
+     */
+    @Select("SELECT h.classId FROM class_homework ch join homework h on ch.homeworkId = h.id WHERE ch.id = #{classHomeworkId}")
+    Long getClassIdByClassHomeworkId(Long classHomeworkId);
 }
