@@ -150,8 +150,4 @@ public interface MusicClassMapper {
             "WHERE sc.studentId = #{studentId}")
     List<ClassQueryVO> queryClassById(Long studentId);
 
-    @Select("SELECT mc.id,mc.className " +
-            "FROM music_class mc " +
-            "WHERE mc.teacherId = #{teacherId}")
-    List<ClassQueryVO> queryClassByTeacherId(Long teacherId);
 }

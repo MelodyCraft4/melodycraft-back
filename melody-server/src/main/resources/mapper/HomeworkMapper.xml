@@ -55,7 +55,6 @@
             <if test="completed != null"> completed = #{completed},</if>
             <if test="grade != null"> grade = #{grade},</if>
             <if test="videoUrl != null"> videoUrl = #{videoUrl},</if>
-            <if test="score != null"> score = #{score},</if>
             <if test="judgement != null"> judgement = #{judgement},</if>
             <if test="judgementTime != null"> judgementTime = #{judgementTime},</if>
         </set>
@@ -63,18 +62,6 @@
     </update>
 
 
-      <select id="queryClassStudentRank" resultType="com.melody.vo.ClassRankingMemberVO">
-          select s.id as studentId,s.name studentName,s.iconUrl iconUrl, h.classId classId, sum(ch.score) total from class_homework ch join student
-          s on s.id=ch.studentId  join homework h on h.id= ch.homeWorkId where h.classId = #{classId}
-          group by s.id ;
-      </select>
-
-    <select id="queryClassRankingMemberVOByClassHomeworkIdAndStudentId" resultType="com.melody.vo.ClassRankingMemberVO">
-        select s.id as studentId,s.name studentName,s.iconUrl iconUrl, h.classId classId, sum(ch.score) total from class_homework ch join student
-        s on s.id=ch.studentId  join homework h on h.id= ch.homeWorkId where h.classId = #{classId}
-        and s.id=(select studentId from class_homework where id=#{classhomeworkId})
-        group by s.id ;
-    </select>
 
 
 </mapper>

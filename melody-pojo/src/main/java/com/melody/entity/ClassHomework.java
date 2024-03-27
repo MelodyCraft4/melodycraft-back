@@ -40,9 +40,6 @@ public class ClassHomework {
     @ApiModelProperty("等级")
     private String grade;
 
-    @ApiModelProperty("作业得分")
-    private Integer score;
-
     @ApiModelProperty("视频url")
     private String videoUrl;
 

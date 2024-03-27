@@ -1,15 +1,13 @@
 package com.melody.vo;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class ClassRankingMemberVO {
+    //班级排行主键
+    private Long id;
     //学生id
     private Long studentId;
     //学生姓名
