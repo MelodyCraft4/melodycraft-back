@@ -1,8 +1,6 @@
 package com.melody.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.melody.constant.MessageConstant;
-import com.melody.constant.RedisConstant;
 import com.melody.context.BaseContext;
 import com.melody.dto.ClassHomeDetailDTO;
 import com.melody.dto.HomeworkDTO;
@@ -19,7 +17,6 @@ import com.melody.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,10 +41,6 @@ public class HWServiceImpl implements HWService {
 
     @Autowired
     private HuaweiObsUtil huaweiObsUtil;
-
-
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 教师发布班级作业
@@ -305,27 +298,7 @@ public class HWServiceImpl implements HWService {
         //BeanUtils.copyProperties(classHomeDetailDTO, classHomework);
         classHomework.setId(classHomeDetailDTO.getClassHomeworkId());  //设置id
 
-        //先得到旧的数据
-        //1.先根据classhomeworkid查到班级id
-        Long classId = homeworkMapper.getClassIdByClassHomeworkId(classHomeDetailDTO.getClassHomeworkId());
-        log.info("classId:{}",classId);
-        ClassRankingMemberVO classRankingMemberVOOld = homeworkMapper.queryClassRankingMemberVOByClassHomeworkIdAndStudentId(classId,classHomeDetailDTO.getClassHomeworkId());
-        log.info("classRankingMemberVOOld:{}",classRankingMemberVOOld);
-
         String grade = classHomeDetailDTO.getGrade();
-        int score = 0;
-        if ("A".equals(grade)){
-            score=5;
-        }else if("B".equals(grade)){
-            score=4;
-        } else if ("C".equals(grade)) {
-            score=3;
-        } else if ("D".equals(grade)) {
-            score=2;
-        } else {
-            score=0;
-        }
-        classHomework.setScore(score);
         String judgement = classHomeDetailDTO.getJudgement();
 
 
@@ -393,25 +366,6 @@ public class HWServiceImpl implements HWService {
 
         //更新数据库
         homeworkMapper.update(classHomework);
-
-        //从数据库获取该学生所在班级的ClassRankingMemberVO信息
-        //1.先根据classhomeworkid查到班级id
-        //Long classId = homeworkMapper.getClassIdByClassHomeworkId(classHomeDetailDTO.getClassHomeworkId());
-        log.info("classId:{}",classId);
-        ClassRankingMemberVO classRankingMemberVO = homeworkMapper.queryClassRankingMemberVOByClassHomeworkIdAndStudentId(classId,classHomeDetailDTO.getClassHomeworkId());
-        log.info("classRankingMemberVO:{}",classRankingMemberVO);
-
-        //序列化
-        String s = JSON.toJSONString(classRankingMemberVO);
-
-        //更新缓存
-        //删除掉老数据
-        String key = RedisConstant.CLASS_RANKING +classId;
-        stringRedisTemplate.opsForZSet().remove(key, JSON.toJSONString(classRankingMemberVOOld));
-        //添加新数据
-        stringRedisTemplate.opsForZSet().add(key, s, classRankingMemberVO.getTotal());
-
-
 
     }
 
