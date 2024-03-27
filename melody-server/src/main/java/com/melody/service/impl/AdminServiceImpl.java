@@ -10,6 +10,7 @@ import com.melody.entity.Student;
 import com.melody.entity.Teacher;
 import com.melody.exception.BaseException;
 import com.melody.mapper.AdminMapper;
+import com.melody.mapper.PointsMapper;
 import com.melody.mapper.StudentMapper;
 import com.melody.mapper.TeacherMapper;
 import com.melody.service.AdminService;
@@ -45,6 +46,8 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     StudentMapper studentMapper;
 
+    @Autowired
+    PointsMapper pointsMapper;
 
     @Override
     public Teacher login(AdminLoginDTO adminLoginDTO) {
@@ -183,11 +186,11 @@ public class AdminServiceImpl implements AdminService {
         }
 
 
-        //查询当前教师表的记录数
+        //查询当前学生表的记录数
         Integer studentNum = adminMapper.queryStudentNum();
 
 
-        //如果teacherNum为null,则置为0
+        //如果studentNum为null,则置为0
         if (studentNum == null) {
             studentNum = 0;
         }
@@ -196,6 +199,8 @@ public class AdminServiceImpl implements AdminService {
         List<Student> studentList = new ArrayList<>();
         //封装返回给前端的数据
         List<StudentRegVO> studentRegVOList = new ArrayList<>();
+        //存储学生用户名数组,通过username查询学生id
+        List<String> usernameList = new ArrayList<>();
         for (int i = 1; i <= number; i++) {
             String username = GenAccountUtil.GenStudentAccount(studentNum + i);
             String password =  DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes());
@@ -212,6 +217,9 @@ public class AdminServiceImpl implements AdminService {
                     build();
             studentList.add(student);
 
+            //将用户名存储进数组
+            usernameList.add(username);
+
             StudentRegVO studentRegVO = StudentRegVO.builder().
                     username(username).
                     password(PasswordConstant.DEFAULT_PASSWORD).
@@ -225,6 +233,14 @@ public class AdminServiceImpl implements AdminService {
         if (result < number) {
             throw new RuntimeException(MessageConstant.INSERT_ERROR);
         }
+
+        //查询学生id,并添加进积分表
+        for (String username : usernameList) {
+            Long studentId = studentMapper.getIdByUsername(username);
+            pointsMapper.addStudentToPointsDepot(studentId);
+        }
+
+
         return studentRegVOList;
     }
 

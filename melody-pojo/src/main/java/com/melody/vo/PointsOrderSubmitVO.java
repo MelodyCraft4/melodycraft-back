@@ -13,11 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OrderSubmitVO implements Serializable {
+public class PointsOrderSubmitVO implements Serializable {
     @ApiModelProperty("订单id")
     private Long id;
     @ApiModelProperty("订单号")
     private String orderNumber;
+    @ApiModelProperty("商品名称")
+    private String goodsName;
     @ApiModelProperty("订单金额")
     private Integer amount;
     @ApiModelProperty("下单时间")

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.melody.properties.WeChatProperties;
 import com.melody.service.OrderService;
+import com.melody.service.PointsService;
 import com.wechat.pay.contrib.apache.httpclient.util.AesUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
@@ -28,6 +29,9 @@ public class PayNotifyController {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    PointsService pointsService;
 
     @Autowired
     WeChatProperties weChatProperties;
@@ -55,7 +59,11 @@ public class PayNotifyController {
         log.info("微信支付交易号：{}", transactionId);
 
         //业务处理，修改订单状态
-        orderService.paySuccess(outTradeNo);
+        //去除该逻辑，改为积分制
+//        orderService.paySuccess(outTradeNo);
+
+        //新的业务处理，用于积分增加
+        pointsService.paySuccess(outTradeNo);
 
         //给微信响应
         responseToWeixin(response);

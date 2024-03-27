@@ -10,7 +10,6 @@ import com.melody.entity.Homework;
 import com.melody.exception.BaseException;
 import com.melody.mapper.HomeworkMapper;
 import com.melody.mapper.MusicClassMapper;
-import com.melody.result.Result;
 import com.melody.service.HWService;
 import com.melody.utils.AliOssUtil;
 import com.melody.utils.HuaweiObsUtil;
@@ -23,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -277,12 +275,14 @@ public class HWServiceImpl implements HWService {
     public List<ClassHomeworkDetailVO> queryClassHWDetailFromTea(Long homeworkId) {
         //根据homeworkId查询班级作业表中所有同学的完成情况
         List<ClassHomeworkDetailVO> classHomeworkDetailVOList = homeworkMapper.queryClassHWDetailByHomeworkId(homeworkId);
-        for (ClassHomeworkDetailVO classHomeworkDetailVO : classHomeworkDetailVOList) {
-            LocalDateTime checkoutTime = homeworkMapper.getCheckoutTimeByClassHomeworkId(classHomeworkDetailVO.getClassHomeworkId());
-            if (checkoutTime != null) {
-                classHomeworkDetailVO.setCheckoutTime(checkoutTime);
-            }
-        }
+
+        //作业单次付费改为积分系统，去除学生作业付款时间字段
+//        for (ClassHomeworkDetailVO classHomeworkDetailVO : classHomeworkDetailVOList) {
+//            LocalDateTime checkoutTime = homeworkMapper.getCheckoutTimeByClassHomeworkId(classHomeworkDetailVO.getClassHomeworkId());
+//            if (checkoutTime != null) {
+//                classHomeworkDetailVO.setCheckoutTime(checkoutTime);
+//            }
+//        }
 
         return classHomeworkDetailVOList;
     }

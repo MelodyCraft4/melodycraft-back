@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -20,12 +19,14 @@ import java.time.LocalDateTime;
 public class Orders implements Serializable{
 
     /**
-     * 订单状态 1待付款 2待评价 3已评价 4已取消
+     * 订单状态 1待付款 2待评价 3已评价 4已取消 X
+     * 订单状态 1代付款 2已完成 3取消
      */
     public static final Integer PENDING_PAYMENT = 1;
-    public static final Integer TO_BE_EVALUATED = 2;
-    public static final Integer RATED = 3;
-    public static final Integer CANCELLED = 4;
+    //public static final Integer TO_BE_EVALUATED = 2;
+    //public static final Integer RATED = 3;
+    public static final Integer DONE = 2;
+    public static final Integer CANCELLED = 3;
 
     /**
      * 支付状态 0未支付 1已支付 2退款

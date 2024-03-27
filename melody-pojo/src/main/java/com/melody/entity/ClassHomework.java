@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -24,13 +23,13 @@ public class ClassHomework {
     private Long studentId;
 
     @ApiModelProperty("班级作业状态:" +
-            "0未提交作业/未付款/未评级/未点评,  " +
-            "1已提交作业/未付款/未评级/未点评,  " +
-            "2已提交作业/未付款/已评级/未点评,  " +
-            "3已提交作业/已付款/未评级/未点评,  " +
-            "4已提交作业/已付款/已评级/未点评,  " +
-            "5已提交作业/已付款/未评级/已点评,  " +
-            "6已提交作业/已付款/已评级/已点评,  " +
+            "0未提交作业/未兑换评价/未评级/未点评,  " +
+            "1已提交作业/未兑换评价//未评级/未点评,  " +
+            "2已提交作业/未兑换评价//已评级/未点评,  " +
+            "3已提交作业/已兑换评价//未评级/未点评,  " +
+            "4已提交作业/已兑换评价//已评级/未点评,  " +
+            "5已提交作业/已兑换评价//未评级/已点评,  " +
+            "6已提交作业/已兑换评价//已评级/已点评,  " +
             "7退回  " +
             ")")
     private Integer completed;

@@ -2,10 +2,7 @@ package com.melody.service;
 
 import com.melody.dto.OrderPaymentDTO;
 import com.melody.dto.OrderSubmitDTO;
-import com.melody.vo.OrderPaymentVO;
-import com.melody.vo.OrderQueryVO;
-import com.melody.vo.OrderSubmitVO;
-import com.melody.vo.OrderVO;
+import com.melody.vo.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,4 +40,6 @@ public interface OrderService {
      * @param orderNumber
      */
     public void paySuccess(String orderNumber);
+
+
 }

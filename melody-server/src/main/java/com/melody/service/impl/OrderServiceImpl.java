@@ -6,7 +6,6 @@ import com.melody.context.BaseContext;
 import com.melody.dto.OrderPaymentDTO;
 import com.melody.dto.OrderSubmitDTO;
 import com.melody.entity.ClassHomework;
-import com.melody.entity.Homework;
 import com.melody.entity.Orders;
 import com.melody.exception.BaseException;
 import com.melody.mapper.HomeworkMapper;
@@ -21,13 +20,10 @@ import com.wechat.pay.java.core.exception.ServiceException;
 import com.wechat.pay.java.core.exception.ValidationException;
 import com.wechat.pay.java.service.payments.jsapi.model.PrepayResponse;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -200,7 +196,7 @@ public class OrderServiceImpl implements OrderService {
         log.info("支付成功,修改订单状态");
         Orders orders = new Orders();
         orders.setOrderNumber(orderNumber);
-        orders.setStatus(Orders.TO_BE_EVALUATED);
+        orders.setStatus(Orders.DONE);
         orders.setCheckoutTime(LocalDateTime.now());
         orders.setPayStatus(Orders.PAID);
         //更新订单状态
@@ -227,6 +223,8 @@ public class OrderServiceImpl implements OrderService {
         }
 
     }
+
+
 
 
 }

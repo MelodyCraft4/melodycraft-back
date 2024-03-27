@@ -52,4 +52,12 @@ public interface StudentMapper {
      */
     @Select("select id,name,iconurl from student where name like concat('%',#{name},'%') and status = 1")
     List<StudentQueryVO> queryStudentByName(String name);
+
+    /**
+     * 通过用户名查询学生id
+     * @param username 学生用户名
+     * @return 学生id
+     */
+    @Select("SELECT id FROM student WHERE username = #{username} ")
+    Long getIdByUsername(String username);
 }
