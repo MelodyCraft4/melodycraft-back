@@ -34,7 +34,16 @@ public class StuClassHomeworkDetailVO {
     //查询班级作业表(class_homework)获取
     @ApiModelProperty("班级主键id")
     private Long classHomeworkId;
-    @ApiModelProperty("是否完成(0未提交，1提交未评价，2提交老师已评价，3退回)")
+    @ApiModelProperty("班级作业状态:" +
+            "0未提交作业/未兑换评价/未评级/未点评,  " +
+            "1已提交作业/未兑换评价//未评级/未点评,  " +
+            "2已提交作业/未兑换评价//已评级/未点评,  " +
+            "3已提交作业/已兑换评价//未评级/未点评,  " +
+            "4已提交作业/已兑换评价//已评级/未点评,  " +
+            "5已提交作业/已兑换评价//未评级/已点评,  " +
+            "6已提交作业/已兑换评价//已评级/已点评,  " +
+            "7退回  " +
+            ")")
     private Integer completed;
     @ApiModelProperty("作业得分等级(ABCD)")
     private String grade;

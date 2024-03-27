@@ -16,7 +16,7 @@ import java.util.List;
 
 @Slf4j
 @RestController("stuHWController")
-@RequestMapping("student/homework")
+@RequestMapping("/student/homework")
 @Api(tags = "学生旗下作业接口")
 public class HWController {
 

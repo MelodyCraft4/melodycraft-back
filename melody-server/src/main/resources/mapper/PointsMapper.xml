@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.melody.mapper.PointsMapper">
+
+<!--    积分表增加积分（原有分数基础上）-->
+    <update id="IncreasePoints">
+        UPDATE PointsDepot
+        SET points = points + #{pointsToAdd}
+        WHERE id = #{id}
+    </update>
+<!--    积分表减少积分-->
+    <update id="SubtractPoints">
+        UPDATE PointsDepot
+        SET points = points - #{pointsTominus}
+        WHERE id = #{id}
+    </update>
+</mapper>

@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper
@@ -81,5 +80,11 @@ public interface OrderMapper {
     @Select("SELECT goodsName FROM orders WHERE orderNumber = #{orderNumber}")
     String getGoodsNameByOrderNumber(String orderNumber);
 
-
+    /**
+     * 根据订单id从订单-积分表中获取订单所购买的积分
+     * @param ordersId 订单id
+     * @return 订单所购买的积分
+     */
+    @Select("SELECT points FROM points_order WHERE ordersId = #{ordersId}")
+    Long getPointsByOrdersId(Long ordersId);
 }
