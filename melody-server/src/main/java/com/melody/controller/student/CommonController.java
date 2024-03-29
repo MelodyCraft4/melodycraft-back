@@ -1,35 +1,33 @@
-package com.melody.controller.teacher;
-
+package com.melody.controller.student;
 
 import com.melody.constant.MessageConstant;
 import com.melody.result.Result;
-import com.melody.utils.AliOssUtil;
 import com.melody.utils.HuaweiObsUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
-@RestController
-@Api(tags = "通用接口")
 @Slf4j
-@RequestMapping("/teacher/common")
+@RestController("studentCommonController")
+@RequestMapping("/student/common")
+@Api(tags = "学生旗下通用接口")
 public class CommonController {
-
-    @Autowired
-    private AliOssUtil aliOssUtil;
 
     @Autowired
     private HuaweiObsUtil huaweiObsUtil;
 
     @PostMapping("/upload")
     @ApiOperation("文件上传")
-    public Result<String> upload(@RequestPart("file") MultipartFile file) {
-        log.info("文件上传：{}", file.getContentType());
+    public Result<String> upload(@RequestPart("file")MultipartFile file){
+        log.info("学生端文件上传：{}",file.getContentType());
 
         try {
             //原始文件名
@@ -53,5 +51,4 @@ public class CommonController {
         }
 
     }
-
 }
