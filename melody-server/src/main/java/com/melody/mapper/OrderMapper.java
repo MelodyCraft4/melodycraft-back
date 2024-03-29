@@ -45,10 +45,13 @@ public interface OrderMapper {
     /**
      * 学生根据订单id获取具体订单信息
      */
-    @Select("SELECT ors.id,ors.orderNumber,ors.studentId,ors.goodsName,ors.status,ors.orderTime,ors.checkoutTime," +
-            "ors.payMethod,ors.payStatus,ors.amount,ors.cancelTime, ho.homeworkId AS classHomeworkId " +
-            "FROM orders ors JOIN homework_orders ho on ho.ordersId = #{id} " +
-            "WHERE ors.id = #{id}")
+//    @Select("SELECT ors.id,ors.orderNumber,ors.studentId,ors.goodsName,ors.status,ors.orderTime,ors.checkoutTime," +
+//            "ors.payMethod,ors.payStatus,ors.amount,ors.cancelTime, ho.homeworkId AS classHomeworkId " +
+//            "FROM orders ors JOIN homework_orders ho on ho.ordersId = #{id} " +
+//            "WHERE ors.id = #{id}")
+    @Select("SELECT id,orderNumber,studentId,goodsName,status,orderTime,checkoutTime,payMethod,amount,cancelTime " +
+            "FROM orders " +
+            "WHERE id = #{id} ")
     OrderVO queryByOrderId(Long id);
 
 

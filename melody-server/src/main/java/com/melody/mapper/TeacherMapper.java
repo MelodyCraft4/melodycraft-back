@@ -1,9 +1,7 @@
 package com.melody.mapper;
 
-import com.melody.entity.Student;
 import com.melody.entity.Teacher;
 import com.melody.vo.TeacherQueryVO;
-import com.melody.vo.TeacherVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -54,6 +52,7 @@ public interface TeacherMapper {
      * @param name
      * @return
      */
-    @Select("select id,name,iconurl from teacher where name like concat('%',#{name},'%') and type = 2 and status=1")
+    @Select("select id,name,iconurl from teacher where name like concat('%',#{name},'%') and type = 2 and status= 1")
     List<TeacherQueryVO> queryTeacherByName(String name);
+
 }

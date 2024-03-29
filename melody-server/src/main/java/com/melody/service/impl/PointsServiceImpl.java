@@ -214,8 +214,14 @@ public class PointsServiceImpl implements PointsService {
         //获取积分表id
         Long studentId = BaseContext.getCurrentId();
         Long pointsdepotId = pointsMapper.queryIdBystudentId(studentId);
-        //给指定作业评价权限
 
+        //查询是否有足够积分
+        Long points = pointsMapper.queryLeftoverPointsById(studentId);
+        if (points <= ratingExchangeDTO.getConsumedPoints()){
+            throw new BaseException("积分不足，请及时充值!");
+        }
+
+        //给指定作业评价权限
         //先查询是否有评级
         String grade = homeworkMapper.getGradeByClassHomeworkId(homeworkId);
         ClassHomework classHomework = new ClassHomework();

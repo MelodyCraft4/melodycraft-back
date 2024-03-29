@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @Component
 public class JwtTokenStudentInterceptor implements HandlerInterceptor {
+
     @Autowired
     private JwtProperties jwtProperties;
 
