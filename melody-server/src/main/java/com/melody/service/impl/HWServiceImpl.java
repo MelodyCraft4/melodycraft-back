@@ -45,7 +45,6 @@ public class HWServiceImpl implements HWService {
     @Autowired
     private HuaweiObsUtil huaweiObsUtil;
 
-
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -242,8 +241,14 @@ public class HWServiceImpl implements HWService {
             String extention = originalFilename.substring(originalFilename.lastIndexOf("."));
             //构造新文件名称：防止文件重名
             String objectName = UUID.randomUUID().toString() + extention;
-            //文件上传至阿里云,并获取请求路径
-            filePath = aliOssUtil.upload(file.getBytes(), objectName);
+
+//            //文件上传至阿里云,并获取请求路径
+            //阿里改华为
+//            filePath = aliOssUtil.upload(file.getBytes(), objectName);
+
+            //文件的请求路径
+            filePath = huaweiObsUtil.upload(file.getInputStream(),objectName);
+
         } catch (Exception e) {
             log.error("文件上传失败: {}", e);
             throw new BaseException(MessageConstant.UPLOAD_FAILED);

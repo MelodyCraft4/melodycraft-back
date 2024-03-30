@@ -49,7 +49,7 @@ public interface OrderMapper {
 //            "ors.payMethod,ors.payStatus,ors.amount,ors.cancelTime, ho.homeworkId AS classHomeworkId " +
 //            "FROM orders ors JOIN homework_orders ho on ho.ordersId = #{id} " +
 //            "WHERE ors.id = #{id}")
-    @Select("SELECT id,orderNumber,studentId,goodsName,status,orderTime,checkoutTime,payMethod,amount,cancelTime " +
+    @Select("SELECT id,orderNumber,studentId,goodsName,status,orderTime,checkoutTime,payMethod,amount,cancelTime,payStatus " +
             "FROM orders " +
             "WHERE id = #{id} ")
     OrderVO queryByOrderId(Long id);
