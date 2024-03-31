@@ -28,7 +28,7 @@ public class ClassRankingController {
     @ApiOperation("查询班级旗下全部班级")
     public Result<List<ClassQueryVO>> queryClassById(){
         log.info("学生端-查询班级旗下全部班级");
-        List<ClassQueryVO> classQueryVOS = classRankingService.teaQueryClassById();
+        List<ClassQueryVO> classQueryVOS = classRankingService.queryClassById();
         return Result.success(classQueryVOS);
     }
 

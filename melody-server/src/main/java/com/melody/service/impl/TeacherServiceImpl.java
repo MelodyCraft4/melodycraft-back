@@ -80,7 +80,13 @@ public class TeacherServiceImpl implements TeacherService {
         TeacherVO teacherVO = new TeacherVO();
         BeanUtils.copyProperties(teacher,teacherVO);
         //后端存储的是数字，前端需要的是字符串，这里转换一下
-        teacherVO.setSex(teacher.getSex()==1?"男":"女");
+        Integer sex = teacher.getSex();
+        if (sex != null) {
+            teacherVO.setSex(sex == 1 ? "男" : "女");
+        } else {
+            // 这里可以设置一个默认值，或者直接跳过这个操作
+            teacherVO.setSex("未知");
+        }
 
         return teacherVO;
     }

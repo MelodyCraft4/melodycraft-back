@@ -181,6 +181,9 @@ public class MusicClassServiceImpl implements MusicClassService {
         //8.将班级内作业赋予该学生
         //8.1查询班级内所有作业
         List<Homework> homeworkList = homeworkMapper.query(classId);
+        if (homeworkList==null || homeworkList.size() == 0){
+            return;
+        }
         homeworkMapper.giveClassHomework(homeworkList,studentId);
 
 

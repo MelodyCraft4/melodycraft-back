@@ -25,10 +25,9 @@ public class HWController {
 
     @Autowired
     HWService hwService;
-
     @PostMapping("assignhomework")
     @ApiOperation("教师发布班级作业")
-    public Result assignhomework(@RequestPart(value="file",required = false) List<MultipartFile> files, HomeworkDTO homeworkDTO){
+    public Result assignhomework(@RequestPart(value="file",required = false) List<MultipartFile> files,@RequestPart("homeworkDTO") HomeworkDTO homeworkDTO){
         log.info("教师发布班级作业，{}",homeworkDTO);
         hwService.assignhomework(files,homeworkDTO);
         return Result.success();
