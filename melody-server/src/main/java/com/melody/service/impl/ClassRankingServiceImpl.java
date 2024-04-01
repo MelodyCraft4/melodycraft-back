@@ -69,6 +69,9 @@ public class ClassRankingServiceImpl implements ClassRankingService {
                // RedisRankingVO redisRankingVO = new RedisRankingVO();
                 //属性拷贝
                 //BeanUtils.copyProperties(classRankingMemberVO,redisRankingVO);
+                if (classRankingMemberVO.getTotal() == null) {
+                    classRankingMemberVO.setTotal(0L);
+                }
                 stringRedisTemplate.opsForZSet().add(key, JSON.toJSONString(classRankingMemberVO), classRankingMemberVO.getTotal());
             }
             stringSet = stringRedisTemplate.opsForZSet().reverseRange(key, 0, -1);
