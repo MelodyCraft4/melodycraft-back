@@ -1,5 +1,6 @@
 package com.melody.service.impl;
 
+import com.melody.annocation.AutoFillRedis;
 import com.melody.constant.MessageConstant;
 import com.melody.context.BaseContext;
 import com.melody.dto.MusicClassDTO;
@@ -94,7 +95,13 @@ public class MusicClassServiceImpl implements MusicClassService {
         //2.属性拷贝
         BeanUtils.copyProperties(student,studentVO);
         //性别转换
-        studentVO.setSex(student.getSex()==1?"男":"女");
+        Integer sex = student.getSex();
+        if (sex != null) {
+            studentVO.setSex(sex == 1 ? "男" : "女");
+        } else {
+            // 这里可以设置一个默认值，或者直接跳过这个操作
+            studentVO.setSex("未知");
+        }
 
         //把年龄算出来也插入到studentVO中
         LocalDate birthday = student.getBirthday();
@@ -142,6 +149,7 @@ public class MusicClassServiceImpl implements MusicClassService {
      * 学生 - 加入班级
      * @param classCode
      */
+    @AutoFillRedis
     public void joinClass(String classCode) {
         //1.根据班级码查询获取相应的班级ID
         Long classId = musicClassMapper.queryClassByClassCode(classCode);
@@ -268,7 +276,13 @@ public class MusicClassServiceImpl implements MusicClassService {
         TeacherVO teacherVO = new TeacherVO();
         BeanUtils.copyProperties(teacher,teacherVO);
         //性别转换
-        teacherVO.setSex(teacher.getSex()==1?"男":"女");
+        Integer sex = teacher.getSex();
+        if (sex != null) {
+            teacherVO.setSex(sex == 1 ? "男" : "女");
+        } else {
+            // 这里可以设置一个默认值，或者直接跳过这个操作
+            teacherVO.setSex("未知");
+        }
         return teacherVO;
     }
 

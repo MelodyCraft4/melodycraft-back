@@ -2,19 +2,21 @@ package com.melody.aspect;
 
 
 import com.melody.annocation.AutoFill;
+import com.melody.constant.RedisConstant;
 import com.melody.context.BaseContext;
 import com.melody.enumeration.OperationType;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * 自动填充切面类
@@ -27,10 +29,16 @@ public class AutoFillAspect {
     /**
      * 切入点：切入点满足切点表达式，并且在切入点中满足有我们自定义的注解AutoFill
      */
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
     @Pointcut("execution(* com.melody.mapper.*.*(..)) && @annotation(com.melody.annocation.AutoFill)")
     public void autoFillPointCut() {
     }
 
+    @Pointcut("@annotation(com.melody.annocation.AutoFillRedis)")
+    public void autoFillRedisPointCut() {
+    }
 
     /**
      * 前置通知,实现对公共字段的填充
@@ -75,6 +83,23 @@ public class AutoFillAspect {
 
             setUpdateTime.invoke(entity,now);
             setUpdateUser.invoke(entity,currentId);
+        }
+
+    }
+
+
+    /**
+     * 后置通知：清空缓存
+     */
+    @AfterReturning("autoFillRedisPointCut()")
+    public void clearCache(JoinPoint joinPoint) {
+        log.info("清空缓存");
+        // 清空所有排行榜缓存
+        // 获取所有以 "paihangbang" 为前缀的键
+        Set<String> keys = stringRedisTemplate.keys(RedisConstant.CLASS_RANKING + "*");
+        if (keys != null && !keys.isEmpty()) {
+            // 删除这些键
+            stringRedisTemplate.delete(keys);
         }
 
     }
