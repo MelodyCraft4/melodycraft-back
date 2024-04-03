@@ -95,8 +95,8 @@ public class StudentServiceImpl implements StudentService {
         student.setUpdateTime(LocalDateTime.now());
         student.setUpdateUser(BaseContext.getCurrentId());
 
-        student.setPassword(DigestUtils.md5DigestAsHex(student.getPassword().getBytes()));
-        log.info("MD5加密后的结果：{}",student.getPassword());
+//        student.setPassword(DigestUtils.md5DigestAsHex(student.getPassword().getBytes()));
+//        log.info("MD5加密后的结果：{}",student.getPassword());
 
         //以免传输为“”而完成了更改
         if (student.getName() == null || "".equals(student.getName())){
@@ -104,11 +104,12 @@ public class StudentServiceImpl implements StudentService {
         }
         if (student.getPassword() == null || "".equals(student.getPassword())){
             student.setPassword(null);
-        }
-        if (student.getIconUrl() == null || "".equals(student.getIconUrl())){
-            student.setIconUrl(null);
         }else {
             student.setPassword(DigestUtils.md5DigestAsHex(student.getPassword().getBytes()));
+        }
+
+        if (student.getIconUrl() == null || "".equals(student.getIconUrl())){
+            student.setIconUrl(null);
         }
         if (student.getPhone() == null || "".equals(student.getPhone())){
             student.setPhone(null);
