@@ -43,8 +43,9 @@ public class HWController {
 
     @ApiOperation("学生更新作业(提交作业)")
     @PostMapping("/commit")
-    public Result update(@RequestPart("file") MultipartFile file,
-                         @RequestPart("stuClassHomeworkDTO") StuClassHomeworkDTO stuClassHomeworkDTO){
+
+    public Result update(@RequestPart("file") MultipartFile file,  StuClassHomeworkDTO stuClassHomeworkDTO){
+
         //TODO:强制提交视频,后续还要修改
         log.info("学生:{},提交作业:{}",stuClassHomeworkDTO,file);
         //TODO:只能提交一次,除非退回,这个机制需要补充
