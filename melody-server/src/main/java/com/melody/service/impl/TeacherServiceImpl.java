@@ -101,7 +101,7 @@ public class TeacherServiceImpl implements TeacherService {
         teacher.setSex(teacherDTO.getSex().equals("男")?1:2);
         teacher.setId(BaseContext.getCurrentId());
         //TODO:username字段的修改需要先查询判断重复;密码的更改,需要加密处理;电话的修改需要判断是否符合规则;status和type也需要更新(默认为0)
-        teacher.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
+        //teacher.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
         //填充公共字段
         teacher.setUpdateTime(LocalDateTime.now());
         teacher.setUpdateUser(BaseContext.getCurrentId());
@@ -111,6 +111,8 @@ public class TeacherServiceImpl implements TeacherService {
         }
         if (teacher.getPassword() == null || "".equals(teacher.getPassword())){
             teacher.setPassword(null);
+        }else {
+            teacher.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
         }
         if (teacher.getIconUrl() == null || "".equals(teacher.getIconUrl())){
             teacher.setIconUrl(null);

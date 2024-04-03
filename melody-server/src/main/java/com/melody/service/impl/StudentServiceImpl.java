@@ -105,6 +105,8 @@ public class StudentServiceImpl implements StudentService {
         }
         if (student.getIconUrl() == null || "".equals(student.getIconUrl())){
             student.setIconUrl(null);
+        }else {
+            student.setPassword(DigestUtils.md5DigestAsHex(student.getPassword().getBytes()));
         }
         if (student.getPhone() == null || "".equals(student.getPhone())){
             student.setPhone(null);
