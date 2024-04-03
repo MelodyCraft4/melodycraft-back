@@ -11,7 +11,6 @@ import com.melody.dto.StudentDTO;
 import com.melody.dto.StudentLoginDTO;
 import com.melody.dto.StudentWxLoginDTO;
 import com.melody.entity.Student;
-import com.melody.entity.Teacher;
 import com.melody.exception.BaseException;
 import com.melody.mapper.StudentMapper;
 import com.melody.properties.WeChatProperties;
@@ -98,6 +97,32 @@ public class StudentServiceImpl implements StudentService {
 
         student.setPassword(DigestUtils.md5DigestAsHex(student.getPassword().getBytes()));
         log.info("MD5加密后的结果：{}",student.getPassword());
+
+        //以免传输为“”而完成了更改
+        if (student.getName() == null || "".equals(student.getName())){
+            student.setName(null);
+        }
+        if (student.getPassword() == null || "".equals(student.getPassword())){
+            student.setPassword(null);
+        }
+        if (student.getIconUrl() == null || "".equals(student.getIconUrl())){
+            student.setIconUrl(null);
+        }
+        if (student.getPhone() == null || "".equals(student.getPhone())){
+            student.setPhone(null);
+        }
+        if (student.getSex() == null || "".equals(student.getSex())){
+            student.setSex(null);
+        }
+        if (student.getSchool() == null || "".equals(student.getSchool())){
+            student.setSchool(null);
+        }
+        if (student.getAddress() == null || "".equals(student.getAddress())){
+            student.setAddress(null);
+        }
+        if (student.getBirthday() == null || "".equals(student.getBirthday())){
+            student.setBirthday(null);
+        }
 
         log.info("修改学生:{}",student);
         studentMapper.update(student);

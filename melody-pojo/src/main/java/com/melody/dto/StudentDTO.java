@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -27,4 +28,8 @@ public class StudentDTO implements Serializable {
     private String school;
     @ApiModelProperty("头像url")
     private String iconUrl;
+    @ApiModelProperty("地址")
+    private String address;
+    @ApiModelProperty("生日")
+    private LocalDate birthday;
 }
