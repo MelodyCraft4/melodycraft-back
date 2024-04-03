@@ -44,7 +44,7 @@ public class HWController {
     @ApiOperation("学生更新作业(提交作业)")
     @PostMapping("/commit")
 
-    public Result update(@RequestPart("file") MultipartFile file,  StuClassHomeworkDTO stuClassHomeworkDTO){
+    public Result update(@RequestPart("file") MultipartFile file, StuClassHomeworkDTO stuClassHomeworkDTO){
 
         //TODO:强制提交视频,后续还要修改
         log.info("学生:{},提交作业:{}",stuClassHomeworkDTO,file);
