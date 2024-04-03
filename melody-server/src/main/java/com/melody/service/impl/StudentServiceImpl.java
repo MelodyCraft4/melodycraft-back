@@ -3,6 +3,7 @@ package com.melody.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.melody.annocation.AutoFillRedis;
 import com.melody.constant.MessageConstant;
 import com.melody.constant.StatusConstant;
 import com.melody.context.BaseContext;
@@ -83,6 +84,7 @@ public class StudentServiceImpl implements StudentService {
      * 学生信息修改
      * @param studentDTO
      */
+    @AutoFillRedis
     public void update(StudentDTO studentDTO) {
         Student student = new Student();
         BeanUtils.copyProperties(studentDTO,student);
@@ -141,7 +143,14 @@ public class StudentServiceImpl implements StudentService {
         //数据复制
         StudentVO studentVO = new StudentVO();
         BeanUtils.copyProperties(student,studentVO);
-        studentVO.setSex(student.getSex()==1?"男":"女");
+        //性别转换
+        Integer sex = student.getSex();
+        if (sex != null) {
+            studentVO.setSex(sex == 1 ? "男" : "女");
+        } else {
+            // 这里可以设置一个默认值，或者直接跳过这个操作
+            studentVO.setSex("未知");
+        }
         LocalDate birthday = student.getBirthday();
         int age = LocalDate.now().getYear() - birthday.getYear();
         studentVO.setAge(age);
