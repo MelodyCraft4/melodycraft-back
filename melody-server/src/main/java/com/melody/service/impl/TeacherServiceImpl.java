@@ -105,6 +105,36 @@ public class TeacherServiceImpl implements TeacherService {
         //填充公共字段
         teacher.setUpdateTime(LocalDateTime.now());
         teacher.setUpdateUser(BaseContext.getCurrentId());
+
+        if (teacher.getName() == null || "".equals(teacher.getName())){
+            teacher.setName(null);
+        }
+        if (teacher.getPassword() == null || "".equals(teacher.getPassword())){
+            teacher.setPassword(null);
+        }
+        if (teacher.getIconUrl() == null || "".equals(teacher.getIconUrl())){
+            teacher.setIconUrl(null);
+        }
+        if (teacher.getPhone() == null || "".equals(teacher.getPhone())){
+            teacher.setPhone(null);
+        }
+        if (teacher.getSex() == null || "".equals(teacher.getSex())){
+            teacher.setSex(null);
+        }
+        if (teacher.getSchool() == null || "".equals(teacher.getSchool())){
+            teacher.setSchool(null);
+        }
+        if (teacher.getRanking() == null || "".equals(teacher.getRanking())){
+            teacher.setRanking(null);
+        }
+        if (teacher.getBirthday() == null || "".equals(teacher.getBirthday())){
+            teacher.setBirthday(null);
+        }
+        if (teacher.getUsername() == null || "".equals(teacher.getUsername())){
+            teacher.setUsername(null);
+        }
+
+
         //更新
         log.info("teacher:{}",teacher);
         teacherMapper.update(teacher);
@@ -115,7 +145,6 @@ public class TeacherServiceImpl implements TeacherService {
      * @param name
      * @return
      */
-    @Override
     public List<TeacherQueryVO> queryTeacherByName(String name) {
         if (name == null){
             name = "";
