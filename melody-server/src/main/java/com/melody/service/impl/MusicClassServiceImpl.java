@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -131,17 +132,23 @@ public class MusicClassServiceImpl implements MusicClassService {
      * @param studentId
      * @param classId
      */
+    @AutoFillRedis
     public void deleteStudentById(Long studentId, Long classId) {
         //TODO:管理员审核
         //1.根据学生id和班级id将学生移出班级
         musicClassMapper.deleteStudentById(studentId,classId);
 
+
         //2.班级人数-1
         musicClassMapper.reduceClassSize(classId);
 
         //3.删除学生在班级内的作业
-        //homeworkMapper.deleteStudentHomework(studentId,classId);
-
+        log.info("删除学生在班级内的作业");
+        //3.1 先查出该班级一共多少作业
+        List<Homework> homeworkList = homeworkMapper.query(classId);
+        //3.2 删除学生在该班级的作业 用steam流操作
+        List<Long> homeworkIds = homeworkList.stream().map(Homework::getId).collect(Collectors.toList());
+        homeworkMapper.deleteStudentHomeworkByIds(studentId,homeworkIds);
 
     }
 

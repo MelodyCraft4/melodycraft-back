@@ -76,5 +76,13 @@
         group by s.id ;
     </select>
 
+    <delete id="deleteStudentHomeworkByIds">
+        delete from class_homework WHERE studentId = #{studentId}
+        AND homeworkId IN
+        <foreach collection="homeworkIds" item="homeworkId" open="(" separator="," close=")">
+        #{homeworkId}
+    </foreach>
+    </delete>
+
 
 </mapper>
