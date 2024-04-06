@@ -133,4 +133,12 @@ public interface HomeworkMapper {
      */
     @Select("SELECT h.classId FROM class_homework ch join homework h on ch.homeworkId = h.id WHERE ch.id = #{classHomeworkId}")
     Long getClassIdByClassHomeworkId(Long classHomeworkId);
+
+    /**
+     *
+     * 根据学生id和作业id删除学生的作业
+     * @param studentId
+     * @param homeworkIds
+     */
+    void deleteStudentHomeworkByIds(@Param("studentId") Long studentId, @Param("homeworkIds") List<Long> homeworkIds);
 }
